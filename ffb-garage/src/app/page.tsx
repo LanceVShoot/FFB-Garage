@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import ffbData from '@/data/ffb-settings.json';
-import { FFBSetting } from '@/types';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
+import { FFBSetting } from '@/types/ffb-settings';
+import ffbSettingsData from '@/data/ffb-settings.json';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -40,7 +40,7 @@ export default function Home() {
     }));
   };
 
-  const filteredSettings = ffbData.settings.filter((setting: FFBSetting) => {
+  const filteredSettings = ffbSettingsData.settings.filter((setting: FFBSetting) => {
     if (filters.wheelbase.size > 0 && !filters.wheelbase.has(setting.wheelbase)) return false;
     if (filters.wheel.size > 0 && !filters.wheel.has(setting.wheel)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
@@ -123,19 +123,19 @@ export default function Home() {
                 
                 <FilterGroup 
                   title="Wheelbase" 
-                  options={ffbData.wheelbaseOptions} 
+                  options={ffbSettingsData.wheelbaseOptions} 
                   type="wheelbase" 
                 />
                 
                 <FilterGroup 
                   title="Wheel" 
-                  options={ffbData.wheelOptions} 
+                  options={ffbSettingsData.wheelOptions} 
                   type="wheel" 
                 />
                 
                 <FilterGroup 
                   title="Discipline" 
-                  options={ffbData.disciplineOptions} 
+                  options={ffbSettingsData.disciplineOptions} 
                   type="discipline" 
                 />
               </div>
