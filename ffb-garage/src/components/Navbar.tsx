@@ -35,12 +35,14 @@ export default function Navbar() {
               >
                 Home
               </Link>
-              <Link 
-                href="/submit" 
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Submit Settings
-              </Link>
+              {user && (
+                <Link 
+                  href="/submit" 
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Submit Settings
+                </Link>
+              )}
               {user ? (
                 <div className="flex items-center gap-4">
                   <span className="text-gray-300">{user}</span>
