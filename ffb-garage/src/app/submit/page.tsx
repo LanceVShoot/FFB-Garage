@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { FFBSetting } from '@/types';
+import { FFBSetting } from '@/types/ffb-settings';
 import Navbar from '@/components/Navbar';
 import ffbData from '@/data/ffb-settings.json';
 
 export default function SubmitPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Partial<FFBSetting>>({
     wheelbase: '',
     wheel: '',
     car: '',
