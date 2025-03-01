@@ -5,8 +5,20 @@ import { FFBSetting } from '@/types/ffb-settings';
 import Navbar from '@/components/Navbar';
 import ffbData from '@/data/ffb-settings.json';
 
+interface FFBSettingFormData {
+  wheelbase: string;
+  wheel: string;
+  car: string;
+  discipline: string;
+  settings: {
+    strength: number;
+    smoothing: number;
+    minimumForce: number;
+  };
+}
+
 export default function SubmitPage() {
-  const [formData, setFormData] = useState<Partial<FFBSetting>>({
+  const [formData, setFormData] = useState<FFBSettingFormData>({
     wheelbase: '',
     wheel: '',
     car: '',
@@ -120,7 +132,10 @@ export default function SubmitPage() {
                     value={formData.settings.strength}
                     onChange={(e) => setFormData({
                       ...formData,
-                      settings: { ...formData.settings, strength: parseInt(e.target.value) }
+                      settings: {
+                        ...formData.settings,
+                        strength: parseInt(e.target.value)
+                      }
                     })}
                     className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer"
                     required
