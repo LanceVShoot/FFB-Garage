@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 
 export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [email, setEmail] = useState('');
@@ -17,6 +18,12 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       emailInputRef.current?.focus();
     }
   }, [isOpen, isCodeSent]);
+
+  useEffect(() => {
+    if (verificationCode.length === 6) {
+      handleVerifyCode();
+    }
+  }, [verificationCode]);
 
   const handleSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,15 +63,19 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     }
   };
 
-  const handleVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleVerifyCode = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setError('');
+    
     try {
       await login(email);
       onClose();
       setEmail('');
       setVerificationCode('');
       setIsCodeSent(false);
+      toast.success('Successfully logged in!', {
+        position: 'bottom-right',
+      });
     } catch {
       setError('Invalid verification code. Please try again.');
     }
