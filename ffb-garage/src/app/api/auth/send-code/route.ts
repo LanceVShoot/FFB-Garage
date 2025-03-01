@@ -49,12 +49,8 @@ export async function POST(request: Request) {
       });
       
       console.log('Raw Resend response:', emailResult);
-      
-      if (!emailResult?.id) {
-        throw new Error('No email ID returned from Resend');
-      }
 
-      return NextResponse.json({ success: true, emailId: emailResult.id });
+      return NextResponse.json({ success: true });
     } catch (emailError) {
       console.error('Resend specific error:', emailError);
       throw emailError;
