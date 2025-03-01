@@ -68,6 +68,17 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     setError('');
     
     try {
+      const response = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code: verificationCode })
+      });
+      
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.error || 'Invalid verification code');
+      }
+
       await login(email);
       onClose();
       setEmail('');
@@ -76,8 +87,9 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       toast.success('Successfully logged in!', {
         position: 'bottom-right',
       });
-    } catch {
-      setError('Invalid verification code. Please try again.');
+    } catch (error) {
+      setVerificationCode(''); // Clear the invalid code
+      setError(error instanceof Error ? error.message : 'Invalid verification code. Please try again.');
     }
   };
 
