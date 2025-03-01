@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     // Store the new code
     await createVerificationCode(email, code);
     
-    console.log('Attempting to send email via Resend');
+    console.log('Attempting to send email via Resend api');
     try {
       // Send the email with more detailed error handling
       const emailResult = await resend.emails.send({
