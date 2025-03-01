@@ -31,11 +31,11 @@ export async function POST(request: Request) {
     // Store the new code
     await createVerificationCode(email, code);
     
-    console.log('Attempting to send email via Resend api');
+    console.log('Attempting to send email via Resend');
     try {
       // Send the email with more detailed error handling
       const emailResult = await resend.emails.send({
-        from: 'onboarding@resend.dev', // Use Resend's default sender for testing
+        from: 'verify@ffb-garage.com',
         to: email,
         subject: 'Your FFB Garage Verification Code',
         html: `
