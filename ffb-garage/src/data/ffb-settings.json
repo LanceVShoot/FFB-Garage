@@ -1,0 +1,103 @@
+{
+  "wheelbaseOptions": [
+    "Asetek Forte",
+    "Asetek La Prima",
+    "Fanatec DD1",
+    "Fanatec DD2",
+    "Moza R9",
+    "Moza R12",
+    "Moza R21",
+    "Simucube 2 Pro",
+    "Simucube 2 Ultimate"
+  ],
+  "wheelOptions": [
+    "Ascher Racing B16L-USB",
+    "Ascher Racing F28-SC",
+    "Ascher Racing F64-USB",
+    "Asetek Forte Formula",
+    "Asetek Forte GT",
+    "Asetek Invicta Formula",
+    "Asetek Invicta GT",
+    "Cube Controls Formula Pro",
+    "Cube Controls Formula Sport",
+    "Cube Controls GT Pro",
+    "Cube Controls GT-X",
+    "Fanatec BMW M4 GT3",
+    "Fanatec Formula V2.5X",
+    "Fanatec McLaren GT3 V2",
+    "VRS DFP"
+  ],
+  "disciplineOptions": [
+    "Dirt Oval",
+    "Dirt Road",
+    "Oval",
+    "Road"
+  ],
+  "settings": [
+    {
+      "id": 1,
+      "wheelbase": "Simucube 2 Pro",
+      "wheel": "Cube Controls Formula Pro",
+      "car": "Mercedes-AMG W12 E Performance",
+      "discipline": "Road",
+      "likes": 124,
+      "settings": {
+        "strength": 65,
+        "smoothing": 5,
+        "minimumForce": 15
+      }
+    },
+    {
+      "id": 2,
+      "wheelbase": "Fanatec DD2",
+      "wheel": "Fanatec BMW M4 GT3",
+      "car": "BMW M4 GT3",
+      "discipline": "Road",
+      "likes": 89,
+      "settings": {
+        "strength": 70,
+        "smoothing": 3,
+        "minimumForce": 12
+      }
+    },
+    {
+      "id": 3,
+      "wheelbase": "Moza R21",
+      "wheel": "Ascher Racing B16L-USB",
+      "car": "NASCAR Next Gen Ford Mustang",
+      "discipline": "Oval",
+      "likes": 156,
+      "settings": {
+        "strength": 80,
+        "smoothing": 2,
+        "minimumForce": 20
+      }
+    },
+    {
+      "id": 4,
+      "wheelbase": "Asetek La Prima",
+      "wheel": "Asetek Invicta Formula",
+      "car": "Dallara IR18",
+      "discipline": "Road",
+      "likes": 45,
+      "settings": {
+        "strength": 55,
+        "smoothing": 8,
+        "minimumForce": 10
+      }
+    },
+    {
+      "id": 5,
+      "wheelbase": "Asetek Forte",
+      "wheel": "Asetek Forte GT",
+      "car": "Subaru WRX STI",
+      "discipline": "Dirt Road",
+      "likes": 92,
+      "settings": {
+        "strength": 75,
+        "smoothing": 4,
+        "minimumForce": 18
+      }
+    }
+  ]
+} 
