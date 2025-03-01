@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { FFBSetting } from '@/types/ffb-settings';
+import ffbSettingsData from '@/data/ffb-settings.json';
 import Navbar from '@/components/Navbar';
-import ffbData from '@/data/ffb-settings.json';
 
 interface FFBSettingFormData {
   wheelbase: string;
@@ -59,7 +58,7 @@ export default function SubmitPage() {
                   required
                 >
                   <option value="">Select a wheelbase</option>
-                  {ffbData.wheelbaseOptions.map((wb) => (
+                  {ffbSettingsData.wheelbaseOptions.map((wb) => (
                     <option key={wb} value={wb}>{wb}</option>
                   ))}
                 </select>
@@ -77,7 +76,7 @@ export default function SubmitPage() {
                   required
                 >
                   <option value="">Select a wheel</option>
-                  {ffbData.wheelOptions.map((w) => (
+                  {ffbSettingsData.wheelOptions.map((w) => (
                     <option key={w} value={w}>{w}</option>
                   ))}
                 </select>
@@ -110,7 +109,7 @@ export default function SubmitPage() {
                   required
                 >
                   <option value="">Select a discipline</option>
-                  {ffbData.disciplineOptions.map((d) => (
+                  {ffbSettingsData.disciplineOptions.map((d) => (
                     <option key={d} value={d}>{d}</option>
                   ))}
                 </select>
