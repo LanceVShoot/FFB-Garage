@@ -1,6 +1,6 @@
-import { kv } from '@vercel/kv';
-import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
+import { createVerificationCode, cleanupExpiredCodes } from '@/lib/db';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -11,8 +11,11 @@ export async function POST(request: Request) {
     // Generate a random 6-digit code
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     
-    // Store the code with 5-minute expiration
-    await kv.set(`verify:${email}`, code, { ex: 300 });
+    // Clean up expired codes
+    await cleanupExpiredCodes();
+    
+    // Store the new code
+    await createVerificationCode(email, code);
     
     // Send the email
     await resend.emails.send({
