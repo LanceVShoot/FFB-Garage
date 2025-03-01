@@ -78,7 +78,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
           <form onSubmit={handleVerifyCode} className="space-y-4">
             <h2 className="text-xl font-bold text-white mb-6">Enter Verification Code</h2>
             <p className="text-sm text-gray-300">
-              We've sent a verification code to {email}
+              We&apos;ve sent a verification code to {email}
             </p>
             <div>
               <label htmlFor="code" className="block text-sm font-medium text-gray-300 mb-2">
