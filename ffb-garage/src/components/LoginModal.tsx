@@ -14,7 +14,15 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     e.preventDefault();
     setError('');
     try {
-      // TODO: API call to send verification code
+      const response = await fetch('/api/auth/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      if (!data.success) throw new Error(data.error);
+      
       setIsCodeSent(true);
     } catch {
       setError('Failed to send verification code. Please try again.');
