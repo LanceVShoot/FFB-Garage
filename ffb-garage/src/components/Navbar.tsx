@@ -5,10 +5,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import LoginModal from './LoginModal';
+import { toast } from 'sonner';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Successfully logged out!', {
+      position: 'bottom-right'
+    });
+  };
 
   return (
     <>
@@ -47,7 +55,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-4">
                   <span className="text-gray-300">{user}</span>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="text-gray-300 hover:text-white transition-colors cursor-pointer"
                   >
                     Logout
