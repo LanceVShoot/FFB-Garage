@@ -23,6 +23,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     setError('');
     setIsLoading(true);
     
+    console.log('Attempting to send verification code to:', email);
+    
     try {
       const response = await fetch('/api/auth/send-code', {
         method: 'POST',
@@ -30,7 +32,10 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
         body: JSON.stringify({ email })
       });
       
+      console.log('API Response status:', response.status);
       const data = await response.json();
+      console.log('API Response data:', data);
+
       if (!data.success) {
         if (data.error === 'rate_limit') {
           throw new Error('Too many attempts. Please try again in 15 minutes.');
@@ -40,6 +45,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       
       setIsCodeSent(true);
     } catch (error: unknown) {
+      console.error('Error in handleSubmitEmail:', error);
       if (error instanceof Error) {
         setError(error.message);
       } else {
