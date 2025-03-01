@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { createVerificationCode, cleanupExpiredCodes, checkEmailAttempts } from '@/lib/db';
 
+// Log the API key (temporarily, for debugging)
+console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
@@ -30,18 +33,23 @@ export async function POST(request: Request) {
     await createVerificationCode(email, code);
     
     console.log('Attempting to send email via Resend');
-    // Send the email
-    const emailResult = await resend.emails.send({
-      from: 'FFB Garage <noreply@ffbgarage.com>',
-      to: email,
-      subject: 'Your FFB Garage Verification Code',
-      html: `
-        <h1>FFB Garage Verification Code</h1>
-        <p>Your verification code is: <strong>${code}</strong></p>
-        <p>This code will expire in 5 minutes.</p>
-      `
-    });
-    console.log('Resend response:', emailResult);
+    try {
+      // Send the email with more detailed error handling
+      const emailResult = await resend.emails.send({
+        from: 'verify@ffbgarage.com', // Make sure this is a verified domain in Resend
+        to: email,
+        subject: 'Your FFB Garage Verification Code',
+        html: `
+          <h1>FFB Garage Verification Code</h1>
+          <p>Your verification code is: <strong>${code}</strong></p>
+          <p>This code will expire in 5 minutes.</p>
+        `
+      });
+      console.log('Resend response:', emailResult);
+    } catch (emailError) {
+      console.error('Resend specific error:', emailError);
+      throw emailError;
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
