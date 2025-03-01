@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { createVerificationCode, cleanupExpiredCodes, checkEmailAttempts } from '@/lib/db';
 
-// Log the API key (temporarily, for debugging)
-console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
-
+// Create Resend instance
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
@@ -12,6 +10,7 @@ export async function POST(request: Request) {
     console.log('Received request to send verification code');
     const { email } = await request.json();
     console.log('Email:', email);
+    console.log('Resend API Key:', process.env.RESEND_API_KEY?.slice(0, 5) + '...');
 
     // Check rate limit
     const canSendEmail = await checkEmailAttempts(email);
@@ -36,7 +35,7 @@ export async function POST(request: Request) {
     try {
       // Send the email with more detailed error handling
       const emailResult = await resend.emails.send({
-        from: 'verify@ffbgarage.com', // Make sure this is a verified domain in Resend
+        from: 'onboarding@resend.dev', // Use Resend's default sender for testing
         to: email,
         subject: 'Your FFB Garage Verification Code',
         html: `
@@ -44,18 +43,26 @@ export async function POST(request: Request) {
           <p>Your verification code is: <strong>${code}</strong></p>
           <p>This code will expire in 5 minutes.</p>
         `
+      }).catch(e => {
+        console.error('Resend catch block error:', e);
+        throw e;
       });
-      console.log('Resend response:', emailResult);
+      
+      console.log('Raw Resend response:', emailResult);
+      
+      if (!emailResult?.id) {
+        throw new Error('No email ID returned from Resend');
+      }
+
+      return NextResponse.json({ success: true, emailId: emailResult.id });
     } catch (emailError) {
       console.error('Resend specific error:', emailError);
       throw emailError;
     }
-
-    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error sending verification code:', error);
     return NextResponse.json(
-      { error: 'Failed to send verification code' },
+      { error: 'Failed to send verification code', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
