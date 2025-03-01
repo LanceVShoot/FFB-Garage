@@ -31,11 +31,16 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       });
       
       const data = await response.json();
-      if (!data.success) throw new Error(data.error);
+      if (!data.success) {
+        if (data.error === 'rate_limit') {
+          throw new Error('Too many attempts. Please try again in 15 minutes.');
+        }
+        throw new Error(data.error);
+      }
       
       setIsCodeSent(true);
-    } catch {
-      setError('Failed to send verification code. Please try again.');
+    } catch (error: any) {
+      setError(error.message || 'Failed to send verification code. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -53,6 +58,13 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     } catch {
       setError('Invalid verification code. Please try again.');
     }
+  };
+
+  const handleBack = () => {
+    setIsCodeSent(false);
+    setVerificationCode('');
+    setError('');
+    // Email is preserved
   };
 
   if (!isOpen) return null;
@@ -100,7 +112,16 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
           </form>
         ) : (
           <form onSubmit={handleVerifyCode} className="space-y-4">
-            <h2 className="text-xl font-bold text-white mb-6">Enter Verification Code</h2>
+            <div className="flex items-center gap-4 mb-6">
+              <button
+                type="button"
+                onClick={handleBack}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                ← Back
+              </button>
+              <h2 className="text-xl font-bold text-white">Enter Verification Code</h2>
+            </div>
             <p className="text-sm text-gray-300">
               We&apos;ve sent a verification code to {email}
             </p>

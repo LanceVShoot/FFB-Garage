@@ -47,4 +47,17 @@ export async function cleanupExpiredCodes() {
     DELETE FROM verification_codes
     WHERE expires_at < CURRENT_TIMESTAMP
   `;
+}
+
+export async function checkEmailAttempts(email: string): Promise<boolean> {
+  const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+  
+  const attempts = await sql`
+    SELECT COUNT(*) 
+    FROM verification_codes 
+    WHERE email = ${email} 
+    AND created_at > ${fifteenMinutesAgo}
+  `;
+
+  return parseInt(attempts[0].count) < 3;
 } 

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { createVerificationCode, cleanupExpiredCodes } from '@/lib/db';
+import { createVerificationCode, cleanupExpiredCodes, checkEmailAttempts } from '@/lib/db';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -9,6 +9,15 @@ export async function POST(request: Request) {
     console.log('Received request to send verification code');
     const { email } = await request.json();
     console.log('Email:', email);
+
+    // Check rate limit
+    const canSendEmail = await checkEmailAttempts(email);
+    if (!canSendEmail) {
+      return NextResponse.json(
+        { error: 'rate_limit', message: 'Too many attempts. Please try again in 15 minutes.' },
+        { status: 429 }
+      );
+    }
     
     // Generate a random 6-digit code
     const code = Math.floor(100000 + Math.random() * 900000).toString();
