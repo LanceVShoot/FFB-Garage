@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 
+interface ApiError extends Error {
+  message: string;
+}
+
 export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -39,8 +43,12 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       }
       
       setIsCodeSent(true);
-    } catch (error: any) {
-      setError(error.message || 'Failed to send verification code. Please try again.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Failed to send verification code. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
