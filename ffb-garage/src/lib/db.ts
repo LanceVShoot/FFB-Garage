@@ -52,6 +52,9 @@ export async function cleanupExpiredCodes() {
 export async function checkEmailAttempts(email: string): Promise<boolean> {
   const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
   
+  // Special case for specific email
+  const attemptLimit = email === 'lanceselgojunk@gmail.com' ? 10 : 3;
+  
   const attempts = await sql`
     SELECT COUNT(*) 
     FROM verification_codes 
@@ -59,5 +62,5 @@ export async function checkEmailAttempts(email: string): Promise<boolean> {
     AND created_at > ${fifteenMinutesAgo}
   `;
 
-  return parseInt(attempts[0].count) < 3;
+  return parseInt(attempts[0].count) < attemptLimit;
 } 
