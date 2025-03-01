@@ -14,17 +14,9 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     e.preventDefault();
     setError('');
     try {
-      const response = await fetch('/api/auth/send-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-      
-      const data = await response.json();
-      if (!data.success) throw new Error(data.error);
-      
+      // TODO: API call to send verification code
       setIsCodeSent(true);
-    } catch (err) {
+    } catch {
       setError('Failed to send verification code. Please try again.');
     }
   };
@@ -33,21 +25,12 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     e.preventDefault();
     setError('');
     try {
-      const response = await fetch('/api/auth/verify-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code: verificationCode })
-      });
-      
-      const data = await response.json();
-      if (!data.success) throw new Error(data.error);
-      
       await login(email);
       onClose();
       setEmail('');
       setVerificationCode('');
       setIsCodeSent(false);
-    } catch (err) {
+    } catch {
       setError('Invalid verification code. Please try again.');
     }
   };
