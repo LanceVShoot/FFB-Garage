@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -8,11 +8,21 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   const [verificationCode, setVerificationCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen && !isCodeSent) {
+      emailInputRef.current?.focus();
+    }
+  }, [isOpen, isCodeSent]);
 
   const handleSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
+    
     try {
       const response = await fetch('/api/auth/send-code', {
         method: 'POST',
@@ -26,6 +36,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       setIsCodeSent(true);
     } catch {
       setError('Failed to send verification code. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,6 +63,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white"
+          disabled={isLoading}
         >
           ✕
         </button>
@@ -63,6 +76,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 Email Address
               </label>
               <input
+                ref={emailInputRef}
                 type="email"
                 id="email"
                 value={email}
@@ -71,13 +85,15 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
                          focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 placeholder="Enter your email"
                 required
+                disabled={isLoading}
               />
             </div>
             {error && <p className="text-red-400 text-sm">{error}</p>}
             <button
               type="submit"
               className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg
-                       transition-colors duration-200"
+                       transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading}
             >
               Send Code
             </button>
@@ -114,6 +130,12 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
               Verify Code
             </button>
           </form>
+        )}
+
+        {isLoading && (
+          <div className="absolute inset-0 bg-gray-800/80 backdrop-blur-sm flex items-center justify-center rounded-xl">
+            <div className="w-10 h-10 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+          </div>
         )}
       </div>
     </div>
