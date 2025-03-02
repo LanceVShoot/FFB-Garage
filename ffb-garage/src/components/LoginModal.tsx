@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
@@ -19,15 +19,11 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     }
   }, [isOpen, isCodeSent]);
 
-  const handleVerifyCode = useCallback(() => {
-    // verification logic
-  }, []);
-
   useEffect(() => {
     if (verificationCode.length === 6) {
       handleVerifyCode();
     }
-  }, [verificationCode, handleVerifyCode]);
+  }, [verificationCode]);
 
   const handleSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
