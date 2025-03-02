@@ -181,8 +181,8 @@ export default function Home() {
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
                         <Image 
-                          src="/images/ffb-garage-wheel.svg"
-                          alt="Wheel Icon"
+                          src="/images/ffb-garage-user.svg"
+                          alt="User Icon"
                           width={16}
                           height={16}
                         />
