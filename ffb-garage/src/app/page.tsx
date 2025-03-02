@@ -228,10 +228,9 @@ export default function Home() {
 
                       {/* Manufacturer provided label */}
                       {setting.is_manufacturer_provided && (
-                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 
-                                      border-t border-blue-500/20 flex items-center justify-center">
-                          <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
-                                         from-blue-400 to-cyan-400">
+                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-[#f4c57d]/10 to-[#f4c57d]/5 
+                                      border-t border-[#f4c57d]/20 flex items-center justify-center">
+                          <span className="text-sm font-medium text-[#f4c57d]">
                             Provided by {manufacturer}
                           </span>
                         </div>
