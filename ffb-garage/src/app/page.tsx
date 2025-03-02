@@ -7,7 +7,7 @@ import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
 export default function Home() {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState({ 
     wheelbase: new Set<string>(),
     wheel: new Set<string>(),
     discipline: new Set<string>(),
