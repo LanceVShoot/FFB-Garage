@@ -170,8 +170,20 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
                                   group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="relative max-w-[85%] pointer-events-none">
+                    <div className="flex flex-col gap-3">
+                      <div className="flex justify-end">
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <Image 
+                            src="/images/ffb-garage-user.svg"
+                            alt="User Icon"
+                            width={16}
+                            height={16}
+                          />
+                          <span className="text-[#f4c57d] text-sm">{setting.likes || 0}</span>
+                        </div>
+                      </div>
+
+                      <div className="relative pointer-events-none">
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
                           {setting.car}
                         </div>
@@ -179,18 +191,9 @@ export default function Home() {
                           {setting.car}
                         </h2>
                       </div>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <Image 
-                          src="/images/ffb-garage-user.svg"
-                          alt="User Icon"
-                          width={16}
-                          height={16}
-                        />
-                        <span className="text-[#f4c57d] text-sm">{setting.likes || 0}</span>
-                      </div>
                     </div>
 
-                    <div className="space-y-1.5 text-sm">
+                    <div className="space-y-1.5 text-sm mt-3">
                       <p className="flex justify-between items-center">
                         <span className="text-gray-300">Wheelbase</span>
                         <span className="text-white font-medium">{setting.wheelbase}</span>
