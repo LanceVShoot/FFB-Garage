@@ -145,32 +145,29 @@ export default function Home() {
                   Filters
                 </h2>
 
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-blue-400">Source</h3>
-                  <div className="flex bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg 
-                                 border border-blue-500/20 backdrop-blur-sm overflow-hidden">
-                    <button
-                      onClick={() => toggleSourceFilter('manufacturer')}
-                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
-                        ${sourceFilter.has('manufacturer')
-                          ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 bg-blue-500/20'
-                          : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
-                        }
-                        border-r border-blue-500/20`}
-                    >
-                      Manufacturer
-                    </button>
-                    <button
-                      onClick={() => toggleSourceFilter('community')}
-                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
-                        ${sourceFilter.has('community')
-                          ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 bg-blue-500/20'
-                          : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
-                        }`}
-                    >
-                      Community
-                    </button>
-                  </div>
+                <div className="flex bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg 
+                               border border-blue-500/20 backdrop-blur-sm overflow-hidden">
+                  <button
+                    onClick={() => toggleSourceFilter('manufacturer')}
+                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
+                      ${sourceFilter.has('manufacturer')
+                        ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white font-semibold'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                      }
+                      border-r border-blue-500/20`}
+                  >
+                    Manufacturer
+                  </button>
+                  <button
+                    onClick={() => toggleSourceFilter('community')}
+                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
+                      ${sourceFilter.has('community')
+                        ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white font-semibold'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                      }`}
+                  >
+                    Community
+                  </button>
                 </div>
                 
                 <FilterGroup 
