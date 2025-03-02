@@ -10,23 +10,6 @@
     "Simucube 2 Pro",
     "Simucube 2 Ultimate"
   ],
-  "wheelOptions": [
-    "Ascher Racing B16L-USB",
-    "Ascher Racing F28-SC",
-    "Ascher Racing F64-USB",
-    "Asetek Forte Formula",
-    "Asetek Forte GT",
-    "Asetek Invicta Formula",
-    "Asetek Invicta GT",
-    "Cube Controls Formula Pro",
-    "Cube Controls Formula Sport",
-    "Cube Controls GT Pro",
-    "Cube Controls GT-X",
-    "Fanatec BMW M4 GT3",
-    "Fanatec Formula V2.5X",
-    "Fanatec McLaren GT3 V2",
-    "VRS DFP"
-  ],
   "disciplineOptions": [
     "Dirt Oval",
     "Dirt Road",
@@ -36,15 +19,14 @@
   "settings": [
     {
       "id": 1,
-      "wheelbase": "Simucube 2 Pro",
-      "wheel": "Cube Controls Formula Pro",
-      "car": "Mercedes-AMG W12 E Performance",
-      "discipline": "Road",
-      "likes": 124,
+      "car": "Example Car",
+      "wheelbase": "Short",
+      "discipline": "Rally",
+      "likes": 0,
       "settings": {
-        "strength": 65,
-        "smoothing": 5,
-        "minimumForce": 15
+        "strength": 100,
+        "damping": 50,
+        "minimumForce": 0
       }
     },
     {

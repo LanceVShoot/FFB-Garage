@@ -9,19 +9,17 @@ import ffbSettingsData from '@/data/ffb-settings.json';
 export default function Home() {
   const [filters, setFilters] = useState({ 
     wheelbase: new Set<string>(),
-    wheel: new Set<string>(),
     discipline: new Set<string>(),
   });
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     wheelbase: false,
-    wheel: false,
     discipline: false,
   });
 
   const [sortBy, setSortBy] = useState('drivers'); 
 
-  const toggleFilter = (type: 'wheelbase' | 'wheel' | 'discipline', value: string) => {
+  const toggleFilter = (type: 'wheelbase' | 'discipline', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
       if (newSet.has(value)) {
@@ -33,7 +31,7 @@ export default function Home() {
     });
   };
 
-  const toggleExpand = (type: 'wheelbase' | 'wheel' | 'discipline') => {
+  const toggleExpand = (type: 'wheelbase' | 'discipline') => {
     setExpandedSections(prev => ({
       ...prev,
       [type]: !prev[type]
@@ -42,7 +40,6 @@ export default function Home() {
 
   const filteredSettings = ffbSettingsData.settings.filter((setting: FFBSetting) => {
     if (filters.wheelbase.size > 0 && !filters.wheelbase.has(setting.wheelbase)) return false;
-    if (filters.wheel.size > 0 && !filters.wheel.has(setting.wheel)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
     return true;
   });
@@ -65,7 +62,7 @@ export default function Home() {
   const FilterGroup = ({ title, options, type }: { 
     title: string, 
     options: string[], 
-    type: 'wheelbase' | 'wheel' | 'discipline' 
+    type: 'wheelbase' | 'discipline' 
   }) => {
     const isExpanded = expandedSections[type];
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
@@ -125,12 +122,6 @@ export default function Home() {
                   title="Wheelbase" 
                   options={ffbSettingsData.wheelbaseOptions} 
                   type="wheelbase" 
-                />
-                
-                <FilterGroup 
-                  title="Wheel" 
-                  options={ffbSettingsData.wheelOptions} 
-                  type="wheel" 
                 />
                 
                 <FilterGroup 
@@ -197,10 +188,6 @@ export default function Home() {
                       <p className="flex justify-between items-center">
                         <span className="text-gray-300">Wheelbase</span>
                         <span className="text-white font-medium">{setting.wheelbase}</span>
-                      </p>
-                      <p className="flex justify-between items-center">
-                        <span className="text-gray-300">Wheel</span>
-                        <span className="text-white font-medium">{setting.wheel}</span>
                       </p>
                       <p className="flex justify-between items-center">
                         <span className="text-gray-300">Discipline</span>

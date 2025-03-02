@@ -1,13 +1,12 @@
 export interface FFBSetting {
   id: number;
-  wheelbase: string;
-  wheel: string;
   car: string;
+  wheelbase: string;
   discipline: string;
-  likes: number;
+  likes?: number;
   settings: {
     strength: number;
-    smoothing: number;
+    damping: number;
     minimumForce: number;
   };
 } 
