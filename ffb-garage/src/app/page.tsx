@@ -6,11 +6,17 @@ import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
+type SourceFilter = 'all' | 'manufacturer' | 'community';
+
 export default function Home() {
   const [filters, setFilters] = useState({ 
     wheelbase: new Set<string>(),
     discipline: new Set<string>(),
   });
+
+  const [sourceFilter, setSourceFilter] = useState<Set<'manufacturer' | 'community'>>(
+    new Set(['manufacturer', 'community'])
+  );
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     wheelbase: false,
@@ -38,7 +44,30 @@ export default function Home() {
     }));
   };
 
+  const toggleSourceFilter = (source: 'manufacturer' | 'community') => {
+    setSourceFilter(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(source)) {
+        if (newSet.size > 1) {
+          newSet.delete(source);
+        }
+      } else {
+        newSet.add(source);
+      }
+      return newSet;
+    });
+  };
+
   const filteredSettings = ffbSettingsData.settings.filter((setting: FFBSetting) => {
+    if (sourceFilter.size > 0) {
+      const isManufacturer = setting.is_manufacturer_provided === true;
+      const showManufacturer = sourceFilter.has('manufacturer');
+      const showCommunity = sourceFilter.has('community');
+      
+      if (isManufacturer && !showManufacturer) return false;
+      if (!isManufacturer && !showCommunity) return false;
+    }
+
     if (filters.wheelbase.size > 0 && !filters.wheelbase.has(setting.wheelbase)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
     return true;
@@ -117,6 +146,32 @@ export default function Home() {
                 <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                   Filters
                 </h2>
+
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-blue-400">Source</h3>
+                  <div className="flex gap-2 p-1 bg-gray-800/50 rounded-lg">
+                    <button
+                      onClick={() => toggleSourceFilter('manufacturer')}
+                      className={`flex-1 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200
+                        ${sourceFilter.has('manufacturer')
+                          ? 'bg-blue-500 text-white'
+                          : 'text-gray-300 hover:bg-gray-700/50'
+                        }`}
+                    >
+                      Manufacturer
+                    </button>
+                    <button
+                      onClick={() => toggleSourceFilter('community')}
+                      className={`flex-1 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200
+                        ${sourceFilter.has('community')
+                          ? 'bg-blue-500 text-white'
+                          : 'text-gray-300 hover:bg-gray-700/50'
+                        }`}
+                    >
+                      Community
+                    </button>
+                  </div>
+                </div>
                 
                 <FilterGroup 
                   title="Wheelbase" 
@@ -228,9 +283,10 @@ export default function Home() {
 
                       {/* Manufacturer provided label */}
                       {setting.is_manufacturer_provided && (
-                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-[#f4c57d]/10 to-[#f4c57d]/5 
-                                      border-t border-[#f4c57d]/20 flex items-center justify-center">
-                          <span className="text-sm font-medium text-[#f4c57d]">
+                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 
+                                      border-t border-blue-500/20 flex items-center justify-center">
+                          <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
+                                         from-blue-400 to-cyan-400">
                             Provided by {manufacturer}
                           </span>
                         </div>
