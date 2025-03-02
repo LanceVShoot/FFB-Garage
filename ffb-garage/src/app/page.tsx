@@ -6,8 +6,6 @@ import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
-type SourceFilter = 'all' | 'manufacturer' | 'community';
-
 export default function Home() {
   const [filters, setFilters] = useState({ 
     wheelbase: new Set<string>(),
