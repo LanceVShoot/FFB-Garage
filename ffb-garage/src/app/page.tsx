@@ -19,7 +19,7 @@ export default function Home() {
     discipline: false,
   });
 
-  const [sortBy, setSortBy] = useState('drivers');
+  const [sortBy, setSortBy] = useState('drivers'); 
 
   const toggleFilter = (type: 'wheelbase' | 'wheel' | 'discipline', value: string) => {
     setFilters(prev => {
