@@ -6,12 +6,11 @@ import Navbar from '@/components/Navbar';
 
 interface FFBSettingFormData {
   wheelbase: string;
-  wheel: string;
   car: string;
   discipline: string;
   settings: {
     strength: number;
-    smoothing: number;
+    damping: number;
     minimumForce: number;
   };
 }
@@ -19,12 +18,11 @@ interface FFBSettingFormData {
 export default function SubmitPage() {
   const [formData, setFormData] = useState<FFBSettingFormData>({
     wheelbase: '',
-    wheel: '',
     car: '',
     discipline: '',
     settings: {
       strength: 0,
-      smoothing: 0,
+      damping: 0,
       minimumForce: 0
     }
   });
@@ -60,24 +58,6 @@ export default function SubmitPage() {
                   <option value="">Select a wheelbase</option>
                   {ffbSettingsData.wheelbaseOptions.map((wb) => (
                     <option key={wb} value={wb}>{wb}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Wheel Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Wheel
-                </label>
-                <select
-                  value={formData.wheel}
-                  onChange={(e) => setFormData({ ...formData, wheel: e.target.value })}
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  required
-                >
-                  <option value="">Select a wheel</option>
-                  {ffbSettingsData.wheelbaseOptions.map((w) => (
-                    <option key={w} value={w}>{w}</option>
                   ))}
                 </select>
               </div>
@@ -141,19 +121,19 @@ export default function SubmitPage() {
                   />
                 </div>
 
-                {/* Smoothing */}
+                {/* Damping */}
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Smoothing ({formData.settings.smoothing})
+                    Damping ({formData.settings.damping})
                   </label>
                   <input
                     type="range"
                     min="0"
                     max="20"
-                    value={formData.settings.smoothing}
+                    value={formData.settings.damping}
                     onChange={(e) => setFormData({
                       ...formData,
-                      settings: { ...formData.settings, smoothing: parseInt(e.target.value) }
+                      settings: { ...formData.settings, damping: parseInt(e.target.value) }
                     })}
                     className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer"
                     required
