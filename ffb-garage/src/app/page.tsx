@@ -152,75 +152,93 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredAndSortedSettings.map((setting: FFBSetting) => (
-                  <div key={setting.id} 
-                       className="relative overflow-hidden rounded-xl bg-gray-800/30 backdrop-blur-sm p-4
-                                border border-gray-700/50 group hover:border-blue-500/50
-                                shadow-lg hover:shadow-blue-500/10
-                                transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
-                                  group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                    
-                    <div className="flex flex-col gap-3">
-                      <div className="flex justify-between items-start">
-                        <div className="relative max-w-[85%] pointer-events-none">
-                          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
-                            {setting.car}
-                          </div>
-                          <h2 className="font-bold text-lg truncate text-blue-400">
-                            {setting.car}
-                          </h2>
-                        </div>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <Image 
-                            src="/images/ffb-garage-user.svg"
-                            alt="User Icon"
-                            width={16}
-                            height={16}
-                          />
-                          <span className="text-[#f4c57d] text-sm">{setting.likes || 0}</span>
-                        </div>
-                      </div>
-                    </div>
+                {filteredAndSortedSettings.map((setting: FFBSetting) => {
+                  // Extract manufacturer name from wheelbase (everything before first space)
+                  const manufacturer = setting.is_manufacturer_provided 
+                    ? setting.wheelbase.split(' ')[0]
+                    : null;
 
-                    <div className="space-y-1.5 text-sm mt-3">
-                      <p className="flex justify-between items-center">
-                        <span className="text-gray-300">Wheelbase</span>
-                        <span className="text-white font-medium">{setting.wheelbase}</span>
-                      </p>
-                      <p className="flex justify-between items-center">
-                        <span className="text-gray-300">Discipline</span>
-                        <span className="text-white font-medium">{setting.discipline}</span>
-                      </p>
+                  return (
+                    <div key={setting.id} 
+                         className="relative overflow-hidden rounded-xl bg-gray-800/30 backdrop-blur-sm p-4
+                                  border border-gray-700/50 group hover:border-blue-500/50
+                                  shadow-lg hover:shadow-blue-500/10
+                                  transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
+                                    group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                       
-                      <div className="mt-3 pt-3 border-t border-gray-600/30">
-                        <h3 className="text-base font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-                          FFB Settings
-                        </h3>
-                        <div className="space-y-1.5">
-                          {Object.entries(setting.settings).map(([key, value]) => (
-                            <div key={key} className="grid grid-cols-[1fr_140px] items-center">
-                              <span className="text-gray-300">
-                                {key.charAt(0).toUpperCase() + key.slice(1)}
-                              </span>
-                              <div className="flex items-center justify-end gap-2">
-                                <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
-                                  <div 
-                                    className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-                                    style={{ width: `${(value / 100) * 100}%` }}
-                                  />
-                                </div>
-                                <span className="text-white w-7 text-right font-medium text-sm">
-                                  {value}{key === 'strength' || key === 'minimumForce' ? '%' : ''}
-                                </span>
-                              </div>
+                      <div className="flex flex-col gap-3">
+                        <div className="flex justify-between items-start">
+                          <div className="relative max-w-[85%] pointer-events-none">
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
+                              {setting.car}
                             </div>
-                          ))}
+                            <h2 className="font-bold text-lg truncate text-blue-400">
+                              {setting.car}
+                            </h2>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <Image 
+                              src="/images/ffb-garage-user.svg"
+                              alt="User Icon"
+                              width={16}
+                              height={16}
+                            />
+                            <span className="text-[#f4c57d] text-sm">{setting.likes || 0}</span>
+                          </div>
                         </div>
                       </div>
+
+                      <div className="space-y-1.5 text-sm mt-3">
+                        <p className="flex justify-between items-center">
+                          <span className="text-gray-300">Wheelbase</span>
+                          <span className="text-white font-medium">{setting.wheelbase}</span>
+                        </p>
+                        <p className="flex justify-between items-center">
+                          <span className="text-gray-300">Discipline</span>
+                          <span className="text-white font-medium">{setting.discipline}</span>
+                        </p>
+                        
+                        <div className="mt-3 pt-3 border-t border-gray-600/30">
+                          <h3 className="text-base font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                            FFB Settings
+                          </h3>
+                          <div className="space-y-1.5">
+                            {Object.entries(setting.settings).map(([key, value]) => (
+                              <div key={key} className="grid grid-cols-[1fr_140px] items-center">
+                                <span className="text-gray-300">
+                                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                                </span>
+                                <div className="flex items-center justify-end gap-2">
+                                  <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                                      style={{ width: `${(value / 100) * 100}%` }}
+                                    />
+                                  </div>
+                                  <span className="text-white w-7 text-right font-medium text-sm">
+                                    {value}{key === 'strength' || key === 'minimumForce' ? '%' : ''}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Manufacturer provided label */}
+                      {setting.is_manufacturer_provided && (
+                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 
+                                      border-t border-blue-500/20 flex items-center justify-center">
+                          <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
+                                         from-blue-400 to-cyan-400">
+                            Provided by {manufacturer}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
