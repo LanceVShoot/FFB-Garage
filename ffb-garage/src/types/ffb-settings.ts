@@ -4,6 +4,7 @@ export interface FFBSetting {
   wheelbase: string;
   discipline: string;
   likes?: number;
+  is_manufacturer_provided?: boolean;
   settings: {
     strength: number;
     damping: number;

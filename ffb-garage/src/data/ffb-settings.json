@@ -59,6 +59,7 @@
       "car": "Dallara IR18",
       "discipline": "Road",
       "likes": 45,
+      "is_manufacturer_provided": true,
       "settings": {
         "strength": 55,
         "damping": 8,
@@ -71,6 +72,7 @@
       "car": "Subaru WRX STI",
       "discipline": "Dirt Road",
       "likes": 92,
+      "is_manufacturer_provided": true,
       "settings": {
         "strength": 75,
         "damping": 4,
