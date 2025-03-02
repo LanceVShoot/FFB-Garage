@@ -76,7 +76,7 @@ export default function SubmitPage() {
                   required
                 >
                   <option value="">Select a wheel</option>
-                  {ffbSettingsData.wheelOptions.map((w) => (
+                  {ffbSettingsData.wheelbaseOptions.map((w) => (
                     <option key={w} value={w}>{w}</option>
                   ))}
                 </select>
