@@ -129,11 +129,11 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 text-gray-100">
+      <main className="min-h-screen bg-gradient-to-br from-zinc-900 via-neutral-900 to-zinc-900 p-8 text-gray-100">
         {/* Decorative background elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-gray-500/10 via-transparent to-transparent rotate-12 blur-3xl" />
-          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-gray-600/10 via-transparent to-transparent -rotate-12 blur-3xl" />
+          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-neutral-500/5 via-transparent to-transparent rotate-12 blur-3xl" />
+          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-zinc-500/5 via-transparent to-transparent -rotate-12 blur-3xl" />
         </div>
 
         <div className="max-w-[1440px] mx-auto relative">
@@ -141,20 +141,20 @@ export default function Home() {
             {/* Left Column - Filters */}
             <div className="lg:w-1/5">
               <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-gray-800/30 p-6 rounded-xl border border-gray-700/50">
-                <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
+                <h2 className="text-xl font-semibold mb-6 text-white">
                   Filters
                 </h2>
 
-                <div className="flex bg-gradient-to-r from-gray-700/30 to-gray-600/30 rounded-lg 
-                               border border-gray-500/20 backdrop-blur-sm overflow-hidden">
+                <div className="flex bg-gradient-to-r from-zinc-800 to-neutral-800 rounded-lg 
+                               border border-zinc-700 backdrop-blur-sm overflow-hidden">
                   <button
                     onClick={() => toggleSourceFilter('manufacturer')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('manufacturer')
-                        ? 'bg-gradient-to-r from-gray-600/50 to-gray-500/50 text-white font-semibold'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                        ? 'bg-gradient-to-r from-zinc-700 to-neutral-700 text-white font-semibold'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-zinc-700/50'
                       }
-                      border-r border-gray-500/20`}
+                      border-r border-zinc-700`}
                   >
                     Manufacturer
                   </button>
@@ -162,8 +162,8 @@ export default function Home() {
                     onClick={() => toggleSourceFilter('community')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('community')
-                        ? 'bg-gradient-to-r from-gray-600/50 to-gray-500/50 text-white font-semibold'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                        ? 'bg-gradient-to-r from-zinc-700 to-neutral-700 text-white font-semibold'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-zinc-700/50'
                       }`}
                   >
                     Community
@@ -225,7 +225,7 @@ export default function Home() {
                             <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 opacity-0">
                               {setting.car}
                             </div>
-                            <h2 className="font-bold text-lg truncate text-gray-200">
+                            <h2 className="font-bold text-lg truncate text-white">
                               {setting.car}
                             </h2>
                           </div>
@@ -252,7 +252,7 @@ export default function Home() {
                         </p>
                         
                         <div className="mt-3 pt-3 border-t border-gray-600/30">
-                          <h3 className="text-base font-semibold mb-2 text-gray-200">
+                          <h3 className="text-base font-semibold mb-2 text-white">
                             FFB Settings
                           </h3>
                           <div className="space-y-1.5">
@@ -262,9 +262,9 @@ export default function Home() {
                                   {key.charAt(0).toUpperCase() + key.slice(1)}
                                 </span>
                                 <div className="flex items-center justify-end gap-2">
-                                  <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
+                                  <div className="w-20 h-1 bg-zinc-800 rounded-full overflow-hidden">
                                     <div 
-                                      className="h-full bg-gradient-to-r from-gray-500 to-gray-400 rounded-full"
+                                      className="h-full bg-gradient-to-r from-zinc-500 to-neutral-400 rounded-full"
                                       style={{ width: `${(value / 100) * 100}%` }}
                                     />
                                   </div>
@@ -280,9 +280,9 @@ export default function Home() {
 
                       {/* Manufacturer provided label */}
                       {setting.is_manufacturer_provided && (
-                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-gray-700/30 to-gray-600/30 
-                                      border-t border-gray-500/20 flex items-center justify-center">
-                          <span className="text-sm font-medium text-gray-300">
+                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-zinc-800 to-neutral-800 
+                                      border-t border-zinc-700 flex items-center justify-center">
+                          <span className="text-sm font-medium text-white">
                             Provided by {manufacturer}
                           </span>
                         </div>
