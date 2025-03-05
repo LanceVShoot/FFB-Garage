@@ -97,7 +97,7 @@ export default function Home() {
 
     return (
       <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-gray-300">{title}</h3>
+        <h3 className="text-lg font-semibold text-[#00e1ff]">{title}</h3>
         <div className="flex flex-col space-y-2">
           {displayedOptions.map((option) => (
             <button
@@ -141,7 +141,7 @@ export default function Home() {
             {/* Left Column - Filters */}
             <div className="lg:w-1/5">
               <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-gray-800/30 p-6 rounded-xl border border-gray-700/50">
-                <h2 className="text-xl font-semibold mb-6 text-white">
+                <h2 className="text-xl font-semibold mb-6 text-[#00e1ff]">
                   Filters
                 </h2>
 
@@ -225,7 +225,7 @@ export default function Home() {
                             <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 opacity-0">
                               {setting.car}
                             </div>
-                            <h2 className="font-bold text-lg truncate text-white">
+                            <h2 className="font-bold text-lg truncate text-[#00e1ff]">
                               {setting.car}
                             </h2>
                           </div>
@@ -252,7 +252,7 @@ export default function Home() {
                         </p>
                         
                         <div className="mt-3 pt-3 border-t border-gray-600/30">
-                          <h3 className="text-base font-semibold mb-2 text-white">
+                          <h3 className="text-base font-semibold mb-2 text-[#00e1ff]">
                             FFB Settings
                           </h3>
                           <div className="space-y-1.5">
