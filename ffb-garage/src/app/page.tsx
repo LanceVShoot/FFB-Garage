@@ -97,7 +97,7 @@ export default function Home() {
 
     return (
       <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+        <h3 className="text-lg font-semibold text-gray-300">{title}</h3>
         <div className="flex flex-col space-y-2">
           {displayedOptions.map((option) => (
             <button
@@ -105,7 +105,7 @@ export default function Home() {
               onClick={() => toggleFilter(type, option)}
               className={`px-3 py-1.5 rounded-lg text-left text-sm font-medium transition-all duration-200 w-full
                 ${filters[type].has(option)
-                  ? 'bg-blue-500 text-white'
+                  ? 'bg-gray-600 text-white'
                   : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
                 }`}
             >
@@ -116,7 +116,7 @@ export default function Home() {
           {hasMore && (
             <button
               onClick={() => toggleExpand(type)}
-              className="px-3 py-1.5 text-left text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              className="px-3 py-1.5 text-left text-sm font-medium text-gray-300 hover:text-gray-200 transition-colors"
             >
               {isExpanded ? '- Show Less' : `+ ${options.length - 3} More`}
             </button>
@@ -132,8 +132,8 @@ export default function Home() {
       <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 text-gray-100">
         {/* Decorative background elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/10 via-transparent to-transparent rotate-12 blur-3xl" />
-          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-cyan-500/10 via-transparent to-transparent -rotate-12 blur-3xl" />
+          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-gray-500/10 via-transparent to-transparent rotate-12 blur-3xl" />
+          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-gray-600/10 via-transparent to-transparent -rotate-12 blur-3xl" />
         </div>
 
         <div className="max-w-[1440px] mx-auto relative">
@@ -141,20 +141,20 @@ export default function Home() {
             {/* Left Column - Filters */}
             <div className="lg:w-1/5">
               <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-gray-800/30 p-6 rounded-xl border border-gray-700/50">
-                <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
                   Filters
                 </h2>
 
-                <div className="flex bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg 
-                               border border-blue-500/20 backdrop-blur-sm overflow-hidden">
+                <div className="flex bg-gradient-to-r from-gray-700/30 to-gray-600/30 rounded-lg 
+                               border border-gray-500/20 backdrop-blur-sm overflow-hidden">
                   <button
                     onClick={() => toggleSourceFilter('manufacturer')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('manufacturer')
-                        ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white font-semibold'
+                        ? 'bg-gradient-to-r from-gray-600/50 to-gray-500/50 text-white font-semibold'
                         : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
                       }
-                      border-r border-blue-500/20`}
+                      border-r border-gray-500/20`}
                   >
                     Manufacturer
                   </button>
@@ -162,7 +162,7 @@ export default function Home() {
                     onClick={() => toggleSourceFilter('community')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('community')
-                        ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white font-semibold'
+                        ? 'bg-gradient-to-r from-gray-600/50 to-gray-500/50 text-white font-semibold'
                         : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
                       }`}
                   >
@@ -194,7 +194,7 @@ export default function Home() {
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="bg-gray-800/50 border border-gray-600 rounded-lg px-4 py-2 text-sm text-white
-                           focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none
+                           focus:border-gray-500 focus:ring-2 focus:ring-gray-500 focus:outline-none
                            cursor-pointer backdrop-blur-sm"
                 >
                   <option value="drivers">Drivers</option>
@@ -213,19 +213,19 @@ export default function Home() {
                   return (
                     <div key={setting.id} 
                          className="relative overflow-hidden rounded-xl bg-gray-800/30 backdrop-blur-sm p-4
-                                  border border-gray-700/50 group hover:border-blue-500/50
-                                  shadow-lg hover:shadow-blue-500/10
+                                  border border-gray-700/50 group hover:border-gray-500/50
+                                  shadow-lg hover:shadow-gray-500/10
                                   transition-all duration-300">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
+                      <div className="absolute inset-0 bg-gradient-to-br from-gray-600/5 to-gray-500/5 opacity-0 
                                     group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                       
                       <div className="flex flex-col gap-3">
                         <div className="flex justify-between items-start">
                           <div className="relative max-w-[85%] pointer-events-none">
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
+                            <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 opacity-0">
                               {setting.car}
                             </div>
-                            <h2 className="font-bold text-lg truncate text-blue-400">
+                            <h2 className="font-bold text-lg truncate text-gray-200">
                               {setting.car}
                             </h2>
                           </div>
@@ -252,7 +252,7 @@ export default function Home() {
                         </p>
                         
                         <div className="mt-3 pt-3 border-t border-gray-600/30">
-                          <h3 className="text-base font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                          <h3 className="text-base font-semibold mb-2 text-gray-200">
                             FFB Settings
                           </h3>
                           <div className="space-y-1.5">
@@ -264,7 +264,7 @@ export default function Home() {
                                 <div className="flex items-center justify-end gap-2">
                                   <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
                                     <div 
-                                      className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                                      className="h-full bg-gradient-to-r from-gray-500 to-gray-400 rounded-full"
                                       style={{ width: `${(value / 100) * 100}%` }}
                                     />
                                   </div>
@@ -280,10 +280,9 @@ export default function Home() {
 
                       {/* Manufacturer provided label */}
                       {setting.is_manufacturer_provided && (
-                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 
-                                      border-t border-blue-500/20 flex items-center justify-center">
-                          <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
-                                         from-blue-400 to-cyan-400">
+                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-gray-700/30 to-gray-600/30 
+                                      border-t border-gray-500/20 flex items-center justify-center">
+                          <span className="text-sm font-medium text-gray-300">
                             Provided by {manufacturer}
                           </span>
                         </div>
