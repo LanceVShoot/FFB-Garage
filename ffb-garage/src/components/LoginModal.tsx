@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
@@ -13,36 +13,6 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   const { login } = useAuth();
   const emailInputRef = useRef<HTMLInputElement>(null);
 
-  const handleVerifyCode = useCallback(async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    setError('');
-    
-    try {
-      const response = await fetch('/api/auth/verify-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code: verificationCode })
-      });
-      
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.error || 'Invalid verification code');
-      }
-
-      await login(email);
-      onClose();
-      setEmail('');
-      setVerificationCode('');
-      setIsCodeSent(false);
-      toast.success('Successfully logged in!', {
-        position: 'bottom-right',
-      });
-    } catch (error) {
-      setVerificationCode(''); // Clear the invalid code
-      setError(error instanceof Error ? error.message : 'Invalid verification code. Please try again.');
-    }
-  }, [email, verificationCode, login, onClose]);
-
   useEffect(() => {
     if (isOpen && !isCodeSent) {
       emailInputRef.current?.focus();
@@ -53,7 +23,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     if (verificationCode.length === 6) {
       handleVerifyCode();
     }
-  }, [verificationCode, handleVerifyCode]);
+  }, [verificationCode]);
 
   const handleSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +60,36 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setError('');
+    
+    try {
+      const response = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code: verificationCode })
+      });
+      
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.error || 'Invalid verification code');
+      }
+
+      await login(email);
+      onClose();
+      setEmail('');
+      setVerificationCode('');
+      setIsCodeSent(false);
+      toast.success('Successfully logged in!', {
+        position: 'bottom-right',
+      });
+    } catch (error) {
+      setVerificationCode(''); // Clear the invalid code
+      setError(error instanceof Error ? error.message : 'Invalid verification code. Please try again.');
     }
   };
 
