@@ -5,6 +5,7 @@ import { AuthProvider } from '@/hooks/useAuth';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from 'sonner';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,22 +32,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          {children}
-          <SpeedInsights />
-          <Analytics />
-          <Toaster
-            theme="dark"
-            position="bottom-right"
-            toastOptions={{
-              style: {
-                background: '#1f2937', // gray-800
-                border: '1px solid #374151', // gray-700
-                color: '#f3f4f6', // gray-100
-              }
-            }}
-          />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+            <SpeedInsights />
+            <Analytics />
+            <Toaster
+              theme="dark"
+              position="bottom-right"
+              toastOptions={{
+                style: {
+                  background: '#1f2937', // gray-800
+                  border: '1px solid #374151', // gray-700
+                  color: '#f3f4f6', // gray-100
+                }
+              }}
+            />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
