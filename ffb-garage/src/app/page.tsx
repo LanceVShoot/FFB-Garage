@@ -212,8 +212,8 @@ export default function Home() {
 
                   return (
                     <div key={setting.id} 
-                         className="relative overflow-hidden rounded-xl bg-gray-800/30 backdrop-blur-sm p-4
-                                  border border-gray-700/50 group hover:border-blue-500/50
+                         className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4
+                                  border border-zinc-800/50 group hover:border-blue-500/50
                                   shadow-lg hover:shadow-blue-500/10
                                   transition-all duration-300">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
@@ -243,22 +243,22 @@ export default function Home() {
 
                       <div className="space-y-1.5 text-sm mt-3">
                         <p className="flex justify-between items-center">
-                          <span className="text-gray-300">Wheelbase</span>
+                          <span className="text-zinc-300">Wheelbase</span>
                           <span className="text-white font-medium">{setting.wheelbase}</span>
                         </p>
                         <p className="flex justify-between items-center">
-                          <span className="text-gray-300">Discipline</span>
+                          <span className="text-zinc-300">Discipline</span>
                           <span className="text-white font-medium">{setting.discipline}</span>
                         </p>
                         
-                        <div className="mt-3 pt-3 border-t border-gray-600/30">
+                        <div className="mt-3 pt-3 border-t border-zinc-600/30">
                           <h3 className="text-base font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                             FFB Settings
                           </h3>
                           <div className="space-y-1.5">
                             {Object.entries(setting.settings).map(([key, value]) => (
                               <div key={key} className="grid grid-cols-[1fr_140px] items-center">
-                                <span className="text-gray-300">
+                                <span className="text-zinc-300">
                                   {key.charAt(0).toUpperCase() + key.slice(1)}
                                 </span>
                                 <div className="flex items-center justify-end gap-2">
