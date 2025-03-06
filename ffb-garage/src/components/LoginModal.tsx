@@ -66,6 +66,23 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     };
   }, [isOpen]);
 
+  // Add event listener for Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+
   const handleSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
