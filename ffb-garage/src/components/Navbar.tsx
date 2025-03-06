@@ -17,8 +17,8 @@ export default function Navbar() {
           <Image 
             src="/images/ffb-garage-logo-no-name.png"
             alt="FFB Garage Logo"
-            width={24}
-            height={24}
+            width={32}
+            height={32}
           />
           <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
             FFB Garage
