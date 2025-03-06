@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
 export interface AuthContextType {
   isLoggedIn: boolean;
@@ -14,7 +14,11 @@ export const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = async (email: string) => {
