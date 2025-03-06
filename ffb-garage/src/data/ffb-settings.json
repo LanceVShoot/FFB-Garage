@@ -1,14 +1,28 @@
 {
-  "wheelbaseOptions": [
-    "Asetek Forte",
-    "Asetek La Prima",
-    "Fanatec DD1",
-    "Fanatec DD2",
-    "Moza R9",
-    "Moza R12",
-    "Moza R21",
-    "Simucube 2 Pro",
-    "Simucube 2 Ultimate"
+  "brandOptions": [
+    "Asetek",
+    "Fanatec",
+    "Logitech",
+    "Moza",
+    "Simagic",
+    "Simucube",
+    "VNM",
+    "VRS"
+  ],
+  "modelOptions": [
+    "Forte",
+    "La Prima",
+    "DD1",
+    "DD2",
+    "G Pro",
+    "R9",
+    "R12",
+    "R21",
+    "SimPro Mini",
+    "SimPro Alpha",
+    "SimPro Ultimate",
+    "DirectForce Pro",
+    "Extreme"
   ],
   "disciplineOptions": [
     "Dirt Oval",
@@ -19,19 +33,22 @@
   "settings": [
     {
       "id": 1,
-      "car": "Example Car",
-      "wheelbase": "Short",
-      "discipline": "Rally",
-      "likes": 0,
+      "brand": "Asetek",
+      "model": "Forte",
+      "car": "Subaru WRX STI",
+      "discipline": "Dirt Road",
+      "likes": 92,
+      "is_manufacturer_provided": true,
       "settings": {
-        "strength": 100,
-        "damping": 50,
-        "minimumForce": 0
+        "strength": 75,
+        "damping": 4,
+        "minimumForce": 18
       }
     },
     {
       "id": 2,
-      "wheelbase": "Fanatec DD2",
+      "brand": "Fanatec",
+      "model": "DD2",
       "car": "BMW M4 GT3",
       "discipline": "Road",
       "likes": 89,
@@ -43,7 +60,8 @@
     },
     {
       "id": 3,
-      "wheelbase": "Moza R21",
+      "brand": "Moza",
+      "model": "R21",
       "car": "NASCAR Next Gen Ford Mustang",
       "discipline": "Oval",
       "likes": 156,
@@ -55,10 +73,12 @@
     },
     {
       "id": 4,
-      "wheelbase": "Asetek La Prima",
+      "brand": "Asetek",
+      "model": "La Prima",
       "car": "Dallara IR18",
       "discipline": "Road",
       "likes": 45,
+      "is_manufacturer_provided": true,
       "settings": {
         "strength": 55,
         "damping": 8,
@@ -67,14 +87,72 @@
     },
     {
       "id": 5,
-      "wheelbase": "Asetek Forte",
-      "car": "Subaru WRX STI",
-      "discipline": "Dirt Road",
-      "likes": 92,
+      "brand": "Simagic",
+      "model": "SimPro Mini",
+      "car": "Global Settings",
+      "discipline": "Road",
+      "likes": 45,
+      "is_manufacturer_provided": true,
       "settings": {
-        "strength": 75,
-        "damping": 4,
-        "minimumForce": 18
+        "strength": 100,
+        "damping": 100,
+        "minimumForce": 10
+      }
+    },
+    {
+      "id": 6,
+      "brand": "VRS",
+      "model": "DirectForce Pro",
+      "car": "Global Settings",
+      "discipline": "Road",
+      "likes": 67,
+      "is_manufacturer_provided": true,
+      "settings": {
+        "strength": 100,
+        "damping": 0,
+        "minimumForce": 0
+      }
+    },
+    {
+      "id": 7,
+      "brand": "Fanatec",
+      "model": "DD1",
+      "car": "Global Settings",
+      "discipline": "Road",
+      "likes": 123,
+      "is_manufacturer_provided": true,
+      "settings": {
+        "strength": 100,
+        "damping": 100,
+        "minimumForce": 100
+      }
+    },
+    {
+      "id": 8,
+      "brand": "Logitech",
+      "model": "G Pro",
+      "car": "Global Settings",
+      "discipline": "Road",
+      "likes": 89,
+      "is_manufacturer_provided": true,
+      "settings": {
+        "strength": 100,
+        "damping": 0,
+        "minimumForce": 0
+      }
+    },
+    {
+      "id": 9,
+      "brand": "VNM",
+      "model": "Extreme",
+      "car": "Global Settings",
+      "discipline": "Road",
+      "likes": 34,
+      "is_manufacturer_provided": true,
+      "settings": {
+        "strength": 100,
+        "damping": 0,
+        "minimumForce": 0
       }
     }
   ]

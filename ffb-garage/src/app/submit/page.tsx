@@ -5,7 +5,8 @@ import ffbSettingsData from '@/data/ffb-settings.json';
 import Navbar from '@/components/Navbar';
 
 interface FFBSettingFormData {
-  wheelbase: string;
+  brand: string;
+  model: string;
   car: string;
   discipline: string;
   settings: {
@@ -17,7 +18,8 @@ interface FFBSettingFormData {
 
 export default function SubmitPage() {
   const [formData, setFormData] = useState<FFBSettingFormData>({
-    wheelbase: '',
+    brand: '',
+    model: '',
     car: '',
     discipline: '',
     settings: {
@@ -36,7 +38,7 @@ export default function SubmitPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 text-gray-100">
+      <main className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 p-8 text-zinc-100">
         <div className="max-w-[1440px] mx-auto">
           <h1 className="text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 inline-block">
             Submit FFB Settings
@@ -44,34 +46,52 @@ export default function SubmitPage() {
 
           <div className="max-w-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Wheelbase Selection */}
+              {/* Brand Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Wheelbase
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                  Brand
                 </label>
                 <select
-                  value={formData.wheelbase}
-                  onChange={(e) => setFormData({ ...formData, wheelbase: e.target.value })}
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  value={formData.brand}
+                  onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                  className="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none"
                   required
                 >
-                  <option value="">Select a wheelbase</option>
-                  {ffbSettingsData.wheelbaseOptions.map((wb) => (
-                    <option key={wb} value={wb}>{wb}</option>
+                  <option value="">Select a brand</option>
+                  {ffbSettingsData.brandOptions.map((brand) => (
+                    <option key={brand} value={brand}>{brand}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Model Selection */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                  Model
+                </label>
+                <select
+                  value={formData.model}
+                  onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                  className="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none"
+                  required
+                >
+                  <option value="">Select a model</option>
+                  {ffbSettingsData.modelOptions.map((model) => (
+                    <option key={model} value={model}>{model}</option>
                   ))}
                 </select>
               </div>
 
               {/* Car Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
                   Car
                 </label>
                 <input
                   type="text"
                   value={formData.car}
                   onChange={(e) => setFormData({ ...formData, car: e.target.value })}
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none"
                   placeholder="Enter car name"
                   required
                 />
@@ -79,13 +99,13 @@ export default function SubmitPage() {
 
               {/* Discipline Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
                   Discipline
                 </label>
                 <select
                   value={formData.discipline}
                   onChange={(e) => setFormData({ ...formData, discipline: e.target.value })}
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none"
                   required
                 >
                   <option value="">Select a discipline</option>
@@ -101,7 +121,7 @@ export default function SubmitPage() {
                 
                 {/* Strength */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-zinc-300 mb-2">
                     Strength ({formData.settings.strength}%)
                   </label>
                   <input
@@ -116,14 +136,14 @@ export default function SubmitPage() {
                         strength: parseInt(e.target.value)
                       }
                     })}
-                    className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer"
+                    className="w-full h-2 bg-zinc-700 rounded-full appearance-none cursor-pointer"
                     required
                   />
                 </div>
 
                 {/* Damping */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-zinc-300 mb-2">
                     Damping ({formData.settings.damping})
                   </label>
                   <input
@@ -135,14 +155,14 @@ export default function SubmitPage() {
                       ...formData,
                       settings: { ...formData.settings, damping: parseInt(e.target.value) }
                     })}
-                    className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer"
+                    className="w-full h-2 bg-zinc-700 rounded-full appearance-none cursor-pointer"
                     required
                   />
                 </div>
 
                 {/* Minimum Force */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-zinc-300 mb-2">
                     Minimum Force ({formData.settings.minimumForce}%)
                   </label>
                   <input
@@ -154,7 +174,7 @@ export default function SubmitPage() {
                       ...formData,
                       settings: { ...formData.settings, minimumForce: parseInt(e.target.value) }
                     })}
-                    className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer"
+                    className="w-full h-2 bg-zinc-700 rounded-full appearance-none cursor-pointer"
                     required
                   />
                 </div>
