@@ -16,7 +16,7 @@ type AuthProviderProps = {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const login = async (email: string) => {
+  const login = async (_email: string) => {
     setIsLoggedIn(true);
   };
 
