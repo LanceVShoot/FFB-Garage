@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
@@ -23,7 +23,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     if (verificationCode.length === 6) {
       handleVerifyCode();
     }
-  }, [verificationCode]);
+  }, [verificationCode, handleVerifyCode]);
 
   const handleSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     }
   };
 
-  const handleVerifyCode = async (e?: React.FormEvent) => {
+  const handleVerifyCode = useCallback(async (e?: React.FormEvent) => {
     e?.preventDefault();
     setError('');
     
@@ -79,7 +79,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
         throw new Error(data.error || 'Invalid verification code');
       }
 
-      await login(email);
+      await login();
       onClose();
       setEmail('');
       setVerificationCode('');
@@ -91,7 +91,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
       setVerificationCode(''); // Clear the invalid code
       setError(error instanceof Error ? error.message : 'Invalid verification code. Please try again.');
     }
-  };
+  }, [email, login, onClose]);
 
   const handleBack = () => {
     setIsCodeSent(false);
