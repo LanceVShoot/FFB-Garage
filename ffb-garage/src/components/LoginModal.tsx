@@ -114,8 +114,11 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="my-auto relative bg-zinc-900/80 backdrop-blur-sm p-8 rounded-xl border border-zinc-800/50 w-full max-w-md">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
+      <div 
+        className="relative bg-zinc-900/80 backdrop-blur-sm p-8 rounded-xl border border-zinc-800/50 w-full max-w-md"
+        style={{ transform: 'translateY(0)' }}  // Force GPU rendering
+      >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-zinc-400 hover:text-white"
