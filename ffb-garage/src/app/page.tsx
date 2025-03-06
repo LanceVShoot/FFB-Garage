@@ -217,10 +217,6 @@ export default function Home() {
 }
 
 const SettingCard = ({ setting }: { setting: FFBSetting }) => {
-  const manufacturer = setting.is_manufacturer_provided 
-    ? setting.wheelbase.split(' ')[0]
-    : null;
-
   return (
     <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
       <div className="flex-auto p-4">
@@ -244,6 +240,13 @@ const SettingCard = ({ setting }: { setting: FFBSetting }) => {
             {setting.discipline}
           </span>
         </p>
+        {setting.is_manufacturer_provided && (
+          <div className="mt-4 pt-4 border-t border-blueGray-200">
+            <p className="text-sm text-blueGray-400">
+              Provided by {setting.wheelbase.split(' ')[0]}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
