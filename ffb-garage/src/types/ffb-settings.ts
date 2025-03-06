@@ -1,7 +1,8 @@
 export interface FFBSetting {
   id: number;
   car: string;
-  wheelbase: string;
+  brand: string;
+  model: string;
   discipline: string;
   likes?: number;
   is_manufacturer_provided?: boolean;

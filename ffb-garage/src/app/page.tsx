@@ -8,7 +8,8 @@ import ffbSettingsData from '@/data/ffb-settings.json';
 
 export default function Home() {
   const [filters, setFilters] = useState({ 
-    wheelbase: new Set<string>(),
+    brand: new Set<string>(),
+    model: new Set<string>(),
     discipline: new Set<string>(),
   });
 
@@ -17,13 +18,14 @@ export default function Home() {
   );
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    wheelbase: false,
+    brand: false,
+    model: false,
     discipline: false,
   });
 
   const [sortBy, setSortBy] = useState('drivers'); 
 
-  const toggleFilter = (type: 'wheelbase' | 'discipline', value: string) => {
+  const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
       if (newSet.has(value)) {
@@ -35,7 +37,7 @@ export default function Home() {
     });
   };
 
-  const toggleExpand = (type: 'wheelbase' | 'discipline') => {
+  const toggleExpand = (type: 'brand' | 'model' | 'discipline') => {
     setExpandedSections(prev => ({
       ...prev,
       [type]: !prev[type]
@@ -66,7 +68,8 @@ export default function Home() {
       if (!isManufacturer && !showCommunity) return false;
     }
 
-    if (filters.wheelbase.size > 0 && !filters.wheelbase.has(setting.wheelbase)) return false;
+    if (filters.brand.size > 0 && !filters.brand.has(setting.brand)) return false;
+    if (filters.model.size > 0 && !filters.model.has(setting.model)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
     return true;
   });
@@ -89,7 +92,7 @@ export default function Home() {
   const FilterGroup = ({ title, options, type }: { 
     title: string, 
     options: string[], 
-    type: 'wheelbase' | 'discipline' 
+    type: 'brand' | 'model' | 'discipline' 
   }) => {
     const isExpanded = expandedSections[type];
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
@@ -171,9 +174,15 @@ export default function Home() {
                 </div>
                 
                 <FilterGroup 
-                  title="Wheelbase" 
-                  options={ffbSettingsData.wheelbaseOptions} 
-                  type="wheelbase" 
+                  title="Brand" 
+                  options={ffbSettingsData.brandOptions} 
+                  type="brand" 
+                />
+                
+                <FilterGroup 
+                  title="Model" 
+                  options={ffbSettingsData.modelOptions} 
+                  type="model" 
                 />
                 
                 <FilterGroup 
@@ -207,7 +216,7 @@ export default function Home() {
                 {filteredAndSortedSettings.map((setting: FFBSetting) => {
                   // Extract manufacturer name from wheelbase (everything before first space)
                   const manufacturer = setting.is_manufacturer_provided 
-                    ? setting.wheelbase.split(' ')[0]
+                    ? setting.brand
                     : null;
 
                   return (
@@ -243,8 +252,12 @@ export default function Home() {
 
                       <div className="space-y-1.5 text-sm mt-3">
                         <p className="flex justify-between items-center">
-                          <span className="text-zinc-300">Wheelbase</span>
-                          <span className="text-white font-medium">{setting.wheelbase}</span>
+                          <span className="text-zinc-300">Brand</span>
+                          <span className="text-white font-medium">{setting.brand}</span>
+                        </p>
+                        <p className="flex justify-between items-center">
+                          <span className="text-zinc-300">Model</span>
+                          <span className="text-white font-medium">{setting.model}</span>
                         </p>
                         <p className="flex justify-between items-center">
                           <span className="text-zinc-300">Discipline</span>
