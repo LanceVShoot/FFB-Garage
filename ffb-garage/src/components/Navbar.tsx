@@ -4,10 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 import LoginModal from './LoginModal';
 import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 
 export default function Navbar() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { isLoggedIn, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Successfully logged out!', {
+      position: 'bottom-right',
+    });
+  };
 
   return (
     <>
@@ -33,7 +41,7 @@ export default function Navbar() {
 
               {isLoggedIn ? (
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="px-4 py-2 text-sm font-medium bg-blueGray-900/50 text-blueGray-300 hover:text-white rounded-lg border border-blueGray-700/50 hover:border-lightBlue-500/50 transition-all"
                 >
                   Logout
