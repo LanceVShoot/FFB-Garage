@@ -1,3 +1,7 @@
+'use client';
+
+import { createContext, useContext, useState } from 'react';
+
 export interface AuthContextType {
   isLoggedIn: boolean;
   login: (email: string) => Promise<void>;
