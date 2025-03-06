@@ -5,6 +5,7 @@ import { type AuthContextType } from '@/types/auth';
 
 export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
+  currentUser: null,
   login: async () => {},
   logout: () => {},
 });
@@ -29,6 +30,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const contextValue: AuthContextType = {
     isLoggedIn,
+    currentUser,
     login,
     logout,
   };
