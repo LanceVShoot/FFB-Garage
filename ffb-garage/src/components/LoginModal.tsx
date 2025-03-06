@@ -96,11 +96,11 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-gray-800 p-8 rounded-xl border border-gray-700 w-full max-w-md relative">
+    <div className="fixed inset-0 bg-blueGray-900/80 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-blueGray-800/90 backdrop-blur-xl p-8 rounded-xl border border-blueGray-700/50 w-full max-w-md relative shadow-2xl">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white"
+          className="absolute top-4 right-4 text-blueGray-400 hover:text-white transition-colors"
           disabled={isLoading}
         >
           ✕
@@ -110,7 +110,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
           <form onSubmit={handleSubmitEmail} className="space-y-4">
             <h2 className="text-xl font-bold text-white mb-6">Login to FFB Garage</h2>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-blueGray-300 mb-2">
                 Email Address
               </label>
               <input
@@ -119,8 +119,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white
-                         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full px-4 py-2 bg-blueGray-900/50 border border-blueGray-700/50 rounded-lg text-white
+                         focus:border-lightBlue-500/50 focus:ring-2 focus:ring-lightBlue-500/20 focus:outline-none"
                 placeholder="Enter your email"
                 required
                 disabled={isLoading}
@@ -129,8 +129,9 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
             {error && <p className="text-red-400 text-sm">{error}</p>}
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg
-                       transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 px-4 bg-lightBlue-500/20 text-lightBlue-300 hover:bg-lightBlue-500/30 rounded-lg
+                       border border-lightBlue-500/30 hover:border-lightBlue-500/50 transition-all
+                       disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               Send Code
@@ -142,17 +143,17 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
               <button
                 type="button"
                 onClick={handleBack}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-blueGray-400 hover:text-white transition-colors"
               >
                 ← Back
               </button>
               <h2 className="text-xl font-bold text-white">Enter Verification Code</h2>
             </div>
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-blueGray-300">
               We&apos;ve sent a verification code to {email}
             </p>
             <div>
-              <label htmlFor="code" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="code" className="block text-sm font-medium text-blueGray-300 mb-2">
                 6-Digit Code
               </label>
               <input
@@ -160,8 +161,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 id="code"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white
-                         focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none
+                className="w-full px-4 py-2 bg-blueGray-900/50 border border-blueGray-700/50 rounded-lg text-white
+                         focus:border-lightBlue-500/50 focus:ring-2 focus:ring-lightBlue-500/20 focus:outline-none
                          tracking-widest text-center text-2xl"
                 placeholder="000000"
                 maxLength={6}
@@ -171,8 +172,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
             {error && <p className="text-red-400 text-sm">{error}</p>}
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg
-                       transition-colors duration-200"
+              className="w-full py-2 px-4 bg-lightBlue-500/20 text-lightBlue-300 hover:bg-lightBlue-500/30 rounded-lg
+                       border border-lightBlue-500/30 hover:border-lightBlue-500/50 transition-all"
             >
               Verify Code
             </button>
@@ -180,8 +181,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
         )}
 
         {isLoading && (
-          <div className="absolute inset-0 bg-gray-800/80 backdrop-blur-sm flex items-center justify-center rounded-xl">
-            <div className="w-10 h-10 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+          <div className="absolute inset-0 bg-blueGray-800/90 backdrop-blur-sm flex items-center justify-center rounded-xl">
+            <div className="w-10 h-10 border-4 border-lightBlue-500/30 border-t-lightBlue-500 rounded-full animate-spin" />
           </div>
         )}
       </div>

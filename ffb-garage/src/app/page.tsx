@@ -128,27 +128,27 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="relative bg-blueGray-100 pb-32 pt-12">
+      <div className="relative bg-blueGray-900 pb-32 pt-12">
         <div className="px-4 md:px-10 mx-auto w-full">
           <div className="flex flex-wrap">
             {/* Left Column - Filters */}
             <div className="w-full lg:w-1/5 px-4">
-              <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+              <div className="relative flex flex-col min-w-0 break-words bg-blueGray-800/80 backdrop-blur-xl rounded-lg mb-6 xl:mb-0 shadow-2xl border border-blueGray-700/50">
                 <div className="flex-auto p-4">
-                  <h2 className="text-blueGray-700 uppercase font-bold text-xl">
+                  <h2 className="text-white uppercase font-bold text-xl mb-6">
                     Filters
                   </h2>
 
                   <div className="mt-6">
-                    <div className="flex bg-blueGray-200 rounded-lg overflow-hidden">
+                    <div className="flex bg-blueGray-900/50 rounded-lg overflow-hidden border border-blueGray-700/50">
                       <button
                         onClick={() => toggleSourceFilter('manufacturer')}
                         className={`flex-1 px-4 py-2 text-sm font-bold transition-all duration-200
                           ${sourceFilter.has('manufacturer')
-                            ? 'bg-blueGray-700 text-white'
-                            : 'text-blueGray-700 hover:bg-blueGray-300'
+                            ? 'bg-lightBlue-500/20 text-lightBlue-300'
+                            : 'text-blueGray-400 hover:bg-blueGray-800/50'
                           }
-                          border-r border-blueGray-300`}
+                          border-r border-blueGray-700/50`}
                       >
                         Manufacturer
                       </button>
@@ -156,8 +156,8 @@ export default function Home() {
                         onClick={() => toggleSourceFilter('community')}
                         className={`flex-1 px-4 py-2 text-sm font-bold transition-all duration-200
                           ${sourceFilter.has('community')
-                            ? 'bg-blueGray-700 text-white'
-                            : 'text-blueGray-700 hover:bg-blueGray-300'
+                            ? 'bg-lightBlue-500/20 text-lightBlue-300'
+                            : 'text-blueGray-400 hover:bg-blueGray-800/50'
                           }`}
                       >
                         Community
@@ -182,14 +182,14 @@ export default function Home() {
 
             {/* Right Column - Settings List */}
             <div className="w-full lg:w-4/5 px-4">
-              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-2xl rounded-lg bg-blueGray-800/80 backdrop-blur-xl border border-blueGray-700/50">
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                   <div className="flex flex-wrap items-center">
                     <div className="relative w-full px-4 max-w-full flex-grow flex-1">
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="form-select w-full px-3 py-3 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                        className="form-select w-full px-3 py-3 text-blueGray-300 bg-blueGray-900/50 rounded-lg text-sm border border-blueGray-700/50 shadow focus:outline-none focus:ring-2 focus:ring-lightBlue-500/50"
                       >
                         <option value="drivers">Drivers</option>
                         <option value="newest">Newest</option>
@@ -217,30 +217,30 @@ export default function Home() {
 
 const SettingCard = ({ setting }: { setting: FFBSetting }) => {
   return (
-    <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+    <div className="relative flex flex-col min-w-0 break-words bg-blueGray-800/50 backdrop-blur-xl rounded-lg mb-6 xl:mb-0 shadow-lg border border-blueGray-700/50 hover:border-lightBlue-500/50 transition-colors">
       <div className="flex-auto p-4">
         <div className="flex flex-wrap">
           <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-            <h5 className="text-blueGray-400 uppercase font-bold text-xs">
+            <h5 className="text-blueGray-300 uppercase font-bold text-xs">
               {setting.car}
             </h5>
-            <span className="font-semibold text-xl text-blueGray-700">
+            <span className="font-semibold text-xl text-white">
               {setting.wheelbase}
             </span>
           </div>
           <div className="relative w-auto pl-4 flex-initial">
-            <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500">
+            <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-lightBlue-500/20">
               <i className="fas fa-users"></i>
             </div>
           </div>
         </div>
         <p className="text-sm text-blueGray-400 mt-4">
-          <span className={setting.discipline === 'Road' ? 'text-emerald-500' : 'text-red-500'}>
+          <span className={setting.discipline === 'Road' ? 'text-emerald-400' : 'text-red-400'}>
             {setting.discipline}
           </span>
         </p>
         {setting.is_manufacturer_provided && (
-          <div className="mt-4 pt-4 border-t border-blueGray-200">
+          <div className="mt-4 pt-4 border-t border-blueGray-700/50">
             <p className="text-sm text-blueGray-400">
               Provided by {setting.wheelbase.split(' ')[0]}
             </p>
