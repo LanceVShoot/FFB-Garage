@@ -186,16 +186,16 @@ export default function Home() {
 
             {/* Right Column - Settings List */}
             <div className="lg:w-4/5">
-              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
-                <label className="text-sm text-gray-300">
+              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
+                <label className="text-sm text-zinc-300">
                   Sort by
                 </label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-gray-800/50 border border-gray-600 rounded-lg px-4 py-2 text-sm text-white
-                           focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none
-                           cursor-pointer backdrop-blur-sm"
+                  className="bg-zinc-900/50 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-white
+                            focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none
+                            cursor-pointer backdrop-blur-sm"
                 >
                   <option value="drivers">Drivers</option>
                   <option value="newest">Newest</option>
