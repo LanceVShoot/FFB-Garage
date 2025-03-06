@@ -27,10 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased
+                   bg-gradient-to-br from-zinc-900 via-black to-zinc-900 text-zinc-100
+                   min-h-screen selection:bg-zinc-700/50`}
       >
+        <div className="fixed inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         <AuthProvider>
           {children}
           <SpeedInsights />
@@ -40,9 +43,9 @@ export default function RootLayout({
             position="bottom-right"
             toastOptions={{
               style: {
-                background: '#1f2937', // gray-800
-                border: '1px solid #374151', // gray-700
-                color: '#f3f4f6', // gray-100
+                background: 'rgb(9, 9, 11)',
+                border: '1px solid rgb(39, 39, 42)',
+                color: 'rgb(244, 244, 245)',
               }
             }}
           />

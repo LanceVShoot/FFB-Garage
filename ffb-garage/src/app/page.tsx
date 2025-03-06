@@ -96,7 +96,7 @@ export default function Home() {
 
     return (
       <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-[#00e1ff]">{title}</h3>
+        <h3 className="text-lg font-semibold text-zinc-100">{title}</h3>
         <div className="flex flex-col space-y-2">
           {displayedOptions.map((option) => (
             <button
@@ -104,8 +104,8 @@ export default function Home() {
               onClick={() => toggleFilter(type, option)}
               className={`px-3 py-1.5 rounded-lg text-left text-sm font-medium transition-all duration-200 w-full
                 ${filters[type].has(option)
-                  ? 'bg-gray-600 text-white'
-                  : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                  ? 'bg-zinc-800 text-zinc-100'
+                  : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-700/50'
                 }`}
             >
               {option}
@@ -115,7 +115,7 @@ export default function Home() {
           {hasMore && (
             <button
               onClick={() => toggleExpand(type)}
-              className="px-3 py-1.5 text-left text-sm font-medium text-gray-300 hover:text-gray-200 transition-colors"
+              className="px-3 py-1.5 text-left text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
             >
               {isExpanded ? '- Show Less' : `+ ${options.length - 3} More`}
             </button>
@@ -128,68 +128,67 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="relative bg-blueGray-900 pb-32 pt-12">
+      <div className="relative pt-20 pb-12">
         <div className="px-4 md:px-10 mx-auto w-full">
           <div className="flex flex-wrap">
             {/* Left Column - Filters */}
             <div className="w-full lg:w-1/5 px-4">
-              <div className="relative flex flex-col min-w-0 break-words bg-blueGray-800/80 backdrop-blur-xl rounded-lg mb-6 xl:mb-0 shadow-2xl border border-blueGray-700/50">
-                <div className="flex-auto p-4">
-                  <h2 className="text-white uppercase font-bold text-xl mb-6">
-                    Filters
-                  </h2>
+              <div className="relative flex flex-col min-w-0 break-words backdrop-blur-xl bg-zinc-900/50 p-6 rounded-xl border border-zinc-800/50 shadow-xl">
+                <h2 className="text-xl font-semibold mb-6 text-zinc-100">
+                  Filters
+                </h2>
 
-                  <div className="mt-6">
-                    <div className="flex bg-blueGray-900/50 rounded-lg overflow-hidden border border-blueGray-700/50">
-                      <button
-                        onClick={() => toggleSourceFilter('manufacturer')}
-                        className={`flex-1 px-4 py-2 text-sm font-bold transition-all duration-200
-                          ${sourceFilter.has('manufacturer')
-                            ? 'bg-lightBlue-500/20 text-lightBlue-300'
-                            : 'text-blueGray-400 hover:bg-blueGray-800/50'
-                          }
-                          border-r border-blueGray-700/50`}
-                      >
-                        Manufacturer
-                      </button>
-                      <button
-                        onClick={() => toggleSourceFilter('community')}
-                        className={`flex-1 px-4 py-2 text-sm font-bold transition-all duration-200
-                          ${sourceFilter.has('community')
-                            ? 'bg-lightBlue-500/20 text-lightBlue-300'
-                            : 'text-blueGray-400 hover:bg-blueGray-800/50'
-                          }`}
-                      >
-                        Community
-                      </button>
-                    </div>
+                <div className="mt-6">
+                  <div className="flex bg-zinc-800/50 rounded-lg overflow-hidden border border-zinc-700/50">
+                    <button
+                      onClick={() => toggleSourceFilter('manufacturer')}
+                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
+                        ${sourceFilter.has('manufacturer')
+                          ? 'bg-zinc-700/50 text-zinc-100'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+                        }
+                        border-r border-zinc-700/50`}
+                    >
+                      Manufacturer
+                    </button>
+                    <button
+                      onClick={() => toggleSourceFilter('community')}
+                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
+                        ${sourceFilter.has('community')
+                          ? 'bg-zinc-700/50 text-zinc-100'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+                        }`}
+                    >
+                      Community
+                    </button>
                   </div>
-
-                  <FilterGroup 
-                    title="Wheelbase" 
-                    options={ffbSettingsData.wheelbaseOptions} 
-                    type="wheelbase" 
-                  />
-                  
-                  <FilterGroup 
-                    title="Discipline" 
-                    options={ffbSettingsData.disciplineOptions} 
-                    type="discipline" 
-                  />
                 </div>
+
+                <FilterGroup 
+                  title="Wheelbase" 
+                  options={ffbSettingsData.wheelbaseOptions} 
+                  type="wheelbase" 
+                />
+                
+                <FilterGroup 
+                  title="Discipline" 
+                  options={ffbSettingsData.disciplineOptions} 
+                  type="discipline" 
+                />
               </div>
             </div>
 
             {/* Right Column - Settings List */}
             <div className="w-full lg:w-4/5 px-4">
-              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-2xl rounded-lg bg-blueGray-800/80 backdrop-blur-xl border border-blueGray-700/50">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 backdrop-blur-xl bg-zinc-900/50 rounded-xl border border-zinc-800/50 shadow-xl">
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                   <div className="flex flex-wrap items-center">
                     <div className="relative w-full px-4 max-w-full flex-grow flex-1">
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="form-select w-full px-3 py-3 text-blueGray-300 bg-blueGray-900/50 rounded-lg text-sm border border-blueGray-700/50 shadow focus:outline-none focus:ring-2 focus:ring-lightBlue-500/50"
+                        className="w-full px-3 py-2 bg-zinc-800/50 text-zinc-100 rounded-lg border border-zinc-700/50 
+                                 focus:outline-none focus:ring-2 focus:ring-zinc-600 focus:border-zinc-600"
                       >
                         <option value="drivers">Drivers</option>
                         <option value="newest">Newest</option>
@@ -217,31 +216,31 @@ export default function Home() {
 
 const SettingCard = ({ setting }: { setting: FFBSetting }) => {
   return (
-    <div className="relative flex flex-col min-w-0 break-words bg-blueGray-800/50 backdrop-blur-xl rounded-lg mb-6 xl:mb-0 shadow-lg border border-blueGray-700/50 hover:border-lightBlue-500/50 transition-colors">
+    <div className="relative flex flex-col min-w-0 break-words bg-zinc-800/50 backdrop-blur-xl rounded-lg mb-6 xl:mb-0 shadow-lg border border-zinc-700/50 hover:border-zinc-600/50 transition-colors">
       <div className="flex-auto p-4">
         <div className="flex flex-wrap">
           <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-            <h5 className="text-blueGray-300 uppercase font-bold text-xs">
+            <h5 className="text-zinc-300 uppercase font-bold text-xs">
               {setting.car}
             </h5>
-            <span className="font-semibold text-xl text-white">
+            <span className="font-semibold text-xl text-zinc-100">
               {setting.wheelbase}
             </span>
           </div>
           <div className="relative w-auto pl-4 flex-initial">
-            <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-lightBlue-500/20">
+            <div className="text-zinc-400 p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-zinc-700/50">
               <i className="fas fa-users"></i>
             </div>
           </div>
         </div>
-        <p className="text-sm text-blueGray-400 mt-4">
+        <p className="text-sm text-zinc-400 mt-4">
           <span className={setting.discipline === 'Road' ? 'text-emerald-400' : 'text-red-400'}>
             {setting.discipline}
           </span>
         </p>
         {setting.is_manufacturer_provided && (
-          <div className="mt-4 pt-4 border-t border-blueGray-700/50">
-            <p className="text-sm text-blueGray-400">
+          <div className="mt-4 pt-4 border-t border-zinc-700/50">
+            <p className="text-sm text-zinc-400">
               Provided by {setting.wheelbase.split(' ')[0]}
             </p>
           </div>
