@@ -13,56 +13,6 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   const { login } = useAuth();
   const emailInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (isOpen && !isCodeSent) {
-      emailInputRef.current?.focus();
-    }
-  }, [isOpen, isCodeSent]);
-
-  useEffect(() => {
-    if (verificationCode.length === 6) {
-      handleVerifyCode();
-    }
-  }, [verificationCode, handleVerifyCode]);
-
-  const handleSubmitEmail = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-    
-    console.log('Attempting to send verification code to:', email);
-    
-    try {
-      const response = await fetch('/api/auth/send-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-      
-      console.log('API Response status:', response.status);
-      const data = await response.json();
-      console.log('API Response data:', data);
-
-      if (!data.success) {
-        if (data.error === 'rate_limit') {
-          throw new Error('Too many attempts. Please try again in 15 minutes.');
-        }
-        throw new Error(data.error);
-      }
-      
-      setIsCodeSent(true);
-    } catch (error: unknown) {
-      console.error('Error in handleSubmitEmail:', error);
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Failed to send verification code. Please try again.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleVerifyCode = useCallback(async (e?: React.FormEvent) => {
     e?.preventDefault();
     setError('');
@@ -93,11 +43,54 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
     }
   }, [email, verificationCode, login, onClose]);
 
+  useEffect(() => {
+    if (isOpen && !isCodeSent) {
+      emailInputRef.current?.focus();
+    }
+  }, [isOpen, isCodeSent]);
+
+  useEffect(() => {
+    if (verificationCode.length === 6) {
+      handleVerifyCode();
+    }
+  }, [verificationCode, handleVerifyCode]);
+
+  const handleSubmitEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch('/api/auth/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      if (!data.success) {
+        if (data.error === 'rate_limit') {
+          throw new Error('Too many attempts. Please try again in 15 minutes.');
+        }
+        throw new Error(data.error);
+      }
+      
+      setIsCodeSent(true);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Failed to send verification code. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleBack = () => {
     setIsCodeSent(false);
     setVerificationCode('');
     setError('');
-    // Email is preserved
   };
 
   if (!isOpen) return null;
