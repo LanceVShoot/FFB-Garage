@@ -1,48 +1,42 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
+import { type AuthContextType } from '@/types/auth';
 
-interface AuthContextType {
-  user: string | null;
-  login: (email: string) => Promise<void>;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType>({
-  user: null,
+export const AuthContext = createContext<AuthContextType>({
+  isLoggedIn: false,
   login: async () => {},
   logout: () => {},
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<string | null>(null);
+type AuthProviderProps = {
+  children: ReactNode;
+};
 
-  useEffect(() => {
-    // Check for saved user email in localStorage on mount
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(savedUser);
-    }
-  }, []);
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = async (email: string) => {
-    // TODO: Add actual authentication logic here
-    setUser(email);
-    localStorage.setItem('user', email);
+    setIsLoggedIn(true);
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+  };
+
+  const contextValue: AuthContextType = {
+    isLoggedIn,
+    login,
+    logout,
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
+export function useAuth(): AuthContextType {
   return useContext(AuthContext);
-} 
+}
