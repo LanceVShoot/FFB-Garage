@@ -145,16 +145,16 @@ export default function Home() {
                   Filters
                 </h2>
 
-                <div className="flex bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg 
-                               border border-blue-500/20 backdrop-blur-sm overflow-hidden">
+                <div className="flex bg-gradient-to-r from-zinc-500/10 to-zinc-400/10 rounded-lg 
+                               border border-zinc-500/20 backdrop-blur-sm overflow-hidden">
                   <button
                     onClick={() => toggleSourceFilter('manufacturer')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('manufacturer')
-                        ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white font-semibold'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                        ? 'bg-gradient-to-r from-zinc-500/30 to-zinc-400/30 text-white font-semibold'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
                       }
-                      border-r border-blue-500/20`}
+                      border-r border-zinc-500/20`}
                   >
                     Manufacturer
                   </button>
@@ -162,8 +162,8 @@ export default function Home() {
                     onClick={() => toggleSourceFilter('community')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('community')
-                        ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white font-semibold'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                        ? 'bg-gradient-to-r from-zinc-500/30 to-zinc-400/30 text-white font-semibold'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
                       }`}
                   >
                     Community
