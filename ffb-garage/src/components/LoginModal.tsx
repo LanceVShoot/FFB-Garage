@@ -131,7 +131,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] min-h-screen">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[100] min-h-screen">
       <div 
         className="relative bg-zinc-900/80 backdrop-blur-sm p-8 rounded-xl border border-zinc-800/50 w-full max-w-md m-auto"
         style={{ transform: 'translateY(0)' }}
@@ -146,7 +146,7 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
 
         {!isCodeSent ? (
           <form onSubmit={handleSubmitEmail} className="space-y-4">
-            <h2 className="text-xl font-bold text-white mb-6">Login to FFB Garage</h2>
+            <h2 className="text-xl font-bold text-white mb-6">Login</h2>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
                 Email Address
