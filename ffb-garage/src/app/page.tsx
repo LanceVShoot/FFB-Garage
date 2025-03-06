@@ -252,12 +252,8 @@ export default function Home() {
 
                       <div className="space-y-1.5 text-sm mt-3">
                         <p className="flex justify-between items-center">
-                          <span className="text-zinc-300">Brand</span>
-                          <span className="text-white font-medium">{setting.brand}</span>
-                        </p>
-                        <p className="flex justify-between items-center">
-                          <span className="text-zinc-300">Model</span>
-                          <span className="text-white font-medium">{setting.model}</span>
+                          <span className="text-zinc-300">Wheelbase</span>
+                          <span className="text-white font-medium">{`${setting.brand} ${setting.model}`}</span>
                         </p>
                         <p className="flex justify-between items-center">
                           <span className="text-zinc-300">Discipline</span>
