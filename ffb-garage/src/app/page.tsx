@@ -105,7 +105,7 @@ export default function Home() {
               onClick={() => toggleFilter(type, option)}
               className={`px-3 py-1.5 rounded-lg text-left text-sm font-medium transition-all duration-200 w-full
                 ${filters[type].has(option)
-                  ? 'bg-gradient-to-r from-blue-400 to-blue-300 text-white font-semibold'
+                  ? 'bg-zinc-300/20 text-white font-semibold'
                   : 'bg-zinc-900/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
                 }`}
             >
@@ -151,7 +151,7 @@ export default function Home() {
                     onClick={() => toggleSourceFilter('manufacturer')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('manufacturer')
-                        ? 'bg-gradient-to-r from-blue-400 to-blue-300 text-white font-semibold'
+                        ? 'bg-zinc-300/20 text-white font-semibold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
                       }
                       border-r border-zinc-500/20`}
@@ -162,7 +162,7 @@ export default function Home() {
                     onClick={() => toggleSourceFilter('community')}
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
                       ${sourceFilter.has('community')
-                        ? 'bg-gradient-to-r from-blue-400 to-blue-300 text-white font-semibold'
+                        ? 'bg-zinc-300/20 text-white font-semibold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
                       }`}
                   >
