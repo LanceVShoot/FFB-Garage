@@ -106,7 +106,7 @@ export default function Home() {
               className={`px-3 py-1.5 rounded-lg text-left text-sm font-medium transition-all duration-200 w-full
                 ${filters[type].has(option)
                   ? 'bg-blue-500 text-white'
-                  : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                  : 'bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800/50'
                 }`}
             >
               {option}
@@ -129,7 +129,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 p-8 text-gray-100">
+      <main className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 p-8 text-zinc-100">
         {/* Decorative background elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/5 via-transparent to-transparent rotate-12 blur-3xl" />
@@ -140,7 +140,7 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left Column - Filters */}
             <div className="lg:w-1/5">
-              <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-gray-900/30 p-6 rounded-xl border border-gray-800/50">
+              <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 p-6 rounded-xl border border-zinc-800/50">
                 <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                   Filters
                 </h2>

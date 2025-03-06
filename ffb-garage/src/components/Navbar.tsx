@@ -10,7 +10,7 @@ export default function Navbar() {
   const { isLoggedIn, logout } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-40 w-full backdrop-blur-sm bg-gray-900/80 border-b border-gray-800/50">
+    <nav className="sticky top-0 z-40 w-full backdrop-blur-sm bg-zinc-900/80 border-b border-zinc-800/50">
       <div className="max-w-[1440px] mx-auto px-8 py-4 flex justify-between items-center">
         <Link href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
           FFB Garage
