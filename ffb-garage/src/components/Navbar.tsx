@@ -15,7 +15,7 @@ export default function Navbar() {
       <div className="max-w-[1440px] mx-auto px-8 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3">
           <Image 
-            src="/images/ffb-garage-logo-wheel-only.png"
+            src="/images/ffb-garage-logo-no-name.png"
             alt="FFB Garage Logo"
             width={24}
             height={24}
