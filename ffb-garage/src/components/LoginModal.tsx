@@ -103,8 +103,8 @@ export default function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-zinc-900/80 backdrop-blur-sm p-8 rounded-xl border border-zinc-800/50 w-full max-w-md relative">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="relative bg-zinc-900/80 backdrop-blur-sm p-8 rounded-xl border border-zinc-800/50 w-full max-w-md">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-zinc-400 hover:text-white"
