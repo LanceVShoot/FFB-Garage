@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
