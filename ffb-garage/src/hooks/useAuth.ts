@@ -1,34 +1,27 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
+import { type AuthContextType } from '@/types/auth';
 
-export interface AuthContextType {
-  isLoggedIn: boolean;
-  login: (email: string) => Promise<void>;
-  logout: () => void;
-}
-
-export const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   login: async () => {},
   logout: () => {},
 });
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children: ReactNode;
-}
+};
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = async (email: string) => {
     setIsLoggedIn(true);
-    // ... any other login logic
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    // ... any other logout logic
   };
 
   return (
@@ -38,4 +31,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext);
+}
