@@ -15,13 +15,16 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
 
-  const login = async (_email: string) => {
+  const login = async (email: string) => {
     setIsLoggedIn(true);
+    setCurrentUser(email);
   };
 
   const logout = () => {
     setIsLoggedIn(false);
+    setCurrentUser(null);
   };
 
   const contextValue: AuthContextType = {
