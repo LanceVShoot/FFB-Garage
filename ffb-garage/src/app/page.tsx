@@ -142,7 +142,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-zinc-800 via-zinc-700 to-zinc-800 p-8 text-zinc-100">
+      <main className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 p-8 text-zinc-100">
         {/* Decorative background elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/5 via-transparent to-transparent rotate-12 blur-3xl" />
@@ -160,8 +160,8 @@ export default function Home() {
               {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className={`absolute top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
-                          border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
+                className={`absolute top-3 z-10 p-1.5 rounded-full bg-zinc-800/80 
+                          border border-zinc-700/50 backdrop-blur-sm hover:bg-zinc-700/80 
                           transition-all duration-200 cursor-pointer
                           ${isFilterExpanded ? 'right-[-12px]' : 'right-0'}`}
               >
@@ -173,8 +173,8 @@ export default function Home() {
               </button>
 
               {/* Filter Panel */}
-              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
-                              p-6 rounded-xl border border-zinc-800/50 
+              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-950/30 
+                              p-6 rounded-xl border border-zinc-800/30 
                               transition-all duration-300 ease-in-out
                               ${isFilterExpanded 
                                 ? 'opacity-100 translate-x-0 w-full' 
@@ -187,15 +187,15 @@ export default function Home() {
 
                 <div className="relative p-0.5 rounded-lg bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-sky-500/20">
                   <div className="flex rounded-lg backdrop-blur-sm overflow-hidden 
-                                bg-gradient-to-r from-zinc-900/90 to-zinc-800/90">
+                                bg-gradient-to-r from-zinc-950/90 to-zinc-900/90">
                     <button
                       onClick={() => toggleSourceFilter('manufacturer')}
                       className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
                         ${sourceFilter.has('manufacturer')
-                          ? 'bg-zinc-300/10 text-white font-semibold'
-                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
+                          ? 'bg-zinc-800/50 text-white font-semibold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30'
                         }
-                        border-r border-zinc-500/20`}
+                        border-r border-zinc-700/20`}
                     >
                       <div 
                         className={`w-2 h-2 rounded-full ${
@@ -210,8 +210,8 @@ export default function Home() {
                       onClick={() => toggleSourceFilter('community')}
                       className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                         ${sourceFilter.has('community')
-                          ? 'bg-zinc-300/10 text-white font-semibold'
-                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
+                          ? 'bg-zinc-800/50 text-white font-semibold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30'
                         }`}
                     >
                       <div 
@@ -248,7 +248,7 @@ export default function Home() {
 
             {/* Main Content */}
             <div className="lg:flex-1 transition-all duration-300">
-              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
+              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-950/30 p-4 rounded-xl border border-zinc-800/30">
                 <label className="text-sm text-zinc-300">
                   Sort by
                 </label>
@@ -274,8 +274,8 @@ export default function Home() {
 
                   return (
                     <div key={setting.id} 
-                         className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4
-                                  border border-zinc-800/50 group hover:border-blue-500/50
+                         className="relative overflow-hidden rounded-xl bg-zinc-950/30 backdrop-blur-sm p-4
+                                  border border-zinc-800/30 group hover:border-blue-500/50
                                   shadow-lg hover:shadow-blue-500/10
                                   transition-all duration-300">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
