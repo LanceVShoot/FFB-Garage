@@ -106,12 +106,19 @@ export default function Home() {
             <button
               key={option}
               onClick={() => toggleFilter(type, option)}
-              className={`px-3 py-1.5 rounded-lg text-left text-sm font-medium transition-all duration-200 w-full
-                ${filters[type].has(option)
-                  ? 'bg-zinc-300/10 text-white font-semibold'
-                  : 'bg-zinc-900/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
-                }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors ${
+                filters[type].has(option)
+                  ? "bg-zinc-700/50 text-white"
+                  : "text-zinc-400 hover:text-white"
+              }`}
             >
+              <div 
+                className={`w-2 h-2 rounded-full ${
+                  filters[type].has(option)
+                    ? "bg-sky-500"
+                    : "border border-sky-500"
+                }`}
+              />
               {option}
             </button>
           ))}
