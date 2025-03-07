@@ -11,7 +11,7 @@ export default function Navbar() {
   const { isLoggedIn, logout } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-40 w-full backdrop-blur-sm bg-slate-800/80 border-b border-slate-700/50">
+    <nav className="sticky top-0 z-40 w-full backdrop-blur-sm bg-zinc-800/80 border-b border-zinc-700/50">
       <div className="max-w-[1440px] mx-auto px-8 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3">
           <Image 
@@ -27,12 +27,12 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
             <>
-              <Link href="/submit" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="/submit" className="text-zinc-300 hover:text-white transition-colors">
                 Submit Settings
               </Link>
               <button
                 onClick={logout}
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-zinc-300 hover:text-white transition-colors"
               >
                 Logout
               </button>
@@ -40,7 +40,7 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => setIsLoginModalOpen(true)}
-              className="text-gray-300 hover:text-white transition-colors"
+              className="text-zinc-300 hover:text-white transition-colors"
             >
               Login
             </button>

@@ -106,11 +106,11 @@ export default function Home() {
             <button
               key={option}
               onClick={() => toggleFilter(type, option)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors ${
-                filters[type].has(option)
+              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg
+                ${filters[type].has(option)
                   ? "bg-zinc-700/50 text-white"
-                  : "text-zinc-400 hover:text-white"
-              }`}
+                  : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
+                }`}
             >
               <div 
                 className={`w-2 h-2 rounded-full ${
@@ -162,7 +162,7 @@ export default function Home() {
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                       ${sourceFilter.has('manufacturer')
                         ? 'bg-zinc-300/10 text-white font-semibold'
-                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
                       }
                       border-r border-zinc-500/20`}
                   >
@@ -180,7 +180,7 @@ export default function Home() {
                     className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                       ${sourceFilter.has('community')
                         ? 'bg-zinc-300/10 text-white font-semibold'
-                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
                       }`}
                   >
                     <div 
