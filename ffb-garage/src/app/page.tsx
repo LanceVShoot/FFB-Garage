@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
+import { ChevronLeftIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
   const [filters, setFilters] = useState({ 
@@ -24,6 +25,8 @@ export default function Home() {
   });
 
   const [sortBy, setSortBy] = useState('drivers'); 
+
+  const [isFilterExpanded, setIsFilterExpanded] = useState(true);
 
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
@@ -148,9 +151,28 @@ export default function Home() {
 
         <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Increase filter column width and make it fit content */}
-            <div className="lg:w-auto lg:min-w-[300px]">
-              <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 p-6 rounded-xl border border-zinc-800/50">
+            {/* Filter Column */}
+            <div className={`lg:w-auto transition-all duration-300 relative ${
+              isFilterExpanded ? 'lg:min-w-[300px]' : 'lg:w-0 lg:min-w-0'
+            }`}>
+              {/* Toggle Button */}
+              <button
+                onClick={() => setIsFilterExpanded(!isFilterExpanded)}
+                className="absolute -right-4 top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
+                          border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
+                          transition-all duration-200 cursor-pointer"
+              >
+                {isFilterExpanded ? (
+                  <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
+                ) : (
+                  <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
+                )}
+              </button>
+
+              {/* Filter Panel */}
+              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
+                              p-6 rounded-xl border border-zinc-800/50 transition-all duration-300
+                              ${isFilterExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full lg:absolute'}`}>
                 <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                   Filters
                 </h2>
@@ -214,7 +236,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Adjust main content to take remaining space */}
+            {/* Main Content - will automatically expand when filter is collapsed */}
             <div className="lg:flex-1">
               <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
                 <label className="text-sm text-zinc-300">
