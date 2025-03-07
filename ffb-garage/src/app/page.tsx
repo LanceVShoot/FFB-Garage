@@ -102,36 +102,51 @@ export default function Home() {
     const hasMore = options.length > 3;
 
     return (
-      <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
-        <div className="flex flex-col space-y-2">
+      <div className="space-y-3 relative">
+        <div className="relative">
+          <h3 className="text-lg font-semibold text-sky-400 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400/50" />
+            {title}
+          </h3>
+          <div className="absolute -left-4 -top-2 w-8 h-8 bg-sky-400/5 rounded-full blur-xl" />
+        </div>
+
+        <div className="flex flex-col space-y-2 relative">
           {displayedOptions.map((option) => (
             <button
               key={option}
               onClick={() => toggleFilter(type, option)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg cursor-pointer
-                ${filters[type].has(option)
-                  ? "bg-zinc-700/50 text-white"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
-                }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm transition-all duration-200 
+                         rounded-lg cursor-pointer relative group
+                         hover:shadow-lg hover:shadow-sky-500/5
+                         ${filters[type].has(option)
+                           ? "bg-gradient-to-r from-zinc-700/50 via-zinc-600/30 to-zinc-700/50 text-white"
+                           : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
+                         }`}
             >
-              <div 
-                className={`w-2 h-2 rounded-full ${
-                  filters[type].has(option)
-                    ? "bg-sky-500"
-                    : "border border-sky-500"
-                }`}
+              <div className={`w-2 h-2 rounded-full transition-all duration-200
+                             ${filters[type].has(option)
+                               ? "bg-sky-500 shadow-lg shadow-sky-500/50"
+                               : "border border-sky-500 group-hover:border-sky-400"
+                             }`}
               />
               {option}
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-sky-400/0 via-sky-400/5 to-sky-400/0 
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </button>
           ))}
           
           {hasMore && (
             <button
               onClick={() => toggleExpand(type)}
-              className="px-3 py-1.5 text-left text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+              className="px-3 py-1.5 text-left text-sm font-medium 
+                        text-sky-400 hover:text-sky-300 transition-colors cursor-pointer
+                        flex items-center gap-2"
             >
-              {isExpanded ? '- Show Less' : `+ ${options.length - 3} More`}
+              <span className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
+                {isExpanded ? '›' : '›'}
+              </span>
+              {isExpanded ? 'Show Less' : `${options.length - 3} More`}
             </button>
           )}
         </div>
@@ -170,50 +185,61 @@ export default function Home() {
               </button>
 
               {/* Filter Panel */}
-              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
-                              p-6 rounded-xl border border-zinc-800/50 transition-all duration-300
+              <div className={`space-y-6 sticky top-8 backdrop-blur-sm 
+                              bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80
+                              p-6 rounded-xl border border-zinc-700/30 
+                              shadow-lg shadow-zinc-950/20
+                              transition-all duration-300 relative overflow-hidden
                               ${isFilterExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full lg:absolute'}`}>
-                <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-                  Filters
-                </h2>
+                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 via-transparent to-transparent pointer-events-none" />
 
-                <div className="flex bg-gradient-to-r from-zinc-500/10 to-zinc-400/10 rounded-lg 
-                               border border-zinc-500/20 backdrop-blur-sm overflow-hidden">
-                  <button
-                    onClick={() => toggleSourceFilter('manufacturer')}
-                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
-                      ${sourceFilter.has('manufacturer')
-                        ? 'bg-zinc-300/10 text-white font-semibold'
-                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
-                      }
-                      border-r border-zinc-500/20`}
-                  >
-                    <div 
-                      className={`w-2 h-2 rounded-full ${
-                        sourceFilter.has('manufacturer')
-                          ? "bg-sky-500"
-                          : "border border-sky-500"
-                      }`}
-                    />
-                    Manufacturer
-                  </button>
-                  <button
-                    onClick={() => toggleSourceFilter('community')}
-                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
-                      ${sourceFilter.has('community')
-                        ? 'bg-zinc-300/10 text-white font-semibold'
-                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
-                      }`}
-                  >
-                    <div 
-                      className={`w-2 h-2 rounded-full ${
-                        sourceFilter.has('community')
-                          ? "bg-sky-500"
-                          : "border border-sky-500"
-                      }`}
-                    />
-                    Community
-                  </button>
+                <div className="relative">
+                  <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
+                                 from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
+                    Filters
+                  </h2>
+                  <div className="absolute -left-2 -top-2 w-8 h-8 bg-sky-400/10 rounded-full blur-xl" />
+                </div>
+
+                <div className="relative p-0.5 rounded-lg bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-sky-500/20">
+                  <div className="flex rounded-lg backdrop-blur-sm overflow-hidden 
+                                  bg-gradient-to-r from-zinc-900/90 to-zinc-800/90">
+                    <button
+                      onClick={() => toggleSourceFilter('manufacturer')}
+                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
+                        ${sourceFilter.has('manufacturer')
+                          ? 'bg-zinc-300/10 text-white font-semibold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
+                        }
+                        border-r border-zinc-500/20`}
+                    >
+                      <div 
+                        className={`w-2 h-2 rounded-full ${
+                          sourceFilter.has('manufacturer')
+                            ? "bg-sky-500"
+                            : "border border-sky-500"
+                        }`}
+                      />
+                      Manufacturer
+                    </button>
+                    <button
+                      onClick={() => toggleSourceFilter('community')}
+                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
+                        ${sourceFilter.has('community')
+                          ? 'bg-zinc-300/10 text-white font-semibold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
+                        }`}
+                    >
+                      <div 
+                        className={`w-2 h-2 rounded-full ${
+                          sourceFilter.has('community')
+                            ? "bg-sky-500"
+                            : "border border-sky-500"
+                        }`}
+                      />
+                      Community
+                    </button>
+                  </div>
                 </div>
                 
                 <FilterGroup 
