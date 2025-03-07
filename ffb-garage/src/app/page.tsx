@@ -159,23 +159,37 @@ export default function Home() {
                                border border-zinc-500/20 backdrop-blur-sm overflow-hidden">
                   <button
                     onClick={() => toggleSourceFilter('manufacturer')}
-                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
+                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                       ${sourceFilter.has('manufacturer')
                         ? 'bg-zinc-300/10 text-white font-semibold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
                       }
                       border-r border-zinc-500/20`}
                   >
+                    <div 
+                      className={`w-2 h-2 rounded-full ${
+                        sourceFilter.has('manufacturer')
+                          ? "bg-sky-500"
+                          : "border border-sky-500"
+                      }`}
+                    />
                     Manufacturer
                   </button>
                   <button
                     onClick={() => toggleSourceFilter('community')}
-                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200
+                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                       ${sourceFilter.has('community')
                         ? 'bg-zinc-300/10 text-white font-semibold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
                       }`}
                   >
+                    <div 
+                      className={`w-2 h-2 rounded-full ${
+                        sourceFilter.has('community')
+                          ? "bg-sky-500"
+                          : "border border-sky-500"
+                      }`}
+                    />
                     Community
                   </button>
                 </div>
