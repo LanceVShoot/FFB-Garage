@@ -175,10 +175,10 @@ export default function Home() {
               {/* Filter Panel */}
               <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
                               p-6 rounded-xl border border-zinc-800/50 
-                              transition-all duration-300 ease-in-out overflow-hidden
+                              transition-all duration-300 ease-in-out
                               ${isFilterExpanded 
-                                ? 'opacity-100 translate-x-0 w-full' 
-                                : 'opacity-0 -translate-x-full pointer-events-none w-0'
+                                ? 'opacity-100 translate-x-0 w-[300px]' 
+                                : 'opacity-0 -translate-x-full pointer-events-none absolute'
                               }`}>
                 <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
                                from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
