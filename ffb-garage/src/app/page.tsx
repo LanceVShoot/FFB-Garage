@@ -154,7 +154,7 @@ export default function Home() {
             {/* Filter Column */}
             <div className={`relative transition-all duration-300 ease-in-out ${
               isFilterExpanded 
-                ? 'lg:w-[300px]' 
+                ? 'lg:w-[320px]'
                 : 'lg:w-[28px]'
             }`}>
               {/* Toggle Button */}
@@ -177,7 +177,7 @@ export default function Home() {
                               p-6 rounded-xl border border-zinc-800/50 
                               transition-all duration-300 ease-in-out
                               ${isFilterExpanded 
-                                ? 'opacity-100 translate-x-0 min-w-[300px] w-full' 
+                                ? 'opacity-100 translate-x-0 w-full' 
                                 : 'opacity-0 -translate-x-full pointer-events-none absolute'
                               }`}>
                 <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
@@ -187,10 +187,10 @@ export default function Home() {
 
                 <div className="relative p-0.5 rounded-lg bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-sky-500/20">
                   <div className="flex rounded-lg backdrop-blur-sm overflow-hidden 
-                                  bg-gradient-to-r from-zinc-900/90 to-zinc-800/90">
+                                bg-gradient-to-r from-zinc-900/90 to-zinc-800/90">
                     <button
                       onClick={() => toggleSourceFilter('manufacturer')}
-                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
+                      className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
                         ${sourceFilter.has('manufacturer')
                           ? 'bg-zinc-300/10 text-white font-semibold'
                           : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
@@ -208,7 +208,7 @@ export default function Home() {
                     </button>
                     <button
                       onClick={() => toggleSourceFilter('community')}
-                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
+                      className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                         ${sourceFilter.has('community')
                           ? 'bg-zinc-300/10 text-white font-semibold'
                           : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
