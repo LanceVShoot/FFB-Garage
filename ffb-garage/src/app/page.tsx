@@ -152,32 +152,34 @@ export default function Home() {
         <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
-            <div className={`lg:w-auto transition-all duration-300 ease-in-out relative ${
+            <div className={`lg:w-auto transition-all duration-300 ease-in-out ${
               isFilterExpanded 
-                ? 'lg:min-w-[300px] opacity-100 translate-x-0' 
-                : 'lg:w-0 lg:min-w-0 opacity-0 -translate-x-full'
+                ? 'lg:min-w-[300px] lg:w-[300px] opacity-100 translate-x-0' 
+                : 'lg:w-0 lg:min-w-0 opacity-0 lg:m-0 lg:p-0'
             }`}>
-              {/* Toggle Button */}
-              <button
-                onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className="absolute -right-4 top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
-                          border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
-                          transition-all duration-200 cursor-pointer"
-              >
-                {isFilterExpanded ? (
-                  <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
-                ) : (
-                  <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
-                )}
-              </button>
+              {/* Toggle Button - Moved outside the collapsing area */}
+              <div className={`absolute ${isFilterExpanded ? '-right-4' : 'left-0'} top-3 z-10`}>
+                <button
+                  onClick={() => setIsFilterExpanded(!isFilterExpanded)}
+                  className="p-1.5 rounded-full bg-zinc-700/80 
+                            border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
+                            transition-all duration-200 cursor-pointer"
+                >
+                  {isFilterExpanded ? (
+                    <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
+                  ) : (
+                    <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
+                  )}
+                </button>
+              </div>
 
               {/* Filter Panel */}
               <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
                               p-6 rounded-xl border border-zinc-800/50 
-                              transition-all duration-300 ease-in-out
+                              transition-all duration-300 ease-in-out overflow-hidden
                               ${isFilterExpanded 
                                 ? 'opacity-100 translate-x-0' 
-                                : 'opacity-0 -translate-x-full pointer-events-none'
+                                : 'opacity-0 -translate-x-full pointer-events-none lg:w-0'
                               }`}>
                 <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
                                from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
@@ -245,8 +247,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Main Content - will automatically expand when filter is collapsed */}
-            <div className="lg:flex-1">
+            {/* Main Content */}
+            <div className={`lg:flex-1 transition-all duration-300`}>
               <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
                 <label className="text-sm text-zinc-300">
                   Sort by
