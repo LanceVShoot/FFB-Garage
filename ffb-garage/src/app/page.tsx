@@ -132,7 +132,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 p-8 text-zinc-100">
+      <main className="min-h-screen bg-gradient-to-br from-zinc-800 via-zinc-700 to-zinc-800 p-8 text-zinc-100">
         {/* Decorative background elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/5 via-transparent to-transparent rotate-12 blur-3xl" />
