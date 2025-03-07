@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
+import { ChevronLeftIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
   const [filters, setFilters] = useState({ 
@@ -152,42 +153,29 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
             <div className={`lg:w-auto transition-all duration-300 relative ${
-              isFilterExpanded ? 'lg:min-w-[300px]' : 'lg:w-0 lg:min-w-0'
+              isFilterExpanded ? 'lg:min-w-[300px] overflow-visible' : 'lg:w-0 lg:min-w-0 overflow-hidden'
             }`}>
               {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className="absolute -right-4 top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
+                className={`absolute ${isFilterExpanded ? '-right-4' : 'right-4'} top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
                           border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
-                          transition-all duration-200 cursor-pointer"
+                          transition-all duration-200 cursor-pointer`}
               >
                 {isFilterExpanded ? (
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="w-4 h-4 text-zinc-300"
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
+                  <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
                 ) : (
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="w-4 h-4 text-zinc-300"
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  </svg>
+                  <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
                 )}
               </button>
 
               {/* Filter Panel */}
               <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
                               p-6 rounded-xl border border-zinc-800/50 transition-all duration-300
-                              ${isFilterExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full lg:absolute'}`}>
+                              ${isFilterExpanded 
+                                ? 'opacity-100 translate-x-0 w-full' 
+                                : 'opacity-0 -translate-x-full absolute pointer-events-none'
+                              }`}>
                 <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                   Filters
                 </h2>
