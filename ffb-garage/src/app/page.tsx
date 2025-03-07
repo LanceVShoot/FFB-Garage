@@ -153,14 +153,14 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
             <div className={`lg:w-auto transition-all duration-300 relative ${
-              isFilterExpanded ? 'lg:min-w-[300px] overflow-visible' : 'lg:w-0 lg:min-w-0 overflow-hidden'
+              isFilterExpanded ? 'lg:min-w-[300px]' : 'lg:w-0 lg:min-w-0'
             }`}>
               {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className={`absolute ${isFilterExpanded ? '-right-4' : 'right-4'} top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
+                className="absolute -right-4 top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
                           border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
-                          transition-all duration-200 cursor-pointer`}
+                          transition-all duration-200 cursor-pointer"
               >
                 {isFilterExpanded ? (
                   <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
@@ -172,10 +172,7 @@ export default function Home() {
               {/* Filter Panel */}
               <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
                               p-6 rounded-xl border border-zinc-800/50 transition-all duration-300
-                              ${isFilterExpanded 
-                                ? 'opacity-100 translate-x-0 w-full' 
-                                : 'opacity-0 -translate-x-full absolute pointer-events-none'
-                              }`}>
+                              ${isFilterExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full lg:absolute'}`}>
                 <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                   Filters
                 </h2>
