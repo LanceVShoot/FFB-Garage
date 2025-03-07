@@ -106,7 +106,7 @@ export default function Home() {
             <button
               key={option}
               onClick={() => toggleFilter(type, option)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg
+              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg cursor-pointer
                 ${filters[type].has(option)
                   ? "bg-zinc-700/50 text-white"
                   : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
@@ -126,7 +126,7 @@ export default function Home() {
           {hasMore && (
             <button
               onClick={() => toggleExpand(type)}
-              className="px-3 py-1.5 text-left text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              className="px-3 py-1.5 text-left text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
             >
               {isExpanded ? '- Show Less' : `+ ${options.length - 3} More`}
             </button>
@@ -146,10 +146,10 @@ export default function Home() {
           <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-cyan-500/5 via-transparent to-transparent -rotate-12 blur-3xl" />
         </div>
 
-        <div className="max-w-[1440px] mx-auto relative">
+        <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left Column - Filters */}
-            <div className="lg:w-1/5">
+            {/* Increase filter column width and make it fit content */}
+            <div className="lg:w-auto lg:min-w-[300px]">
               <div className="space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 p-6 rounded-xl border border-zinc-800/50">
                 <h2 className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                   Filters
@@ -159,7 +159,7 @@ export default function Home() {
                                border border-zinc-500/20 backdrop-blur-sm overflow-hidden">
                   <button
                     onClick={() => toggleSourceFilter('manufacturer')}
-                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
+                    className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
                       ${sourceFilter.has('manufacturer')
                         ? 'bg-zinc-300/10 text-white font-semibold'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
@@ -214,8 +214,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column - Settings List */}
-            <div className="lg:w-4/5">
+            {/* Adjust main content to take remaining space */}
+            <div className="lg:flex-1">
               <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
                 <label className="text-sm text-zinc-300">
                   Sort by
