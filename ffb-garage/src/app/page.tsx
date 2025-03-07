@@ -152,8 +152,10 @@ export default function Home() {
         <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
-            <div className={`lg:w-auto transition-all duration-300 relative ${
-              isFilterExpanded ? 'lg:min-w-[300px]' : 'lg:w-0 lg:min-w-0'
+            <div className={`lg:w-auto transition-all duration-300 ease-in-out relative ${
+              isFilterExpanded 
+                ? 'lg:min-w-[300px] opacity-100 translate-x-0' 
+                : 'lg:w-0 lg:min-w-0 opacity-0 -translate-x-full'
             }`}>
               {/* Toggle Button */}
               <button
@@ -171,8 +173,12 @@ export default function Home() {
 
               {/* Filter Panel */}
               <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
-                              p-6 rounded-xl border border-zinc-800/50 transition-all duration-300
-                              ${isFilterExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full lg:absolute'}`}>
+                              p-6 rounded-xl border border-zinc-800/50 
+                              transition-all duration-300 ease-in-out
+                              ${isFilterExpanded 
+                                ? 'opacity-100 translate-x-0' 
+                                : 'opacity-0 -translate-x-full pointer-events-none'
+                              }`}>
                 <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
                                from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
                   Filters
