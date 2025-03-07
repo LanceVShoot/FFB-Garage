@@ -151,28 +151,28 @@ export default function Home() {
 
         <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
+            {/* Toggle Button - Moved completely outside */}
+            <div className={`absolute ${isFilterExpanded ? 'lg:left-[276px]' : 'lg:left-0'} top-3 z-10 transition-all duration-300`}>
+              <button
+                onClick={() => setIsFilterExpanded(!isFilterExpanded)}
+                className="p-1.5 rounded-full bg-zinc-700/80 
+                          border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
+                          transition-all duration-200 cursor-pointer"
+              >
+                {isFilterExpanded ? (
+                  <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
+                ) : (
+                  <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
+                )}
+              </button>
+            </div>
+
             {/* Filter Column */}
             <div className={`lg:w-auto transition-all duration-300 ease-in-out ${
               isFilterExpanded 
                 ? 'lg:min-w-[300px] lg:w-[300px] opacity-100 translate-x-0' 
                 : 'lg:w-0 lg:min-w-0 opacity-0 lg:m-0 lg:p-0'
             }`}>
-              {/* Toggle Button - Moved outside the collapsing area */}
-              <div className={`absolute ${isFilterExpanded ? '-right-4' : 'left-0'} top-3 z-10`}>
-                <button
-                  onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                  className="p-1.5 rounded-full bg-zinc-700/80 
-                            border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
-                            transition-all duration-200 cursor-pointer"
-                >
-                  {isFilterExpanded ? (
-                    <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
-                  ) : (
-                    <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
-                  )}
-                </button>
-              </div>
-
               {/* Filter Panel */}
               <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
                               p-6 rounded-xl border border-zinc-800/50 
