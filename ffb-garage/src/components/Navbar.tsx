@@ -11,7 +11,7 @@ export default function Navbar() {
   const { isLoggedIn, logout } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-40 w-full backdrop-blur-sm bg-zinc-900/80 border-b border-zinc-800/50">
+    <nav className="sticky top-0 z-40 w-full backdrop-blur-sm bg-slate-800/80 border-b border-slate-700/50">
       <div className="max-w-[1440px] mx-auto px-8 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3">
           <Image 
