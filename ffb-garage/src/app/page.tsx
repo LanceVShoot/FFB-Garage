@@ -102,51 +102,36 @@ export default function Home() {
     const hasMore = options.length > 3;
 
     return (
-      <div className="space-y-3 relative">
-        <div className="relative">
-          <h3 className="text-lg font-semibold text-sky-400 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-400/50" />
-            {title}
-          </h3>
-          <div className="absolute -left-4 -top-2 w-8 h-8 bg-sky-400/5 rounded-full blur-xl" />
-        </div>
-
-        <div className="flex flex-col space-y-2 relative">
+      <div className="space-y-3">
+        <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+        <div className="flex flex-col space-y-2">
           {displayedOptions.map((option) => (
             <button
               key={option}
               onClick={() => toggleFilter(type, option)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm transition-all duration-200 
-                         rounded-lg cursor-pointer relative group
-                         hover:shadow-lg hover:shadow-sky-500/5
-                         ${filters[type].has(option)
-                           ? "bg-gradient-to-r from-zinc-700/50 via-zinc-600/30 to-zinc-700/50 text-white"
-                           : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
-                         }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg cursor-pointer ${
+                filters[type].has(option)
+                  ? "bg-zinc-700/50 text-white"
+                  : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
+              }`}
             >
-              <div className={`w-2 h-2 rounded-full transition-all duration-200
-                             ${filters[type].has(option)
-                               ? "bg-sky-500 shadow-lg shadow-sky-500/50"
-                               : "border border-sky-500 group-hover:border-sky-400"
-                             }`}
+              <div 
+                className={`w-2 h-2 rounded-full ${
+                  filters[type].has(option)
+                    ? "bg-sky-500"
+                    : "border border-sky-500"
+                }`}
               />
               {option}
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-sky-400/0 via-sky-400/5 to-sky-400/0 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </button>
           ))}
           
           {hasMore && (
             <button
               onClick={() => toggleExpand(type)}
-              className="px-3 py-1.5 text-left text-sm font-medium 
-                        text-sky-400 hover:text-sky-300 transition-colors cursor-pointer
-                        flex items-center gap-2"
+              className="px-3 py-1.5 text-left text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
             >
-              <span className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
-                {isExpanded ? '›' : '›'}
-              </span>
-              {isExpanded ? 'Show Less' : `${options.length - 3} More`}
+              {isExpanded ? '- Show Less' : `+ ${options.length - 3} More`}
             </button>
           )}
         </div>
@@ -185,21 +170,13 @@ export default function Home() {
               </button>
 
               {/* Filter Panel */}
-              <div className={`space-y-6 sticky top-8 backdrop-blur-sm 
-                              bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80
-                              p-6 rounded-xl border border-zinc-700/30 
-                              shadow-lg shadow-zinc-950/20
-                              transition-all duration-300 relative overflow-hidden
+              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
+                              p-6 rounded-xl border border-zinc-800/50 transition-all duration-300
                               ${isFilterExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full lg:absolute'}`}>
-                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 via-transparent to-transparent pointer-events-none" />
-
-                <div className="relative">
-                  <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
-                                 from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
-                    Filters
-                  </h2>
-                  <div className="absolute -left-2 -top-2 w-8 h-8 bg-sky-400/10 rounded-full blur-xl" />
-                </div>
+                <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
+                               from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
+                  Filters
+                </h2>
 
                 <div className="relative p-0.5 rounded-lg bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-sky-500/20">
                   <div className="flex rounded-lg backdrop-blur-sm overflow-hidden 
