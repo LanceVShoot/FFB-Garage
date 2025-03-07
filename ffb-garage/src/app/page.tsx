@@ -177,7 +177,7 @@ export default function Home() {
                               p-6 rounded-xl border border-zinc-800/50 
                               transition-all duration-300 ease-in-out
                               ${isFilterExpanded 
-                                ? 'opacity-100 translate-x-0 w-[300px]' 
+                                ? 'opacity-100 translate-x-0 min-w-[300px] w-full' 
                                 : 'opacity-0 -translate-x-full pointer-events-none absolute'
                               }`}>
                 <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
