@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
-import { ChevronLeftIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
   const [filters, setFilters] = useState({ 
@@ -28,7 +27,7 @@ export default function Home() {
   const [isFilterExpanded, setIsFilterExpanded] = useState(true);
 
   const [settings, setSettings] = useState<FFBSetting[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
@@ -99,7 +98,7 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         setSettings(data);
-        setLoading(false);
+        setIsLoading(false);
       });
   }, []);
 
@@ -291,91 +290,97 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredAndSortedSettings.map((setting: FFBSetting) => {
-                  return (
-                    <div key={setting.id} 
-                         className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4
-                                  border border-zinc-800/50 group hover:border-blue-500/50
-                                  shadow-lg hover:shadow-blue-500/10
-                                  transition-all duration-300">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
-                                    group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                      
-                      <div className="flex flex-col gap-3">
-                        <div className="flex justify-between items-start">
-                          <div className="relative max-w-[85%] pointer-events-none">
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
-                              {setting.carName}
-                            </div>
-                            <h2 className="font-bold text-lg truncate text-blue-400">
-                              {setting.carName}
-                            </h2>
-                          </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <Image 
-                              src="/images/ffb-garage-user.svg"
-                              alt="User Icon"
-                              width={16}
-                              height={16}
-                            />
-                            <span className="text-[#f4c57d] text-sm">{setting.likes || 0}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-1.5 text-sm mt-3">
-                        <p className="flex justify-between items-center">
-                          <span className="text-zinc-300">Wheelbase</span>
-                          <span className="text-white font-medium">{`${setting.manufacturer.name} ${setting.model}`}</span>
-                        </p>
-                        <p className="flex justify-between items-center">
-                          <span className="text-zinc-300">Discipline</span>
-                          <span className="text-white font-medium">{setting.discipline}</span>
-                        </p>
+                {isLoading ? (
+                  <div className="col-span-full text-center py-8 text-zinc-400">
+                    Loading settings...
+                  </div>
+                ) : (
+                  filteredAndSortedSettings.map((setting: FFBSetting) => {
+                    return (
+                      <div key={setting.id} 
+                           className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4
+                                    border border-zinc-800/50 group hover:border-blue-500/50
+                                    shadow-lg hover:shadow-blue-500/10
+                                    transition-all duration-300">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
+                                      group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                         
-                        <div className="mt-3 pt-3 border-t border-zinc-600/30">
-                          <h3 className="text-base font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-                            FFB Settings
-                          </h3>
-                          <div className="space-y-1.5">
-                            {setting.settingValues.map((value) => (
-                              <div key={value.fieldId} className="grid grid-cols-[1fr_140px] items-center">
-                                <span className="text-zinc-300">
-                                  {value.displayName}
-                                </span>
-                                <div className="flex items-center justify-end gap-2">
-                                  <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
-                                    <div 
-                                      className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-                                      style={{ 
-                                        width: `${((value.value - (value.minValue || 0)) / 
-                                                ((value.maxValue || 100) - (value.minValue || 0))) * 100}%` 
-                                      }}
-                                    />
-                                  </div>
-                                  <span className="text-white w-7 text-right font-medium text-sm">
-                                    {value.value}{value.unit || ''}
-                                  </span>
-                                </div>
+                        <div className="flex flex-col gap-3">
+                          <div className="flex justify-between items-start">
+                            <div className="relative max-w-[85%] pointer-events-none">
+                              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
+                                {setting.carName}
                               </div>
-                            ))}
+                              <h2 className="font-bold text-lg truncate text-blue-400">
+                                {setting.carName}
+                              </h2>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <Image 
+                                src="/images/ffb-garage-user.svg"
+                                alt="User Icon"
+                                width={16}
+                                height={16}
+                              />
+                              <span className="text-[#f4c57d] text-sm">{setting.likes || 0}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Manufacturer provided label */}
-                      {setting.isManufacturerProvided && (
-                        <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-zinc-500/10 to-zinc-400/10 
-                                      border-t border-zinc-500/20 flex items-center justify-center">
-                          <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
-                                         from-zinc-300 to-white">
-                            Provided by {setting.manufacturer.name}
-                          </span>
+                        <div className="space-y-1.5 text-sm mt-3">
+                          <p className="flex justify-between items-center">
+                            <span className="text-zinc-300">Wheelbase</span>
+                            <span className="text-white font-medium">{`${setting.manufacturer.name} ${setting.model}`}</span>
+                          </p>
+                          <p className="flex justify-between items-center">
+                            <span className="text-zinc-300">Discipline</span>
+                            <span className="text-white font-medium">{setting.discipline}</span>
+                          </p>
+                          
+                          <div className="mt-3 pt-3 border-t border-zinc-600/30">
+                            <h3 className="text-base font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                              FFB Settings
+                            </h3>
+                            <div className="space-y-1.5">
+                              {setting.settingValues.map((value) => (
+                                <div key={value.fieldId} className="grid grid-cols-[1fr_140px] items-center">
+                                  <span className="text-zinc-300">
+                                    {value.displayName}
+                                  </span>
+                                  <div className="flex items-center justify-end gap-2">
+                                    <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
+                                      <div 
+                                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                                        style={{ 
+                                          width: `${((value.value - (value.minValue || 0)) / 
+                                                  ((value.maxValue || 100) - (value.minValue || 0))) * 100}%` 
+                                        }}
+                                      />
+                                    </div>
+                                    <span className="text-white w-7 text-right font-medium text-sm">
+                                      {value.value}{value.unit || ''}
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
+
+                        {/* Manufacturer provided label */}
+                        {setting.isManufacturerProvided && (
+                          <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-zinc-500/10 to-zinc-400/10 
+                                        border-t border-zinc-500/20 flex items-center justify-center">
+                            <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
+                                           from-zinc-300 to-white">
+                              Provided by {setting.manufacturer.name}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
