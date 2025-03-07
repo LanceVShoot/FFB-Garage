@@ -20,7 +20,7 @@ export default function Navbar() {
             width={40}
             height={40}
           />
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-100 to-zinc-400">
             FFB Garage
           </span>
         </Link>
