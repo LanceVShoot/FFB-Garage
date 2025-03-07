@@ -155,7 +155,7 @@ export default function Home() {
             <div className={`relative transition-all duration-300 ease-in-out ${
               isFilterExpanded 
                 ? 'lg:w-[300px]' 
-                : 'lg:w-[40px]'
+                : 'lg:w-[28px]'
             }`}>
               {/* Toggle Button */}
               <button
@@ -163,7 +163,7 @@ export default function Home() {
                 className={`absolute top-3 z-10 p-1.5 rounded-full bg-zinc-700/80 
                           border border-zinc-600/50 backdrop-blur-sm hover:bg-zinc-600/80 
                           transition-all duration-200 cursor-pointer
-                          ${isFilterExpanded ? 'right-[-12px]' : 'right-[14px]'}`}
+                          ${isFilterExpanded ? 'right-[-12px]' : 'right-0'}`}
               >
                 {isFilterExpanded ? (
                   <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
