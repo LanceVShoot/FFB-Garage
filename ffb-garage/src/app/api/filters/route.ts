@@ -23,30 +23,48 @@ export async function GET(request: Request) {
                 WHERE name IS NOT NULL 
                 ORDER BY name`;
 
-        const wheelbasesQuery = sql`
+        // Build wheelbases query based on conditions
+        let wheelbasesSQL = `
             SELECT DISTINCT wm.name 
             FROM wheelbase_models wm
             JOIN manufacturers m ON m.id = wm.manufacturer_id
             JOIN ffb_settings fs ON fs.wheelbase_model_id = wm.id
-            WHERE 1=1
-            ${selectedBrand ? sql`AND m.name = ${selectedBrand}` : sql``}
-            ${selectedDiscipline ? sql`AND fs.discipline = ${selectedDiscipline}` : sql``}
-            ORDER BY wm.name`;
+            WHERE 1=1`;
 
-        const disciplinesQuery = sql`
+        const wheelbasesParams = [];
+        if (selectedBrand) {
+            wheelbasesSQL += ` AND m.name = $${wheelbasesParams.length + 1}`;
+            wheelbasesParams.push(selectedBrand);
+        }
+        if (selectedDiscipline) {
+            wheelbasesSQL += ` AND fs.discipline = $${wheelbasesParams.length + 1}`;
+            wheelbasesParams.push(selectedDiscipline);
+        }
+        wheelbasesSQL += ` ORDER BY wm.name`;
+
+        // Build disciplines query based on conditions
+        let disciplinesSQL = `
             SELECT DISTINCT discipline 
             FROM ffb_settings fs
             JOIN wheelbase_models wm ON wm.id = fs.wheelbase_model_id
             JOIN manufacturers m ON m.id = wm.manufacturer_id
-            WHERE 1=1
-            ${selectedBrand ? sql`AND m.name = ${selectedBrand}` : sql``}
-            ${selectedModel ? sql`AND wm.name = ${selectedModel}` : sql``}
-            ORDER BY discipline`;
+            WHERE 1=1`;
+
+        const disciplinesParams = [];
+        if (selectedBrand) {
+            disciplinesSQL += ` AND m.name = $${disciplinesParams.length + 1}`;
+            disciplinesParams.push(selectedBrand);
+        }
+        if (selectedModel) {
+            disciplinesSQL += ` AND wm.name = $${disciplinesParams.length + 1}`;
+            disciplinesParams.push(selectedModel);
+        }
+        disciplinesSQL += ` ORDER BY discipline`;
 
         const [manufacturers, wheelbases, disciplines] = await Promise.all([
             manufacturersQuery,
-            wheelbasesQuery,
-            disciplinesQuery
+            sql.query(wheelbasesSQL, wheelbasesParams),
+            sql.query(disciplinesSQL, disciplinesParams)
         ]);
 
         const response = {
