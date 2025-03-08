@@ -71,7 +71,8 @@ export default function Home() {
         setting.brand.toLowerCase().includes(searchLower) ||
         setting.model.toLowerCase().includes(searchLower) ||
         `${setting.brand} ${setting.model}`.toLowerCase().includes(searchLower) ||
-        setting.car.toLowerCase().includes(searchLower);
+        setting.car.toLowerCase().includes(searchLower) ||
+        setting.discipline.toLowerCase().includes(searchLower);
       
       if (!matchesSearch) return false;
     }
@@ -264,10 +265,10 @@ export default function Home() {
             {/* Main Content */}
             <div className="lg:flex-1 transition-all duration-300">
               <div className="flex justify-between mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-950/30 p-4 rounded-xl border border-zinc-800/30">
-                <div className="flex-1">
+                <div className="w-1/4">
                   <input
                     type="text"
-                    placeholder="Search wheelbase or car..."
+                    placeholder="Search for Settings ..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full bg-zinc-900/50 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-white
