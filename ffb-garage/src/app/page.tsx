@@ -6,6 +6,49 @@ import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
+// Transform the static data to match FFBSetting type
+const transformedSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
+  id: setting.id,
+  carName: setting.car,
+  manufacturer: {
+    id: 0, // Since static data doesn't have this
+    name: setting.brand
+  },
+  model: setting.model,
+  discipline: setting.discipline,
+  isManufacturerProvided: setting.is_manufacturer_provided || false,
+  likes: setting.likes,
+  settingValues: [
+    {
+      fieldId: 1,
+      fieldName: 'strength',
+      displayName: 'Strength',
+      value: setting.settings.strength,
+      minValue: 0,
+      maxValue: 100,
+      unit: '%'
+    },
+    {
+      fieldId: 2,
+      fieldName: 'damping',
+      displayName: 'Damping',
+      value: setting.settings.damping,
+      minValue: 0,
+      maxValue: 100,
+      unit: '%'
+    },
+    {
+      fieldId: 3,
+      fieldName: 'minimumForce',
+      displayName: 'Minimum Force',
+      value: setting.settings.minimumForce,
+      minValue: 0,
+      maxValue: 100,
+      unit: '%'
+    }
+  ]
+}));
+
 export interface SettingValue {
   fieldId: number;
   fieldName: string;
@@ -70,7 +113,47 @@ export default function Home() {
     });
   };
 
-  const filteredSettings = ffbSettingsData.settings.filter((setting: FFBSetting) => {
+  const filteredSettings = ffbSettingsData.settings.map(setting => ({
+    id: setting.id,
+    carName: setting.car,
+    manufacturer: {
+      id: 0,
+      name: setting.brand
+    },
+    model: setting.model,
+    discipline: setting.discipline,
+    isManufacturerProvided: setting.is_manufacturer_provided || false,
+    likes: setting.likes,
+    settingValues: [
+      {
+        fieldId: 1,
+        fieldName: 'strength',
+        displayName: 'Strength',
+        value: setting.settings.strength,
+        minValue: 0,
+        maxValue: 100,
+        unit: '%'
+      },
+      {
+        fieldId: 2,
+        fieldName: 'damping',
+        displayName: 'Damping',
+        value: setting.settings.damping,
+        minValue: 0,
+        maxValue: 100,
+        unit: '%'
+      },
+      {
+        fieldId: 3,
+        fieldName: 'minimumForce',
+        displayName: 'Minimum Force',
+        value: setting.settings.minimumForce,
+        minValue: 0,
+        maxValue: 100,
+        unit: '%'
+      }
+    ]
+  })).filter((setting: FFBSetting) => {
     if (sourceFilter.size > 0) {
       const isManufacturer = setting.isManufacturerProvided === true;
       const showManufacturer = sourceFilter.has('manufacturer');
@@ -290,11 +373,6 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredAndSortedSettings.map((setting: FFBSetting) => {
-                  // Get the main settings we want to display
-                  const strengthSetting = setting.settingValues.find(sv => sv.fieldName === 'strength');
-                  const dampingSetting = setting.settingValues.find(sv => sv.fieldName === 'damping');
-                  const minForceSetting = setting.settingValues.find(sv => sv.fieldName === 'minimumForce');
-
                   return (
                     <div key={setting.id} 
                          className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4
