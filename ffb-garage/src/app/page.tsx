@@ -192,7 +192,7 @@ export default function Home() {
                       onClick={() => toggleSourceFilter('manufacturer')}
                       className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
                         ${sourceFilter.has('manufacturer')
-                          ? 'bg-zinc-800/50 text-white font-semibold'
+                          ? 'bg-zinc-700/50 text-white font-semibold'
                           : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30'
                         }
                         border-r border-zinc-700/20`}
@@ -210,7 +210,7 @@ export default function Home() {
                       onClick={() => toggleSourceFilter('community')}
                       className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                         ${sourceFilter.has('community')
-                          ? 'bg-zinc-800/50 text-white font-semibold'
+                          ? 'bg-zinc-700/50 text-white font-semibold'
                           : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30'
                         }`}
                     >
