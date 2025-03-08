@@ -99,7 +99,30 @@ export default function Home() {
   // Add this near the top of the file with other state declarations
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  // Update the useEffect that fetches initial filters
+  // Define fetchFilterOptions function
+  const fetchFilterOptions = async (currentFilters = filters) => {
+    try {
+      const params = new URLSearchParams();
+      if (currentFilters.brand.size === 1) {
+        params.set('brand', Array.from(currentFilters.brand)[0]);
+      }
+      if (currentFilters.model.size === 1) {
+        params.set('model', Array.from(currentFilters.model)[0]);
+      }
+      if (currentFilters.discipline.size === 1) {
+        params.set('discipline', Array.from(currentFilters.discipline)[0]);
+      }
+
+      const response = await fetch(`/api/filters?${params.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch filter options');
+      const data = await response.json();
+      setFilterOptions(data);
+    } catch (error) {
+      console.error('Error fetching filter options:', error);
+    }
+  };
+
+  // Initial fetch of filter options
   useEffect(() => {
     const initializeFilters = async () => {
       try {
