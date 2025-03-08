@@ -28,6 +28,8 @@ export default function Home() {
 
   const [isFilterExpanded, setIsFilterExpanded] = useState(true);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
@@ -62,6 +64,19 @@ export default function Home() {
   };
 
   const filteredSettings = ffbSettingsData.settings.filter((setting: FFBSetting) => {
+    // Search filter
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      const matchesSearch = 
+        setting.brand.toLowerCase().includes(searchLower) ||
+        setting.model.toLowerCase().includes(searchLower) ||
+        `${setting.brand} ${setting.model}`.toLowerCase().includes(searchLower) ||
+        setting.car.toLowerCase().includes(searchLower);
+      
+      if (!matchesSearch) return false;
+    }
+
+    // Existing filters
     if (sourceFilter.size > 0) {
       const isManufacturer = setting.is_manufacturer_provided === true;
       const showManufacturer = sourceFilter.has('manufacturer');
@@ -248,21 +263,34 @@ export default function Home() {
 
             {/* Main Content */}
             <div className="lg:flex-1 transition-all duration-300">
-              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-950/30 p-4 rounded-xl border border-zinc-800/30">
-                <label className="text-sm text-zinc-300">
-                  Sort by
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-zinc-900/50 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-white
-                            focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none
-                            cursor-pointer backdrop-blur-sm"
-                >
-                  <option value="drivers">Drivers</option>
-                  <option value="newest">Newest</option>
-                  <option value="oldest">Oldest</option>
-                </select>
+              <div className="flex justify-between mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-950/30 p-4 rounded-xl border border-zinc-800/30">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Search wheelbase or car..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full bg-zinc-900/50 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-white
+                              placeholder-zinc-500 focus:border-zinc-500 focus:ring-2 
+                              focus:ring-zinc-500 focus:outline-none backdrop-blur-sm"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <label className="text-sm text-zinc-300">
+                    Sort by
+                  </label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="bg-zinc-900/50 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-white
+                              focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500 focus:outline-none
+                              cursor-pointer backdrop-blur-sm"
+                  >
+                    <option value="drivers">Drivers</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
