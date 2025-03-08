@@ -309,8 +309,8 @@ export default function Home() {
         <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
-            <div className={`lg:w-auto transition-all duration-300 ease-in-out relative ${
-              isFilterExpanded ? 'lg:min-w-[300px]' : 'w-0 overflow-hidden'
+            <div className={`transition-all duration-300 ease-in-out relative ${
+              isFilterExpanded ? 'lg:w-[300px] lg:min-w-[300px]' : 'w-0'
             }`}>
               {/* Toggle Button - moved outside the collapsible area */}
               <button
@@ -418,7 +418,9 @@ export default function Home() {
             </div>
 
             {/* Main Content */}
-            <div className="lg:flex-1">
+            <div className={`transition-all duration-300 ease-in-out ${
+              isFilterExpanded ? 'lg:flex-1' : 'lg:flex-1 lg:w-full'
+            }`}>
               <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
                 <label className="text-sm text-zinc-300">
                   Sort by
