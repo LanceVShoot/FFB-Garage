@@ -5,11 +5,15 @@ export async function GET() {
   try {
     const settings = await getFFBSettings();
     return NextResponse.json({ settings });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Failed to fetch settings';
-    console.error('API Error:', { err, message });
+  } catch (error: unknown) {
+    // Explicitly use the error variable to satisfy ESLint
+    const errorLog = {
+      type: error?.constructor?.name,
+      details: error instanceof Error ? error.message : String(error)
+    };
+    console.error('API Error:', errorLog);
     return NextResponse.json(
-      { error: message }, 
+      { error: errorLog.details }, 
       { status: 500 }
     );
   }
