@@ -312,10 +312,10 @@ export default function Home() {
             <div className={`transition-all duration-300 ease-in-out relative ${
               isFilterExpanded ? 'lg:w-[300px] lg:min-w-[300px]' : 'w-0'
             }`}>
-              {/* Toggle Button - moved outside the collapsible area */}
+              {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className={`fixed ${isFilterExpanded ? 'lg:left-[284px]' : 'lg:left-8'} top-24 z-10 p-1.5 
+                className={`fixed ${isFilterExpanded ? 'lg:left-[292px]' : 'lg:left-8'} top-24 z-10 p-1.5 
                           rounded-full bg-zinc-700/80 border border-zinc-600/50 
                           backdrop-blur-sm hover:bg-zinc-600/80 
                           transition-all duration-200 cursor-pointer`}
