@@ -96,15 +96,9 @@ export default function Home() {
     disciplines: []
   });
 
-  // Add state for pending filter options
-  const [pendingFilterOptions, setPendingFilterOptions] = useState<FilterOptions | null>(null);
-
-  // Update fetchFilterOptions to use pending state
+  // Update fetchFilterOptions to handle filter changes
   const fetchFilterOptions = async (currentFilters = filters) => {
     try {
-      // Don't show loading state immediately
-      // setIsLoadingFilters(true);
-      
       const params = new URLSearchParams();
       if (currentFilters.brand.size === 1) {
         params.set('brand', Array.from(currentFilters.brand)[0]);
@@ -119,20 +113,21 @@ export default function Home() {
       const response = await fetch(`/api/filters?${params.toString()}`);
       if (!response.ok) throw new Error('Failed to fetch filter options');
       const data = await response.json();
-      
-      // Update filter options directly
       setFilterOptions(data);
     } catch (error) {
       console.error('Error fetching filter options:', error);
     }
   };
 
-  // Initial fetch of filter options
+  // Initial fetch of filter options with proper dependency
   useEffect(() => {
-    fetchFilterOptions();
-  }, []);
+    const initializeFilters = () => {
+      fetchFilterOptions();
+    };
+    initializeFilters();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // We can safely disable the exhaustive-deps rule here as we only want this to run once on mount
 
-  // Update toggleFilter to refetch options when filters change
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
