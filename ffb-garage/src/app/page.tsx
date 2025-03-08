@@ -290,6 +290,11 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredAndSortedSettings.map((setting: FFBSetting) => {
+                  // Get the main settings we want to display
+                  const strengthSetting = setting.settingValues.find(sv => sv.fieldName === 'strength');
+                  const dampingSetting = setting.settingValues.find(sv => sv.fieldName === 'damping');
+                  const minForceSetting = setting.settingValues.find(sv => sv.fieldName === 'minimumForce');
+
                   return (
                     <div key={setting.id} 
                          className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4

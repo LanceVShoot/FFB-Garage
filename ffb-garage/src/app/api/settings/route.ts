@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
+import { FFBSetting } from '@/types/ffb-settings';
 
 export async function GET() {
   try {
@@ -13,13 +14,14 @@ export async function GET() {
         fs.discipline,
         fs.is_manufacturer_provided as "isManufacturerProvided",
         fs.likes,
-        fs.created_by as "createdBy",
         json_agg(
           json_build_object(
-            'id', msf.id,
+            'fieldId', msf.id,
             'fieldName', msf.field_name,
             'displayName', msf.display_name,
             'value', sv.value,
+            'minValue', msf.min_value,
+            'maxValue', msf.max_value,
             'unit', msf.unit
           )
         ) as "settingValues"
@@ -30,25 +32,30 @@ export async function GET() {
       GROUP BY fs.id, m.id;
     `;
 
-    // Transform the data to match the FFBSetting type
-    const transformedSettings = settings.rows.map(row => ({
+    const transformedSettings: FFBSetting[] = settings.rows.map(row => ({
       id: row.id,
       carName: row.carName,
       manufacturer: {
-        id: row.manufacturer?.id,
-        name: row.manufacturer?.name
+        id: row['manufacturer.id'],
+        name: row['manufacturer.name']
       },
       model: row.model,
       discipline: row.discipline,
       isManufacturerProvided: row.isManufacturerProvided,
       likes: row.likes,
-      createdBy: row.createdBy,
-      settingValues: row.settingValues
+      settingValues: row.settingValues.map((sv: any) => ({
+        fieldId: sv.fieldId,
+        fieldName: sv.fieldName,
+        displayName: sv.displayName,
+        value: Number(sv.value),
+        minValue: sv.minValue ? Number(sv.minValue) : undefined,
+        maxValue: sv.maxValue ? Number(sv.maxValue) : undefined,
+        unit: sv.unit
+      }))
     }));
 
     return NextResponse.json({ settings: transformedSettings });
   } catch (error: unknown) {
-    // Explicitly use the error variable to satisfy ESLint
     const errorLog = {
       type: error?.constructor?.name,
       details: error instanceof Error ? error.message : String(error)
