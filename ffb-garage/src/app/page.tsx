@@ -315,7 +315,7 @@ export default function Home() {
               {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className={`fixed ${isFilterExpanded ? 'lg:left-[354px]' : 'lg:left-8'} top-24 z-10 p-1.5 
+                className={`fixed ${isFilterExpanded ? 'lg:left-[354px]' : 'lg:left-[16px]'} top-24 z-10 p-1.5 
                           rounded-full bg-zinc-700/80 border border-zinc-600/50 
                           backdrop-blur-sm hover:bg-zinc-600/80 
                           transition-all duration-200 cursor-pointer`}
