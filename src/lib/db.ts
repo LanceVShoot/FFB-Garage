@@ -36,8 +36,8 @@ export async function getFFBSettings() {
     `;
     
     return result.rows;
-  } catch (_error) {
-    console.error('Database query failed:', _error);
-    throw _error;
+  } catch (error) {
+    console.error('Database query failed:', error);
+    throw error;
   }
 } 
