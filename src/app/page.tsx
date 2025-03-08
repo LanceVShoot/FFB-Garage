@@ -10,8 +10,8 @@ export default async function Home() {
     
     // ... rest of your component code ...
     
-  } catch (error) {
-    console.error('Failed to fetch FFB settings:', error);
+  } catch (_error) {
+    console.error('Failed to fetch FFB settings:', _error);
     // You might want to handle the error appropriately in your UI
     return <div>Error loading settings. Please try again later.</div>;
   }

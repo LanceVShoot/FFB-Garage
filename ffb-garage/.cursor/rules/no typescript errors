@@ -1,0 +1,4 @@
+When you are writing code, make sure to review the code so that there are no typescript errors.
+Errors like this: 
+34:12  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+should be avoided and resolved before committing the code.
