@@ -6,23 +6,23 @@ export async function GET() {
     const settings = await sql`
       SELECT 
         fs.id,
-        fs.car_name,
-        m.id as manufacturer_id,
-        m.name as manufacturer_name,
+        fs.car_name as "carName",
+        m.id as "manufacturer.id",
+        m.name as "manufacturer.name",
         fs.model,
         fs.discipline,
-        fs.is_manufacturer_provided,
+        fs.is_manufacturer_provided as "isManufacturerProvided",
         fs.likes,
-        fs.created_by,
+        fs.created_by as "createdBy",
         json_agg(
           json_build_object(
-            'fieldId', msf.id,
+            'id', msf.id,
             'fieldName', msf.field_name,
             'displayName', msf.display_name,
             'value', sv.value,
             'unit', msf.unit
           )
-        ) as setting_values
+        ) as "settingValues"
       FROM ffb_settings fs
       JOIN manufacturers m ON fs.manufacturer_id = m.id
       JOIN setting_values sv ON fs.id = sv.ffb_setting_id
@@ -30,7 +30,23 @@ export async function GET() {
       GROUP BY fs.id, m.id;
     `;
 
-    return NextResponse.json(settings.rows);
+    // Transform the data to match the FFBSetting type
+    const transformedSettings = settings.rows.map(row => ({
+      id: row.id,
+      carName: row.carName,
+      manufacturer: {
+        id: row.manufacturer?.id,
+        name: row.manufacturer?.name
+      },
+      model: row.model,
+      discipline: row.discipline,
+      isManufacturerProvided: row.isManufacturerProvided,
+      likes: row.likes,
+      createdBy: row.createdBy,
+      settingValues: row.settingValues
+    }));
+
+    return NextResponse.json({ settings: transformedSettings });
   } catch (error: unknown) {
     // Explicitly use the error variable to satisfy ESLint
     const errorLog = {
