@@ -96,15 +96,15 @@ export default function Home() {
     disciplines: []
   });
 
-  // Add loading state
-  const [isLoadingFilters, setIsLoadingFilters] = useState(true);
+  // Add state for pending filter options
+  const [pendingFilterOptions, setPendingFilterOptions] = useState<FilterOptions | null>(null);
 
-  // Update fetchFilterOptions to include current filters
+  // Update fetchFilterOptions to use pending state
   const fetchFilterOptions = async (currentFilters = filters) => {
     try {
-      setIsLoadingFilters(true);
+      // Don't show loading state immediately
+      // setIsLoadingFilters(true);
       
-      // Build query string from current filters
       const params = new URLSearchParams();
       if (currentFilters.brand.size === 1) {
         params.set('brand', Array.from(currentFilters.brand)[0]);
@@ -119,11 +119,11 @@ export default function Home() {
       const response = await fetch(`/api/filters?${params.toString()}`);
       if (!response.ok) throw new Error('Failed to fetch filter options');
       const data = await response.json();
+      
+      // Update filter options directly
       setFilterOptions(data);
     } catch (error) {
       console.error('Error fetching filter options:', error);
-    } finally {
-      setIsLoadingFilters(false);
     }
   };
 
@@ -202,7 +202,7 @@ export default function Home() {
 
   const filteredAndSortedSettings = sortSettings(filteredSettings);
 
-  // Update FilterGroup component to handle loading state
+  // Update FilterGroup component to not show loading state
   const FilterGroup = ({ title, options, type }: { 
     title: string, 
     options: string[], 
@@ -212,15 +212,7 @@ export default function Home() {
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
     const hasMore = options.length > 3;
 
-    if (isLoadingFilters) {
-      return (
-        <div className="space-y-3">
-          <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
-          <div className="text-sm text-zinc-400">Loading...</div>
-        </div>
-      );
-    }
-
+    // Remove loading state display
     if (options.length === 0) {
       return (
         <div className="space-y-3">
