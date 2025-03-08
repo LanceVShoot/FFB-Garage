@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
@@ -59,6 +59,14 @@ export interface SettingValue {
   unit?: string;
 }
 
+// Add interface for filter options
+interface FilterOptions {
+  manufacturers: string[];
+  wheelbases: string[];
+  cars: string[];
+  disciplines: string[];
+}
+
 export default function Home() {
   const [filters, setFilters] = useState({ 
     brand: new Set<string>(),
@@ -79,6 +87,35 @@ export default function Home() {
   const [sortBy, setSortBy] = useState('drivers'); 
 
   const [isFilterExpanded, setIsFilterExpanded] = useState(true);
+
+  // Add state for filter options
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    manufacturers: [],
+    wheelbases: [],
+    cars: [],
+    disciplines: []
+  });
+
+  // Add loading state
+  const [isLoadingFilters, setIsLoadingFilters] = useState(true);
+
+  // Fetch filter options when component mounts
+  useEffect(() => {
+    const fetchFilterOptions = async () => {
+      try {
+        const response = await fetch('/api/filters');
+        if (!response.ok) throw new Error('Failed to fetch filter options');
+        const data = await response.json();
+        setFilterOptions(data);
+      } catch (error) {
+        console.error('Error fetching filter options:', error);
+      } finally {
+        setIsLoadingFilters(false);
+      }
+    };
+
+    fetchFilterOptions();
+  }, []);
 
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
@@ -144,6 +181,7 @@ export default function Home() {
 
   const filteredAndSortedSettings = sortSettings(filteredSettings);
 
+  // Update FilterGroup component to handle loading state
   const FilterGroup = ({ title, options, type }: { 
     title: string, 
     options: string[], 
@@ -152,6 +190,15 @@ export default function Home() {
     const isExpanded = expandedSections[type];
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
     const hasMore = options.length > 3;
+
+    if (options.length === 0) {
+      return (
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+          <div className="text-sm text-zinc-400">No options available</div>
+        </div>
+      );
+    }
 
     return (
       <div className="space-y-3">
@@ -294,19 +341,19 @@ export default function Home() {
                 
                 <FilterGroup 
                   title="Brand" 
-                  options={['All Manufacturers']} 
+                  options={filterOptions.manufacturers} 
                   type="brand" 
                 />
                 
                 <FilterGroup 
                   title="Model" 
-                  options={['All Models']} 
+                  options={filterOptions.wheelbases} 
                   type="model" 
                 />
                 
                 <FilterGroup 
                   title="Discipline" 
-                  options={['All Disciplines']} 
+                  options={filterOptions.disciplines} 
                   type="discipline" 
                 />
               </div>
