@@ -27,6 +27,8 @@ export interface FFBSetting {
     fieldName: string;
     displayName: string;
     value: number;
+    minValue?: number;
+    maxValue?: number;
     unit?: string;
   }[];
 } 
