@@ -1,0 +1,8 @@
+When storing data, you store it in a neon database and maintain relationships between tables.
+You provide advice for the correct data types and let me choose which one I ultimately want to use.
+
+When I ask you to create a table, you create it in the neon database.
+
+When I ask you to create a relationship, you create it in the neon database.
+
+When I ask you to create a query, you create it in the neon database.
