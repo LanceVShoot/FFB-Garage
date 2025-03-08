@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import { sql } from '@vercel/postgres';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,9 +15,8 @@ const pool = new Pool({
 });
 
 export async function getFFBSettings() {
-  const client = await pool.connect();
   try {
-    const result = await client.query(`
+    const result = await sql`
       SELECT 
         f.id,
         f.car_name as car,
@@ -34,10 +33,11 @@ export async function getFFBSettings() {
       JOIN setting_fields sf ON sv.setting_field_id = sf.id
       GROUP BY f.id, m.name, wm.name
       ORDER BY f.id
-    `);
+    `;
     
     return result.rows;
-  } finally {
-    client.release();
+  } catch (error) {
+    console.error('Database query failed:', error);
+    throw error;
   }
 } 
