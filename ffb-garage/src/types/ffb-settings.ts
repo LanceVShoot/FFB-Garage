@@ -1,14 +1,34 @@
+export interface Manufacturer {
+  id: number;
+  name: string;
+}
+
+export interface SettingField {
+  id: number;
+  fieldName: string;
+  displayName: string;
+  minValue?: number;
+  maxValue?: number;
+  unit?: string;
+  description?: string;
+}
+
 export interface FFBSetting {
   id: number;
-  car: string;
-  brand: string;
+  carName: string;
+  manufacturer: Manufacturer;
   model: string;
   discipline: string;
-  likes?: number;
-  is_manufacturer_provided?: boolean;
-  settings: {
-    strength: number;
-    damping: number;
-    minimumForce: number;
-  };
+  isManufacturerProvided: boolean;
+  likes: number;
+  createdBy?: string;
+  settingValues: {
+    fieldId: number;
+    fieldName: string;
+    displayName: string;
+    value: number;
+    minValue?: number;
+    maxValue?: number;
+    unit?: string;
+  }[];
 } 

@@ -1,11 +1,71 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
-import { ChevronLeftIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
+
+// Transform the static data to match FFBSetting type
+const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
+  id: setting.id,
+  carName: setting.car,
+  manufacturer: {
+    id: 0,
+    name: setting.brand
+  },
+  model: setting.model,
+  discipline: setting.discipline,
+  isManufacturerProvided: setting.is_manufacturer_provided || false,
+  likes: setting.likes,
+  settingValues: [
+    {
+      fieldId: 1,
+      fieldName: 'strength',
+      displayName: 'Strength',
+      value: setting.settings.strength,
+      minValue: 0,
+      maxValue: 100,
+      unit: '%'
+    },
+    {
+      fieldId: 2,
+      fieldName: 'damping',
+      displayName: 'Damping',
+      value: setting.settings.damping,
+      minValue: 0,
+      maxValue: 100,
+      unit: '%'
+    },
+    {
+      fieldId: 3,
+      fieldName: 'minimumForce',
+      displayName: 'Minimum Force',
+      value: setting.settings.minimumForce,
+      minValue: 0,
+      maxValue: 100,
+      unit: '%'
+    }
+  ]
+}));
+
+export interface SettingValue {
+  fieldId: number;
+  fieldName: string;
+  displayName: string;
+  value: number;
+  minValue: number;
+  maxValue: number;
+  unit?: string;
+}
+
+// Add interface for filter options
+interface FilterOptions {
+  manufacturers: string[];
+  wheelbases: string[];
+  cars: string[];
+  disciplines: string[];
+}
 
 export default function Home() {
   const [filters, setFilters] = useState({ 
@@ -28,6 +88,57 @@ export default function Home() {
 
   const [isFilterExpanded, setIsFilterExpanded] = useState(true);
 
+  // Add state for filter options
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    manufacturers: [],
+    wheelbases: [],
+    cars: [],
+    disciplines: []
+  });
+
+  // Add this near the top of the file with other state declarations
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  // Define fetchFilterOptions function
+  const fetchFilterOptions = async (currentFilters = filters) => {
+    try {
+      const params = new URLSearchParams();
+      if (currentFilters.brand.size === 1) {
+        params.set('brand', Array.from(currentFilters.brand)[0]);
+      }
+      if (currentFilters.model.size === 1) {
+        params.set('model', Array.from(currentFilters.model)[0]);
+      }
+      if (currentFilters.discipline.size === 1) {
+        params.set('discipline', Array.from(currentFilters.discipline)[0]);
+      }
+
+      const response = await fetch(`/api/filters?${params.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch filter options');
+      const data = await response.json();
+      setFilterOptions(data);
+    } catch (error) {
+      console.error('Error fetching filter options:', error);
+    }
+  };
+
+  // Initial fetch of filter options
+  useEffect(() => {
+    const initializeFilters = async () => {
+      try {
+        const response = await fetch('/api/filters');
+        if (!response.ok) throw new Error('Failed to fetch filter options');
+        const data = await response.json();
+        setFilterOptions(data);
+      } catch (error) {
+        console.error('Error fetching filter options:', error);
+      } finally {
+        setIsInitialLoading(false);
+      }
+    };
+    initializeFilters();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
@@ -36,7 +147,12 @@ export default function Home() {
       } else {
         newSet.add(value);
       }
-      return { ...prev, [type]: newSet };
+      const newFilters = { ...prev, [type]: newSet };
+      
+      // Refetch filter options with the new filters
+      fetchFilterOptions(newFilters);
+      
+      return newFilters;
     });
   };
 
@@ -61,9 +177,9 @@ export default function Home() {
     });
   };
 
-  const filteredSettings = ffbSettingsData.settings.filter((setting: FFBSetting) => {
+  const filteredSettings = staticSettings.filter((setting: FFBSetting) => {
     if (sourceFilter.size > 0) {
-      const isManufacturer = setting.is_manufacturer_provided === true;
+      const isManufacturer = setting.isManufacturerProvided === true;
       const showManufacturer = sourceFilter.has('manufacturer');
       const showCommunity = sourceFilter.has('community');
       
@@ -71,7 +187,7 @@ export default function Home() {
       if (!isManufacturer && !showCommunity) return false;
     }
 
-    if (filters.brand.size > 0 && !filters.brand.has(setting.brand)) return false;
+    if (filters.brand.size > 0 && !filters.brand.has(setting.manufacturer.name)) return false;
     if (filters.model.size > 0 && !filters.model.has(setting.model)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
     return true;
@@ -92,6 +208,7 @@ export default function Home() {
 
   const filteredAndSortedSettings = sortSettings(filteredSettings);
 
+  // Update FilterGroup component to not show loading state
   const FilterGroup = ({ title, options, type }: { 
     title: string, 
     options: string[], 
@@ -100,6 +217,46 @@ export default function Home() {
     const isExpanded = expandedSections[type];
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
     const hasMore = options.length > 3;
+
+    if (isInitialLoading) {
+      return (
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+          <div className="flex items-center gap-2 text-sm text-zinc-400">
+            <svg 
+              className="animate-spin h-4 w-4 text-blue-500" 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24"
+            >
+              <circle 
+                className="opacity-25" 
+                cx="12" 
+                cy="12" 
+                r="10" 
+                stroke="currentColor" 
+                strokeWidth="4"
+              />
+              <path 
+                className="opacity-75" 
+                fill="currentColor" 
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            Loading...
+          </div>
+        </div>
+      );
+    }
+
+    if (options.length === 0) {
+      return (
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+          <div className="text-sm text-zinc-400">No options available</div>
+        </div>
+      );
+    }
 
     return (
       <div className="space-y-3">
@@ -142,7 +299,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 p-8 text-zinc-100">
+      <main className="min-h-screen bg-gradient-to-br from-zinc-800 via-zinc-700 to-zinc-800 p-8 text-zinc-100">
         {/* Decorative background elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/5 via-transparent to-transparent rotate-12 blur-3xl" />
@@ -152,33 +309,47 @@ export default function Home() {
         <div className="relative">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
-            <div className={`relative transition-all duration-300 ease-in-out ${
-              isFilterExpanded 
-                ? 'lg:w-[320px]'
-                : 'lg:w-[28px]'
+            <div className={`transition-all duration-300 ease-in-out relative ${
+              isFilterExpanded ? 'lg:w-[340px] lg:min-w-[340px]' : 'w-0'
             }`}>
               {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className={`absolute top-3 z-10 p-1.5 rounded-full bg-zinc-800/80 
-                          border border-zinc-700/50 backdrop-blur-sm hover:bg-zinc-700/80 
-                          transition-all duration-200 cursor-pointer
-                          ${isFilterExpanded ? 'right-[-12px]' : 'right-0'}`}
+                className={`fixed ${isFilterExpanded ? 'lg:left-[354px]' : 'lg:left-[16px]'} top-24 z-10 p-1.5 
+                          rounded-full bg-zinc-700/80 border border-zinc-600/50 
+                          backdrop-blur-sm hover:bg-zinc-600/80 
+                          transition-all duration-200 cursor-pointer`}
               >
                 {isFilterExpanded ? (
-                  <ChevronLeftIcon className="w-4 h-4 text-zinc-300" />
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="w-4 h-4 text-zinc-300"
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
                 ) : (
-                  <AdjustmentsHorizontalIcon className="w-4 h-4 text-zinc-300" />
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="w-4 h-4 text-zinc-300"
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
                 )}
               </button>
 
               {/* Filter Panel */}
-              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-950/30 
-                              p-6 rounded-xl border border-zinc-800/30 
+              <div className={`space-y-6 sticky top-8 backdrop-blur-sm bg-zinc-900/30 
+                              p-6 rounded-xl border border-zinc-800/50 
                               transition-all duration-300 ease-in-out
                               ${isFilterExpanded 
                                 ? 'opacity-100 translate-x-0 w-full' 
-                                : 'opacity-0 -translate-x-full pointer-events-none absolute'
+                                : 'opacity-0 -translate-x-full absolute'
                               }`}>
                 <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
                                from-sky-300 via-blue-400 to-sky-300 pb-2 border-b border-zinc-700/30">
@@ -187,15 +358,15 @@ export default function Home() {
 
                 <div className="relative p-0.5 rounded-lg bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-sky-500/20">
                   <div className="flex rounded-lg backdrop-blur-sm overflow-hidden 
-                                bg-gradient-to-r from-zinc-950/90 to-zinc-900/90">
+                                  bg-gradient-to-r from-zinc-900/90 to-zinc-800/90">
                     <button
                       onClick={() => toggleSourceFilter('manufacturer')}
-                      className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
+                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer
                         ${sourceFilter.has('manufacturer')
-                          ? 'bg-zinc-800/50 text-white font-semibold'
-                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30'
+                          ? 'bg-zinc-300/10 text-white font-semibold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
                         }
-                        border-r border-zinc-700/20`}
+                        border-r border-zinc-500/20`}
                     >
                       <div 
                         className={`w-2 h-2 rounded-full ${
@@ -208,10 +379,10 @@ export default function Home() {
                     </button>
                     <button
                       onClick={() => toggleSourceFilter('community')}
-                      className={`flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
+                      className={`flex-1 px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
                         ${sourceFilter.has('community')
-                          ? 'bg-zinc-800/50 text-white font-semibold'
-                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30'
+                          ? 'bg-zinc-300/10 text-white font-semibold'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/30'
                         }`}
                     >
                       <div 
@@ -228,27 +399,29 @@ export default function Home() {
                 
                 <FilterGroup 
                   title="Brand" 
-                  options={ffbSettingsData.brandOptions} 
+                  options={filterOptions.manufacturers} 
                   type="brand" 
                 />
                 
                 <FilterGroup 
                   title="Model" 
-                  options={ffbSettingsData.modelOptions} 
+                  options={filterOptions.wheelbases} 
                   type="model" 
                 />
                 
                 <FilterGroup 
                   title="Discipline" 
-                  options={ffbSettingsData.disciplineOptions} 
+                  options={filterOptions.disciplines} 
                   type="discipline" 
                 />
               </div>
             </div>
 
             {/* Main Content */}
-            <div className="lg:flex-1 transition-all duration-300">
-              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-950/30 p-4 rounded-xl border border-zinc-800/30">
+            <div className={`transition-all duration-300 ease-in-out ${
+              isFilterExpanded ? 'lg:flex-1' : 'lg:flex-1 lg:w-full'
+            }`}>
+              <div className="flex justify-end mb-6 items-center gap-3 backdrop-blur-sm bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
                 <label className="text-sm text-zinc-300">
                   Sort by
                 </label>
@@ -267,15 +440,10 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredAndSortedSettings.map((setting: FFBSetting) => {
-                  // Extract manufacturer name from wheelbase (everything before first space)
-                  const manufacturer = setting.is_manufacturer_provided 
-                    ? setting.brand
-                    : null;
-
                   return (
                     <div key={setting.id} 
-                         className="relative overflow-hidden rounded-xl bg-zinc-950/30 backdrop-blur-sm p-4
-                                  border border-zinc-800/30 group hover:border-blue-500/50
+                         className="relative overflow-hidden rounded-xl bg-zinc-900/30 backdrop-blur-sm p-4
+                                  border border-zinc-800/50 group hover:border-blue-500/50
                                   shadow-lg hover:shadow-blue-500/10
                                   transition-all duration-300">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 
@@ -285,10 +453,10 @@ export default function Home() {
                         <div className="flex justify-between items-start">
                           <div className="relative max-w-[85%] pointer-events-none">
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0">
-                              {setting.car}
+                              {setting.carName}
                             </div>
                             <h2 className="font-bold text-lg truncate text-blue-400">
-                              {setting.car}
+                              {setting.carName}
                             </h2>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
@@ -306,7 +474,7 @@ export default function Home() {
                       <div className="space-y-1.5 text-sm mt-3">
                         <p className="flex justify-between items-center">
                           <span className="text-zinc-300">Wheelbase</span>
-                          <span className="text-white font-medium">{`${setting.brand} ${setting.model}`}</span>
+                          <span className="text-white font-medium">{`${setting.manufacturer.name} ${setting.model}`}</span>
                         </p>
                         <p className="flex justify-between items-center">
                           <span className="text-zinc-300">Discipline</span>
@@ -318,20 +486,23 @@ export default function Home() {
                             FFB Settings
                           </h3>
                           <div className="space-y-1.5">
-                            {Object.entries(setting.settings).map(([key, value]) => (
-                              <div key={key} className="grid grid-cols-[1fr_140px] items-center">
+                            {setting.settingValues.map((value) => (
+                              <div key={value.fieldId} className="grid grid-cols-[1fr_140px] items-center">
                                 <span className="text-zinc-300">
-                                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                                  {value.displayName}
                                 </span>
                                 <div className="flex items-center justify-end gap-2">
                                   <div className="w-20 h-1 bg-gray-700/50 rounded-full overflow-hidden">
                                     <div 
                                       className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-                                      style={{ width: `${(value / 100) * 100}%` }}
+                                      style={{ 
+                                        width: `${((value.value - (value.minValue || 0)) / 
+                                                ((value.maxValue || 100) - (value.minValue || 0))) * 100}%` 
+                                      }}
                                     />
                                   </div>
                                   <span className="text-white w-7 text-right font-medium text-sm">
-                                    {value}{key === 'strength' || key === 'minimumForce' ? '%' : ''}
+                                    {value.value}{value.unit || ''}
                                   </span>
                                 </div>
                               </div>
@@ -341,12 +512,12 @@ export default function Home() {
                       </div>
 
                       {/* Manufacturer provided label */}
-                      {setting.is_manufacturer_provided && (
+                      {setting.isManufacturerProvided && (
                         <div className="mt-4 -mx-4 -mb-4 px-4 py-2 bg-gradient-to-r from-zinc-500/10 to-zinc-400/10 
                                       border-t border-zinc-500/20 flex items-center justify-center">
                           <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r 
                                          from-zinc-300 to-white">
-                            Provided by {manufacturer}
+                            Provided by {setting.manufacturer.name}
                           </span>
                         </div>
                       )}
