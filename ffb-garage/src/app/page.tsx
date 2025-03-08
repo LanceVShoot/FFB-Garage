@@ -310,12 +310,12 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter Column */}
             <div className={`transition-all duration-300 ease-in-out relative ${
-              isFilterExpanded ? 'lg:w-[300px] lg:min-w-[300px]' : 'w-0'
+              isFilterExpanded ? 'lg:w-[340px] lg:min-w-[340px]' : 'w-0'
             }`}>
               {/* Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className={`fixed ${isFilterExpanded ? 'lg:left-[314px]' : 'lg:left-8'} top-24 z-10 p-1.5 
+                className={`fixed ${isFilterExpanded ? 'lg:left-[354px]' : 'lg:left-8'} top-24 z-10 p-1.5 
                           rounded-full bg-zinc-700/80 border border-zinc-600/50 
                           backdrop-blur-sm hover:bg-zinc-600/80 
                           transition-all duration-200 cursor-pointer`}
