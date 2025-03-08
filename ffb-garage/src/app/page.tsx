@@ -191,6 +191,15 @@ export default function Home() {
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
     const hasMore = options.length > 3;
 
+    if (isLoadingFilters) {
+      return (
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+          <div className="text-sm text-zinc-400">Loading...</div>
+        </div>
+      );
+    }
+
     if (options.length === 0) {
       return (
         <div className="space-y-3">
