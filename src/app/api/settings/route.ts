@@ -5,14 +5,11 @@ export async function GET() {
   try {
     const settings = await getFFBSettings();
     return NextResponse.json({ settings });
-  } catch (e: unknown) {
-    const errorDetails = {
-      message: e instanceof Error ? e.message : 'Failed to fetch settings',
-      raw: e
-    };
-    console.error('API Error:', errorDetails);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to fetch settings';
+    console.error('API Error:', { err, message });
     return NextResponse.json(
-      { error: errorDetails.message }, 
+      { error: message }, 
       { status: 500 }
     );
   }
