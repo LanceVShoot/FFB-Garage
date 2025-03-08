@@ -2,6 +2,16 @@ import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 import { FFBSetting } from '@/types/ffb-settings';
 
+interface SettingValueRaw {
+  fieldId: number;
+  fieldName: string;
+  displayName: string;
+  value: string | number;
+  minValue?: string | number;
+  maxValue?: string | number;
+  unit?: string;
+}
+
 export async function GET() {
   try {
     const settings = await sql`
@@ -43,7 +53,7 @@ export async function GET() {
       discipline: row.discipline,
       isManufacturerProvided: row.isManufacturerProvided,
       likes: row.likes,
-      settingValues: row.settingValues.map((sv: any) => ({
+      settingValues: row.settingValues.map((sv: SettingValueRaw) => ({
         fieldId: sv.fieldId,
         fieldName: sv.fieldName,
         displayName: sv.displayName,

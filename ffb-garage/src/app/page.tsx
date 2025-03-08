@@ -7,11 +7,11 @@ import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
 // Transform the static data to match FFBSetting type
-const transformedSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
+const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
   id: setting.id,
   carName: setting.car,
   manufacturer: {
-    id: 0, // Since static data doesn't have this
+    id: 0,
     name: setting.brand
   },
   model: setting.model,
@@ -113,47 +113,7 @@ export default function Home() {
     });
   };
 
-  const filteredSettings = ffbSettingsData.settings.map(setting => ({
-    id: setting.id,
-    carName: setting.car,
-    manufacturer: {
-      id: 0,
-      name: setting.brand
-    },
-    model: setting.model,
-    discipline: setting.discipline,
-    isManufacturerProvided: setting.is_manufacturer_provided || false,
-    likes: setting.likes,
-    settingValues: [
-      {
-        fieldId: 1,
-        fieldName: 'strength',
-        displayName: 'Strength',
-        value: setting.settings.strength,
-        minValue: 0,
-        maxValue: 100,
-        unit: '%'
-      },
-      {
-        fieldId: 2,
-        fieldName: 'damping',
-        displayName: 'Damping',
-        value: setting.settings.damping,
-        minValue: 0,
-        maxValue: 100,
-        unit: '%'
-      },
-      {
-        fieldId: 3,
-        fieldName: 'minimumForce',
-        displayName: 'Minimum Force',
-        value: setting.settings.minimumForce,
-        minValue: 0,
-        maxValue: 100,
-        unit: '%'
-      }
-    ]
-  })).filter((setting: FFBSetting) => {
+  const filteredSettings = staticSettings.filter((setting: FFBSetting) => {
     if (sourceFilter.size > 0) {
       const isManufacturer = setting.isManufacturerProvided === true;
       const showManufacturer = sourceFilter.has('manufacturer');
