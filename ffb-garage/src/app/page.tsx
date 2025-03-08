@@ -99,24 +99,40 @@ export default function Home() {
   // Add loading state
   const [isLoadingFilters, setIsLoadingFilters] = useState(true);
 
-  // Fetch filter options when component mounts
-  useEffect(() => {
-    const fetchFilterOptions = async () => {
-      try {
-        const response = await fetch('/api/filters');
-        if (!response.ok) throw new Error('Failed to fetch filter options');
-        const data = await response.json();
-        setFilterOptions(data);
-      } catch (error) {
-        console.error('Error fetching filter options:', error);
-      } finally {
-        setIsLoadingFilters(false);
+  // Update fetchFilterOptions to include current filters
+  const fetchFilterOptions = async (currentFilters = filters) => {
+    try {
+      setIsLoadingFilters(true);
+      
+      // Build query string from current filters
+      const params = new URLSearchParams();
+      if (currentFilters.brand.size === 1) {
+        params.set('brand', Array.from(currentFilters.brand)[0]);
       }
-    };
+      if (currentFilters.model.size === 1) {
+        params.set('model', Array.from(currentFilters.model)[0]);
+      }
+      if (currentFilters.discipline.size === 1) {
+        params.set('discipline', Array.from(currentFilters.discipline)[0]);
+      }
 
+      const response = await fetch(`/api/filters?${params.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch filter options');
+      const data = await response.json();
+      setFilterOptions(data);
+    } catch (error) {
+      console.error('Error fetching filter options:', error);
+    } finally {
+      setIsLoadingFilters(false);
+    }
+  };
+
+  // Initial fetch of filter options
+  useEffect(() => {
     fetchFilterOptions();
   }, []);
 
+  // Update toggleFilter to refetch options when filters change
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
@@ -125,7 +141,12 @@ export default function Home() {
       } else {
         newSet.add(value);
       }
-      return { ...prev, [type]: newSet };
+      const newFilters = { ...prev, [type]: newSet };
+      
+      // Refetch filter options with the new filters
+      fetchFilterOptions(newFilters);
+      
+      return newFilters;
     });
   };
 

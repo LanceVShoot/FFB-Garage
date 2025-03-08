@@ -1,39 +1,62 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
-        // Fetch distinct values for each filter from the correct tables
-        const [manufacturers, wheelbases, cars, disciplines] = await Promise.all([
-            sql`SELECT DISTINCT name 
+        const { searchParams } = new URL(request.url);
+        const selectedBrand = searchParams.get('brand');
+        const selectedModel = searchParams.get('model');
+        const selectedDiscipline = searchParams.get('discipline');
+
+        // Build the base queries with conditional filtering
+        const manufacturersQuery = selectedDiscipline 
+            ? sql`
+                SELECT DISTINCT m.name 
+                FROM manufacturers m
+                JOIN wheelbase_models wm ON wm.manufacturer_id = m.id
+                JOIN ffb_settings fs ON fs.wheelbase_model_id = wm.id
+                WHERE fs.discipline = ${selectedDiscipline}
+                ORDER BY m.name`
+            : sql`
+                SELECT DISTINCT name 
                 FROM manufacturers 
                 WHERE name IS NOT NULL 
-                ORDER BY name`,
-            sql`SELECT DISTINCT wm.name 
-                FROM wheelbase_models wm
-                WHERE wm.name IS NOT NULL 
-                ORDER BY wm.name`,
-            sql`SELECT DISTINCT car_name 
-                FROM ffb_settings 
-                WHERE car_name IS NOT NULL 
-                ORDER BY car_name`,
-            sql`SELECT DISTINCT discipline 
-                FROM ffb_settings 
-                WHERE discipline IS NOT NULL 
-                ORDER BY discipline`
+                ORDER BY name`;
+
+        const wheelbasesQuery = sql`
+            SELECT DISTINCT wm.name 
+            FROM wheelbase_models wm
+            JOIN manufacturers m ON m.id = wm.manufacturer_id
+            JOIN ffb_settings fs ON fs.wheelbase_model_id = wm.id
+            WHERE 1=1
+            ${selectedBrand ? sql`AND m.name = ${selectedBrand}` : sql``}
+            ${selectedDiscipline ? sql`AND fs.discipline = ${selectedDiscipline}` : sql``}
+            ORDER BY wm.name`;
+
+        const disciplinesQuery = sql`
+            SELECT DISTINCT discipline 
+            FROM ffb_settings fs
+            JOIN wheelbase_models wm ON wm.id = fs.wheelbase_model_id
+            JOIN manufacturers m ON m.id = wm.manufacturer_id
+            WHERE 1=1
+            ${selectedBrand ? sql`AND m.name = ${selectedBrand}` : sql``}
+            ${selectedModel ? sql`AND wm.name = ${selectedModel}` : sql``}
+            ORDER BY discipline`;
+
+        const [manufacturers, wheelbases, disciplines] = await Promise.all([
+            manufacturersQuery,
+            wheelbasesQuery,
+            disciplinesQuery
         ]);
 
-        // Filter out any remaining null values and convert to arrays
         const response = {
             manufacturers: manufacturers.rows.map(row => row.name).filter(Boolean),
             wheelbases: wheelbases.rows.map(row => row.name).filter(Boolean),
-            cars: cars.rows.map(row => row.car_name).filter(Boolean),
             disciplines: disciplines.rows.map(row => row.discipline).filter(Boolean)
         };
 
-        // Check if we got any results
         if (!response.manufacturers.length && !response.wheelbases.length && 
-            !response.cars.length && !response.disciplines.length) {
+            !response.disciplines.length) {
             return NextResponse.json(
                 { error: 'No filter options found in database' }, 
                 { status: 404 }
