@@ -96,37 +96,25 @@ export default function Home() {
     disciplines: []
   });
 
-  // Update fetchFilterOptions to handle filter changes
-  const fetchFilterOptions = async (currentFilters = filters) => {
-    try {
-      const params = new URLSearchParams();
-      if (currentFilters.brand.size === 1) {
-        params.set('brand', Array.from(currentFilters.brand)[0]);
-      }
-      if (currentFilters.model.size === 1) {
-        params.set('model', Array.from(currentFilters.model)[0]);
-      }
-      if (currentFilters.discipline.size === 1) {
-        params.set('discipline', Array.from(currentFilters.discipline)[0]);
-      }
+  // Add this near the top of the file with other state declarations
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-      const response = await fetch(`/api/filters?${params.toString()}`);
-      if (!response.ok) throw new Error('Failed to fetch filter options');
-      const data = await response.json();
-      setFilterOptions(data);
-    } catch (error) {
-      console.error('Error fetching filter options:', error);
-    }
-  };
-
-  // Initial fetch of filter options with proper dependency
+  // Update the useEffect that fetches initial filters
   useEffect(() => {
-    const initializeFilters = () => {
-      fetchFilterOptions();
+    const initializeFilters = async () => {
+      try {
+        const response = await fetch('/api/filters');
+        if (!response.ok) throw new Error('Failed to fetch filter options');
+        const data = await response.json();
+        setFilterOptions(data);
+      } catch (error) {
+        console.error('Error fetching filter options:', error);
+      } finally {
+        setIsInitialLoading(false);
+      }
     };
     initializeFilters();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // We can safely disable the exhaustive-deps rule here as we only want this to run once on mount
 
   const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
     setFilters(prev => {
@@ -207,7 +195,37 @@ export default function Home() {
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
     const hasMore = options.length > 3;
 
-    // Remove loading state display
+    if (isInitialLoading) {
+      return (
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
+          <div className="flex items-center gap-2 text-sm text-zinc-400">
+            <svg 
+              className="animate-spin h-4 w-4 text-blue-500" 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24"
+            >
+              <circle 
+                className="opacity-25" 
+                cx="12" 
+                cy="12" 
+                r="10" 
+                stroke="currentColor" 
+                strokeWidth="4"
+              />
+              <path 
+                className="opacity-75" 
+                fill="currentColor" 
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            Loading...
+          </div>
+        </div>
+      );
+    }
+
     if (options.length === 0) {
       return (
         <div className="space-y-3">
