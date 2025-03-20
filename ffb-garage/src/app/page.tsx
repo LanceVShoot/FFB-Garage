@@ -215,15 +215,17 @@ export default function Home() {
 
   const filteredAndSortedSettings = sortSettings(filteredSettings);
 
-  // Update FilterGroup component to not show loading state
-  const FilterGroup = ({ title, options, type }: { 
+  // Update FilterGroup component
+  const FilterGroup = ({ title, options = [], type }: { 
     title: string, 
     options: string[], 
     type: 'brand' | 'model' | 'discipline' | 'car' 
   }) => {
-    const isExpanded = expandedSections[type];
+    if (!options) options = []; // Ensure options is always an array
+    
+    const isExpanded = expandedSections?.[type] || false;
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
-    const hasMore = options.length > 3;
+    const hasMore = Array.isArray(options) && options.length > 3;
 
     if (isInitialLoading) {
       return (
@@ -256,7 +258,7 @@ export default function Home() {
       );
     }
 
-    if (options.length === 0) {
+    if (!Array.isArray(options) || options.length === 0) {
       return (
         <div className="space-y-3">
           <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
@@ -274,14 +276,14 @@ export default function Home() {
               key={option}
               onClick={() => toggleFilter(type, option)}
               className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg cursor-pointer ${
-                filters[type].has(option)
+                filters?.[type]?.has(option)
                   ? "bg-zinc-700/50 text-white"
                   : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
               }`}
             >
               <div 
                 className={`w-2 h-2 rounded-full ${
-                  filters[type].has(option)
+                  filters?.[type]?.has(option)
                     ? "bg-sky-500"
                     : "border border-sky-500"
                 }`}
