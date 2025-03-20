@@ -398,18 +398,6 @@ export default function Home() {
                 </div>
                 
                 <FilterGroup 
-                  title="Brand" 
-                  options={filterOptions.manufacturers} 
-                  type="brand" 
-                />
-                
-                <FilterGroup 
-                  title="Model" 
-                  options={filterOptions.wheelbases} 
-                  type="model" 
-                />
-                
-                <FilterGroup 
                   title="Discipline" 
                   options={filterOptions.disciplines} 
                   type="discipline" 
