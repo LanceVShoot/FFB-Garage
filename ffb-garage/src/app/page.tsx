@@ -402,6 +402,12 @@ export default function Home() {
                   options={filterOptions.disciplines} 
                   type="discipline" 
                 />
+
+                <FilterGroup 
+                  title="Car" 
+                  options={filterOptions.cars}
+                  type="car" 
+                />
               </div>
             </div>
 
