@@ -72,6 +72,7 @@ export default function Home() {
     brand: new Set<string>(),
     model: new Set<string>(),
     discipline: new Set<string>(),
+    car: new Set<string>(),
   });
 
   const [sourceFilter, setSourceFilter] = useState<Set<'manufacturer' | 'community'>>(
@@ -82,6 +83,7 @@ export default function Home() {
     brand: false,
     model: false,
     discipline: false,
+    car: false,
   });
 
   const [sortBy, setSortBy] = useState('drivers'); 
@@ -139,7 +141,7 @@ export default function Home() {
     initializeFilters();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
+  const toggleFilter = (type: 'brand' | 'model' | 'discipline' | 'car', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
       if (newSet.has(value)) {
@@ -156,7 +158,7 @@ export default function Home() {
     });
   };
 
-  const toggleExpand = (type: 'brand' | 'model' | 'discipline') => {
+  const toggleExpand = (type: 'brand' | 'model' | 'discipline' | 'car') => {
     setExpandedSections(prev => ({
       ...prev,
       [type]: !prev[type]
@@ -212,7 +214,7 @@ export default function Home() {
   const FilterGroup = ({ title, options, type }: { 
     title: string, 
     options: string[], 
-    type: 'brand' | 'model' | 'discipline' 
+    type: 'brand' | 'model' | 'discipline' | 'car' 
   }) => {
     const isExpanded = expandedSections[type];
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
