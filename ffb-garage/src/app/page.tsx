@@ -7,23 +7,23 @@ import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
 // Transform the static data to match FFBSetting type
-const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
-  id: setting.id,
-  carName: setting.car,
+const staticSettings: FFBSetting[] = ffbSettingsData?.settings?.map(setting => ({
+  id: setting?.id || 0,
+  carName: setting?.car || '',
   manufacturer: {
     id: 0,
-    name: setting.brand
+    name: setting?.brand || ''
   },
-  model: setting.model,
-  discipline: setting.discipline,
-  isManufacturerProvided: setting.is_manufacturer_provided || false,
-  likes: setting.likes,
+  model: setting?.model || '',
+  discipline: setting?.discipline || '',
+  isManufacturerProvided: setting?.is_manufacturer_provided || false,
+  likes: setting?.likes || 0,
   settingValues: [
     {
       fieldId: 1,
       fieldName: 'strength',
       displayName: 'Strength',
-      value: setting.settings.strength,
+      value: setting?.settings?.strength || 0,
       minValue: 0,
       maxValue: 100,
       unit: '%'
@@ -32,7 +32,7 @@ const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
       fieldId: 2,
       fieldName: 'damping',
       displayName: 'Damping',
-      value: setting.settings.damping,
+      value: setting?.settings?.damping || 0,
       minValue: 0,
       maxValue: 100,
       unit: '%'
@@ -41,13 +41,13 @@ const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
       fieldId: 3,
       fieldName: 'minimumForce',
       displayName: 'Minimum Force',
-      value: setting.settings.minimumForce,
+      value: setting?.settings?.minimumForce || 0,
       minValue: 0,
       maxValue: 100,
       unit: '%'
     }
   ]
-}));
+})) || [];
 
 export interface SettingValue {
   fieldId: number;
@@ -180,6 +180,8 @@ export default function Home() {
   };
 
   const filteredSettings = staticSettings.filter((setting: FFBSetting) => {
+    if (!setting) return false;
+
     if (sourceFilter.size > 0) {
       const isManufacturer = setting.isManufacturerProvided === true;
       const showManufacturer = sourceFilter.has('manufacturer');
@@ -189,20 +191,23 @@ export default function Home() {
       if (!isManufacturer && !showCommunity) return false;
     }
 
-    if (filters.brand.size > 0 && !filters.brand.has(setting.manufacturer.name)) return false;
+    if (filters.brand.size > 0 && (!setting.manufacturer || !filters.brand.has(setting.manufacturer.name))) return false;
     if (filters.model.size > 0 && !filters.model.has(setting.model)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
+    if (filters.car.size > 0 && !filters.car.has(setting.carName)) return false;
     return true;
   });
 
   const sortSettings = (settings: FFBSetting[]) => {
+    if (!settings) return [];
+    
     switch (sortBy) {
       case 'drivers':
-        return [...settings].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        return [...settings].sort((a, b) => ((b?.likes || 0) - (a?.likes || 0)));
       case 'newest':
-        return [...settings].sort((a, b) => b.id - a.id);
+        return [...settings].sort((a, b) => ((b?.id || 0) - (a?.id || 0)));
       case 'oldest':
-        return [...settings].sort((a, b) => a.id - b.id);
+        return [...settings].sort((a, b) => ((a?.id || 0) - (b?.id || 0)));
       default:
         return settings;
     }
