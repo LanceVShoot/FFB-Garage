@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
 import * as dotenv from 'dotenv';
-import ffbSettingsData from './ffb-garage/src/data/ffb-settings.json';
+import ffbSettingsData from '@/data/ffb-settings.json';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -137,4 +137,4 @@ async function migrateData() {
   }
 }
 
-migrateData().catch(console.error); 
+migrateData().catch(console.error);
