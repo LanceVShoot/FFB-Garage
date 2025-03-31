@@ -1,26 +1,45 @@
 {
+  "name": "ffb-garage",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@auth/core": "^0.38.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@heroicons/react": "^2.2.0",
     "@neondatabase/serverless": "^0.10.4",
     "@popperjs/core": "^2.11.8",
-    "@types/pg": "^8.11.11",
     "@vercel/analytics": "^1.5.0",
     "@vercel/kv": "^3.0.0",
     "@vercel/postgres": "^0.10.0",
     "@vercel/speed-insights": "^1.2.0",
     "chart.js": "^4.4.8",
     "dotenv": "^16.4.7",
+    "next": "15.2.0",
     "pg": "^8.13.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-select": "^5.10.0",
     "resend": "^4.1.2",
     "sonner": "^2.0.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.0.10",
+    "@types/node": "^20",
+    "@types/pg": "^8.11.11",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.0.10"
+    "tailwindcss": "^4.0.10",
+    "typescript": "^5"
   }
 }

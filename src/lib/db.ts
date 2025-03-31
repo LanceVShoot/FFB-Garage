@@ -1,6 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(process.env.NEON_DATABASE_URL!);
+const sql = neon(process.env.POSTGRES_URL!);
 
 export async function createVerificationCode(email: string, code: string) {
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes from now
@@ -63,4 +63,4 @@ export async function checkEmailAttempts(email: string): Promise<boolean> {
   `;
 
   return parseInt(attempts[0].count) < attemptLimit;
-} 
+}

@@ -7,23 +7,23 @@ import { FFBSetting } from '@/types/ffb-settings';
 import ffbSettingsData from '@/data/ffb-settings.json';
 
 // Transform the static data to match FFBSetting type
-const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
-  id: setting.id,
-  carName: setting.car,
+const staticSettings: FFBSetting[] = ffbSettingsData?.settings?.map(setting => ({
+  id: setting?.id || 0,
+  carName: setting?.car || '',
   manufacturer: {
     id: 0,
-    name: setting.brand
+    name: setting?.brand || ''
   },
-  model: setting.model,
-  discipline: setting.discipline,
-  isManufacturerProvided: setting.is_manufacturer_provided || false,
-  likes: setting.likes,
+  model: setting?.model || '',
+  discipline: setting?.discipline || '',
+  isManufacturerProvided: setting?.is_manufacturer_provided || false,
+  likes: setting?.likes || 0,
   settingValues: [
     {
       fieldId: 1,
       fieldName: 'strength',
       displayName: 'Strength',
-      value: setting.settings.strength,
+      value: setting?.settings?.strength || 0,
       minValue: 0,
       maxValue: 100,
       unit: '%'
@@ -32,7 +32,7 @@ const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
       fieldId: 2,
       fieldName: 'damping',
       displayName: 'Damping',
-      value: setting.settings.damping,
+      value: setting?.settings?.damping || 0,
       minValue: 0,
       maxValue: 100,
       unit: '%'
@@ -41,13 +41,13 @@ const staticSettings: FFBSetting[] = ffbSettingsData.settings.map(setting => ({
       fieldId: 3,
       fieldName: 'minimumForce',
       displayName: 'Minimum Force',
-      value: setting.settings.minimumForce,
+      value: setting?.settings?.minimumForce || 0,
       minValue: 0,
       maxValue: 100,
       unit: '%'
     }
   ]
-}));
+})) || [];
 
 export interface SettingValue {
   fieldId: number;
@@ -72,6 +72,7 @@ export default function Home() {
     brand: new Set<string>(),
     model: new Set<string>(),
     discipline: new Set<string>(),
+    car: new Set<string>(),
   });
 
   const [sourceFilter, setSourceFilter] = useState<Set<'manufacturer' | 'community'>>(
@@ -82,6 +83,7 @@ export default function Home() {
     brand: false,
     model: false,
     discipline: false,
+    car: false,
   });
 
   const [sortBy, setSortBy] = useState('drivers'); 
@@ -139,7 +141,7 @@ export default function Home() {
     initializeFilters();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const toggleFilter = (type: 'brand' | 'model' | 'discipline', value: string) => {
+  const toggleFilter = (type: 'brand' | 'model' | 'discipline' | 'car', value: string) => {
     setFilters(prev => {
       const newSet = new Set(prev[type]);
       if (newSet.has(value)) {
@@ -156,7 +158,7 @@ export default function Home() {
     });
   };
 
-  const toggleExpand = (type: 'brand' | 'model' | 'discipline') => {
+  const toggleExpand = (type: 'brand' | 'model' | 'discipline' | 'car') => {
     setExpandedSections(prev => ({
       ...prev,
       [type]: !prev[type]
@@ -178,6 +180,8 @@ export default function Home() {
   };
 
   const filteredSettings = staticSettings.filter((setting: FFBSetting) => {
+    if (!setting) return false;
+
     if (sourceFilter.size > 0) {
       const isManufacturer = setting.isManufacturerProvided === true;
       const showManufacturer = sourceFilter.has('manufacturer');
@@ -187,20 +191,23 @@ export default function Home() {
       if (!isManufacturer && !showCommunity) return false;
     }
 
-    if (filters.brand.size > 0 && !filters.brand.has(setting.manufacturer.name)) return false;
+    if (filters.brand.size > 0 && (!setting.manufacturer || !filters.brand.has(setting.manufacturer.name))) return false;
     if (filters.model.size > 0 && !filters.model.has(setting.model)) return false;
     if (filters.discipline.size > 0 && !filters.discipline.has(setting.discipline)) return false;
+    if (filters.car.size > 0 && !filters.car.has(setting.carName)) return false;
     return true;
   });
 
   const sortSettings = (settings: FFBSetting[]) => {
+    if (!settings) return [];
+    
     switch (sortBy) {
       case 'drivers':
-        return [...settings].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        return [...settings].sort((a, b) => ((b?.likes || 0) - (a?.likes || 0)));
       case 'newest':
-        return [...settings].sort((a, b) => b.id - a.id);
+        return [...settings].sort((a, b) => ((b?.id || 0) - (a?.id || 0)));
       case 'oldest':
-        return [...settings].sort((a, b) => a.id - b.id);
+        return [...settings].sort((a, b) => ((a?.id || 0) - (b?.id || 0)));
       default:
         return settings;
     }
@@ -208,15 +215,17 @@ export default function Home() {
 
   const filteredAndSortedSettings = sortSettings(filteredSettings);
 
-  // Update FilterGroup component to not show loading state
-  const FilterGroup = ({ title, options, type }: { 
+  // Update FilterGroup component
+  const FilterGroup = ({ title, options = [], type }: { 
     title: string, 
     options: string[], 
-    type: 'brand' | 'model' | 'discipline' 
+    type: 'brand' | 'model' | 'discipline' | 'car' 
   }) => {
-    const isExpanded = expandedSections[type];
+    if (!options) options = []; // Ensure options is always an array
+    
+    const isExpanded = expandedSections?.[type] || false;
     const displayedOptions = isExpanded ? options : options.slice(0, 3);
-    const hasMore = options.length > 3;
+    const hasMore = Array.isArray(options) && options.length > 3;
 
     if (isInitialLoading) {
       return (
@@ -249,7 +258,7 @@ export default function Home() {
       );
     }
 
-    if (options.length === 0) {
+    if (!Array.isArray(options) || options.length === 0) {
       return (
         <div className="space-y-3">
           <h3 className="text-lg font-semibold text-blue-400">{title}</h3>
@@ -267,14 +276,14 @@ export default function Home() {
               key={option}
               onClick={() => toggleFilter(type, option)}
               className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors rounded-lg cursor-pointer ${
-                filters[type].has(option)
+                filters?.[type]?.has(option)
                   ? "bg-zinc-700/50 text-white"
                   : "text-zinc-400 hover:text-white hover:bg-zinc-700/30"
               }`}
             >
               <div 
                 className={`w-2 h-2 rounded-full ${
-                  filters[type].has(option)
+                  filters?.[type]?.has(option)
                     ? "bg-sky-500"
                     : "border border-sky-500"
                 }`}
@@ -398,21 +407,15 @@ export default function Home() {
                 </div>
                 
                 <FilterGroup 
-                  title="Brand" 
-                  options={filterOptions.manufacturers} 
-                  type="brand" 
-                />
-                
-                <FilterGroup 
-                  title="Model" 
-                  options={filterOptions.wheelbases} 
-                  type="model" 
-                />
-                
-                <FilterGroup 
                   title="Discipline" 
                   options={filterOptions.disciplines} 
                   type="discipline" 
+                />
+
+                <FilterGroup 
+                  title="Car" 
+                  options={filterOptions.cars}
+                  type="car" 
                 />
               </div>
             </div>
